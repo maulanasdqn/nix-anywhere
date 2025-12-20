@@ -7,6 +7,7 @@
     InitialKeyRepeat = 15;
     NSAutomaticWindowAnimationsEnabled = false;
     NSWindowResizeTime = 0.001;
+    _HIHideMenuBar = true;
   };
 
   # Disable Spotlight shortcut (Cmd+Space) so Raycast can use it
@@ -18,6 +19,13 @@
         # Disable Finder search (65)
         "65" = { enabled = false; };
       };
+    };
+    # Disable workspace switching animation
+    "com.apple.dock" = {
+      workspaces-swoosh-animation-off = true;
+    };
+    "com.apple.universalaccess" = {
+      reduceMotion = true;
     };
   };
 }

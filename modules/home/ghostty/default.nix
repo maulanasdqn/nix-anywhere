@@ -11,6 +11,12 @@
     window-decoration = true
     macos-titlebar-style = hidden
     background-opacity = 0.9
+    background-blur-radius = 50
+
+    # Clipboard
+    clipboard-read = allow
+    clipboard-write = allow
+    clipboard-paste-protection = false
 
     # Rose Pine theme
     # https://rosepinetheme.com/palette

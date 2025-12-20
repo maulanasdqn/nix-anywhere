@@ -13,6 +13,9 @@
     ./defaults
     ./fonts
     ./homebrew
+    ./yabai
+    ./skhd
+    ./sketchybar
   ];
 
   users.users.${username} = {

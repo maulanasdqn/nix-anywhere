@@ -21,6 +21,7 @@
       "postman"
       "discord"
       "raycast"
+      "shottr"
     ];
   };
 }

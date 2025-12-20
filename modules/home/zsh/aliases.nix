@@ -4,9 +4,12 @@
     # General
     c = "clear";
     v = "nvim";
-    t = "tmux";
+    t = "~/.local/bin/tmux-startup";
     cl = "claude";
     build-system = "sudo nix run nix-darwin -- switch --flake ~/.config/nix";
+
+    # Screenshot (latest from Desktop)
+    ss = "ls -t ~/Desktop/*.png 2>/dev/null | head -1";
 
     # Devenv project init
     init-laravel = "cp ~/.config/nix/templates/laravel/{flake.nix,.envrc} . && direnv allow";

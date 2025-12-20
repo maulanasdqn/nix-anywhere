@@ -19,6 +19,7 @@
     ./ghostty
     ./services
     ./wallpaper
+    ./sketchybar
   ] ++ lib.optionals enableLaravel [
     ./laravel
   ];
