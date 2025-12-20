@@ -10,6 +10,7 @@
     window-padding-y = 10
     window-decoration = true
     macos-titlebar-style = hidden
+    background-opacity = 0.9
 
     # Rose Pine theme
     # https://rosepinetheme.com/palette
