@@ -11,6 +11,10 @@ My personal macOS configuration using nix-darwin, home-manager, and nixvim.
 ├── config.nix                      # User configuration (git-ignored)
 ├── config.example.nix              # Example configuration
 ├── .envrc                          # Direnv integration
+├── templates/                      # Devenv project templates
+│   ├── laravel/
+│   ├── nodejs/
+│   └── rust/
 └── modules/
     ├── nix.nix                     # Nix/Determinate settings
     ├── darwin/
@@ -19,7 +23,8 @@ My personal macOS configuration using nix-darwin, home-manager, and nixvim.
     │   │   ├── default.nix         # Defaults entry
     │   │   ├── dock.nix            # Dock settings
     │   │   ├── finder.nix          # Finder settings
-    │   │   └── global.nix          # Global macOS settings
+    │   │   ├── global.nix          # Global macOS settings
+    │   │   └── trackpad.nix        # Trackpad gestures
     │   ├── fonts/
     │   │   └── default.nix         # Nerd Fonts
     │   ├── homebrew/
@@ -28,12 +33,20 @@ My personal macOS configuration using nix-darwin, home-manager, and nixvim.
     │   │   └── default.nix         # System packages
     │   ├── security/
     │   │   └── default.nix         # Touch ID, sudo
-    │   └── system/
-    │       └── default.nix         # System settings
+    │   ├── system/
+    │   │   └── default.nix         # System settings
+    │   ├── yabai/
+    │   │   └── default.nix         # Tiling window manager
+    │   ├── skhd/
+    │   │   └── default.nix         # Keyboard shortcuts
+    │   └── sketchybar/
+    │       └── default.nix         # Custom menu bar
     └── home/
         ├── default.nix             # Home-manager entry
         ├── docker/
         │   └── default.nix         # Colima & Docker
+        ├── ghostty/
+        │   └── default.nix         # Ghostty terminal
         ├── git/
         │   └── default.nix         # Git configuration
         ├── laravel/
@@ -53,12 +66,20 @@ My personal macOS configuration using nix-darwin, home-manager, and nixvim.
         │       └── ui.nix          # UI components
         ├── packages/
         │   └── default.nix         # CLI tools
+        ├── services/
+        │   └── default.nix         # Auto-start services
+        ├── sketchybar/
+        │   └── default.nix         # Sketchybar plugins
+        ├── sops/
+        │   └── default.nix         # Secrets management
         ├── starship/
         │   └── default.nix         # Starship prompt
         ├── tmux/
         │   ├── default.nix         # Tmux entry
         │   ├── keybindings.nix     # Tmux keybindings
         │   └── theme.nix           # Rose-pine theme
+        ├── wallpaper/
+        │   └── default.nix         # NixOS wallpaper
         └── zsh/
             ├── default.nix         # Zsh entry
             └── aliases.nix         # Shell aliases
@@ -66,12 +87,33 @@ My personal macOS configuration using nix-darwin, home-manager, and nixvim.
 
 ## What's Included
 
+### Window Management (yabai + skhd + sketchybar)
+
+A complete tiling window manager setup similar to Hyprland on Linux:
+
+- **Yabai** - Binary space partitioning tiling WM
+- **skhd** - Simple hotkey daemon for keybindings
+- **Sketchybar** - Custom menu bar with Rose Pine theme
+
+#### Sketchybar Features
+- Nix logo (click to open System Settings)
+- Workspace icons (terminal, browser, slack, discord, code, folder, music, mail, settings)
+- Current app name
+- CPU & Memory usage
+- Battery with charging indicator
+- WiFi network name (click to open WiFi settings)
+- Volume level (click to open Sound settings)
+- Date & Time
+
 ### System (darwin)
 - Touch ID for sudo
 - Passwordless sudo
-- Nerd Fonts (JetBrains Mono, Fira Code, Meslo)
-- macOS defaults (dock, finder, keyboard)
+- Nerd Fonts (JetBrains Mono, Fira Code, Hack)
+- macOS defaults (dock disabled, finder, keyboard)
+- Three-finger swipe for workspace switching
+- Reduced motion/animations
 - Homebrew integration
+- Caps Lock <-> Escape swap
 
 ### Development
 
@@ -83,13 +125,21 @@ My personal macOS configuration using nix-darwin, home-manager, and nixvim.
 - **Nix** with nil LSP and nixfmt
 
 #### Databases
-- MySQL (via Homebrew)
-- PostgreSQL 16 (via Homebrew)
-- Redis (via Homebrew)
+- MySQL (via Homebrew, auto-start)
+- PostgreSQL 16 (via Homebrew, auto-start)
+- Redis (via Homebrew, auto-start)
 
 #### Docker
 - Colima (Docker runtime for macOS)
 - Docker client & docker-compose
+
+#### Devenv Templates
+Quick project setup with direnv:
+```bash
+init-laravel   # Laravel/PHP project
+init-nodejs    # Node.js project
+init-rust      # Rust project
+```
 
 ### Shell (zsh)
 - Oh-My-Zsh with git, z, docker plugins
@@ -99,7 +149,7 @@ My personal macOS configuration using nix-darwin, home-manager, and nixvim.
 - Useful aliases for git, docker, php artisan
 
 ### Editor (neovim via nixvim)
-- Rose-pine theme
+- Rose-pine theme with transparent background
 - Full LSP support:
   - PHP (phpactor)
   - TypeScript/JavaScript (ts_ls, eslint)
@@ -112,18 +162,28 @@ My personal macOS configuration using nix-darwin, home-manager, and nixvim.
 - Git signs, lualine, which-key
 - Autocompletion with nvim-cmp
 - Format on save
+- Claude Code integration (claudecode.nvim)
+- Noice.nvim for better UI
 
-### Terminal (tmux)
+### Terminal (Ghostty)
+- Rose Pine color scheme
+- Background blur & transparency
+- Hidden titlebar
+
+### Terminal Multiplexer (tmux)
 - Rose-pine theme
 - Vim-like navigation
 - Mouse support
 - Custom keybindings with `Ctrl+a` prefix
+- Auto-start with predefined sessions
 
-### Tools
-- ripgrep, fd, fzf, eza, bat, jq, tree
-- Volta (Node.js version manager)
-- Ghostty terminal
+### Apps (via Homebrew)
+- Microsoft Edge
+- Ghostty
 - Postman
+- Discord
+- Raycast (Spotlight replacement)
+- Shottr (Screenshot tool)
 
 ## Installation
 
@@ -146,6 +206,19 @@ nvim config.nix
 
 # Build and apply
 nix develop --command rebuild
+```
+
+### Enable Yabai Scripting Addition (for workspace switching)
+
+```bash
+# 1. Shut down Mac
+# 2. Hold power button -> Options -> Recovery
+# 3. Open Terminal and run:
+csrutil enable --without fs --without debug --without nvram
+
+# 4. Reboot, then run:
+sudo nvram boot-args=-arm64e_preview_abi
+sudo yabai --load-sa
 ```
 
 ## Configuration
@@ -197,51 +270,39 @@ sops secrets/secrets.yaml
 | `database_password` | `~/.config/sops-nix/secrets/database_password` |
 | `ssh_private_key` | `~/.ssh/id_ed25519` (symlinked) |
 
-### Adding Your SSH Private Key
-
-```bash
-# Edit secrets (opens in $EDITOR)
-cd ~/.config/nix
-sops secrets/secrets.yaml
-
-# Replace the placeholder with your actual key:
-ssh_private_key: |
-  -----BEGIN OPENSSH PRIVATE KEY-----
-  your-actual-key-content-here
-  -----END OPENSSH PRIVATE KEY-----
-
-# Save and rebuild
-rebuild
-```
-
-### Adding New Secrets
-
-1. Edit `secrets/secrets.yaml`:
-   ```bash
-   sops secrets/secrets.yaml
-   ```
-
-2. Add the secret to `modules/home/sops/default.nix`:
-   ```nix
-   secrets = {
-     my_new_secret = { };
-   };
-   ```
-
-3. Rebuild: `rebuild`
-
 ## Usage
 
 ```bash
 # Rebuild after making changes
-cd ~/.config/nix
-nix develop --command rebuild
+build-system
 
-# Or with direnv enabled
-rebuild
+# Or manually
+sudo darwin-rebuild switch --flake ~/.config/nix
+
+# Start tmux with all sessions
+t
 ```
 
 ## Keybindings
+
+### Window Management (skhd)
+
+| Key | Action |
+|-----|--------|
+| `Cmd + Enter` | Open Ghostty terminal |
+| `Cmd + 1-9` | Switch to workspace 1-9 |
+| `Cmd + Shift + 1-9` | Move window to workspace 1-9 |
+| `Cmd + h/j/k/l` | Focus window (left/down/up/right) |
+| `Cmd + Shift + h/j/k/l` | Swap windows |
+| `Cmd + Ctrl + h/j/k/l` | Warp (move) window |
+| `Cmd + Alt + h/j/k/l` | Resize window |
+| `Cmd + Shift + f` | Toggle fullscreen |
+| `Cmd + t` | Toggle float |
+| `Cmd + b` | Balance windows |
+| `Cmd + r` | Rotate layout 90° |
+| `Cmd + e` | Toggle split orientation |
+| `Cmd + Shift + q` | Close window |
+| `Three-finger swipe` | Switch workspace |
 
 ### Neovim
 
@@ -272,9 +333,31 @@ rebuild
 | `prefix + -` | Horizontal split |
 | `prefix + h/j/k/l` | Navigate panes |
 | `prefix + H/J/K/L` | Resize panes |
+| `prefix + s` | List sessions |
+| `prefix + (` / `)` | Prev/next session |
 | `prefix + r` | Reload config |
 
+### Tmux Auto-Start Sessions
+
+Running `t` starts tmux with these sessions:
+1. **Nix Darwin** - `~/.config/nix`
+2. **MRScraperV3** - `~/Development/mrscraper/mrscraper-v3`
+3. **MRScraperWEB** - `~/Development/mrscraper/mrscraper-web`
+4. **YDM FE** - `~/Development/bsm/yes-date-me-frontend`
+5. **YDM BE** - `~/Development/bsm/yes-date-me-backend`
+6. **ECHO** - `~/Development/bsm/social-media-automation`
+7. **BSM Landing** - `~/Development/bsm/bsmart-landing`
+
 ## Shell Aliases
+
+### General
+| Alias | Command |
+|-------|---------|
+| `t` | Start tmux with all sessions |
+| `v` | nvim |
+| `c` | clear |
+| `cl` | claude |
+| `build-system` | Rebuild nix-darwin |
 
 ### Docker
 | Alias | Command |
@@ -303,6 +386,15 @@ rebuild
 | `gl` | git pull |
 | `gco` | git checkout |
 | `gcb` | git checkout -b |
+
+### File Listing (eza)
+| Alias | Command |
+|-------|---------|
+| `ls` | eza --icons |
+| `ll` | eza -la --icons |
+| `la` | eza -a --icons |
+| `lt` | eza --tree --icons |
+| `cat` | bat |
 
 ## License
 
