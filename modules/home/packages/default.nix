@@ -7,6 +7,7 @@
       fzf
       eza
       bat
+      htop
       jq
       tree
       volta
