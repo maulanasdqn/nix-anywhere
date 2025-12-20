@@ -12,6 +12,9 @@
       nodePackages.vscode-langservers-extracted
       nodePackages.eslint
 
+      # Astro
+      nodePackages."@astrojs/language-server"
+
       # Rust
       rust-analyzer
       clippy
@@ -83,7 +86,19 @@
           taplo.enable = true;
 
           # CSS/Tailwind
-          tailwindcss.enable = true;
+          tailwindcss = {
+            enable = true;
+            filetypes = [
+              "html"
+              "css"
+              "scss"
+              "javascript"
+              "javascriptreact"
+              "typescript"
+              "typescriptreact"
+              "astro"
+            ];
+          };
           cssls.enable = true;
 
           # HTML
@@ -100,11 +115,22 @@
               "typescriptreact"
               "php"
               "blade"
+              "astro"
             ];
           };
 
           # JSON
           jsonls.enable = true;
+
+          # Astro
+          astro = {
+            enable = true;
+            settings = {
+              typescript = {
+                tsdk = "./node_modules/typescript/lib";
+              };
+            };
+          };
         };
 
         keymaps = {

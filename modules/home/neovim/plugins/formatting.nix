@@ -10,6 +10,7 @@
           typescript = [ "prettierd" ];
           javascriptreact = [ "prettierd" ];
           typescriptreact = [ "prettierd" ];
+          astro = [ "prettierd" ];
           rust = [ "rustfmt" ];
           css = [ "prettierd" ];
           scss = [ "prettierd" ];

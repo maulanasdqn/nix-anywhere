@@ -59,7 +59,7 @@
       baseIndex = 1;
       keyMode = "vi";
       mouse = true;
-      prefix = "C-a";
+      prefix = "M-a";
 
       extraConfig = ''
         set -g default-command "${pkgs.zsh}/bin/zsh"
