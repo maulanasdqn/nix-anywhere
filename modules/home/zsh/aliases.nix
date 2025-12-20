@@ -8,6 +8,11 @@
     cl = "claude";
     build-system = "sudo nix run nix-darwin -- switch --flake ~/.config/nix";
 
+    # Devenv project init
+    init-laravel = "cp ~/.config/nix/templates/laravel/{flake.nix,.envrc} . && direnv allow";
+    init-nodejs = "cp ~/.config/nix/templates/nodejs/{flake.nix,.envrc} . && direnv allow";
+    init-rust = "cp ~/.config/nix/templates/rust/{flake.nix,.envrc} . && direnv allow";
+
     # File listing
     ls = "eza --icons";
     ll = "eza -la --icons";
