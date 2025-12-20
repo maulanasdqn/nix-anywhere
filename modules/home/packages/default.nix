@@ -14,6 +14,7 @@
       deno
       rustup
       slack
+      speedtest-cli
     ];
 
     home.sessionVariables = {
