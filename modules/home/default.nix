@@ -18,6 +18,7 @@
     ./sops
     ./ghostty
     ./services
+    ./wallpaper
   ] ++ lib.optionals enableLaravel [
     ./laravel
   ];
