@@ -16,6 +16,7 @@
     ./docker
     ./ssh
     ./sops
+    ./ghostty
   ] ++ lib.optionals enableLaravel [
     ./laravel
   ];
