@@ -6,6 +6,7 @@
     v = "nvim";
     t = "tmux";
     cl = "claude";
+    build-system = "sudo nix run nix-darwin -- switch --flake ~/.config/nix";
 
     # File listing
     ls = "eza --icons";
