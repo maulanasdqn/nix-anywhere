@@ -230,8 +230,14 @@ Edit `config.nix` to customize your setup:
   # Your macOS username
   username = "your-username";
 
+  # Your machine hostname
+  hostname = "your-hostname";
+
   # Enable/disable Laravel development environment
   enableLaravel = true;
+
+  # Enable/disable tiling window manager (yabai, skhd, sketchybar)
+  enableTilingWM = true;
 
   # SSH public keys for authorized_keys
   sshKeys = [
@@ -243,7 +249,9 @@ Edit `config.nix` to customize your setup:
 | Option | Type | Description |
 |--------|------|-------------|
 | `username` | string | Your macOS username |
+| `hostname` | string | Your machine hostname |
 | `enableLaravel` | bool | Enable PHP, Composer, MySQL, PostgreSQL, Redis |
+| `enableTilingWM` | bool | Enable yabai, skhd, sketchybar tiling WM setup |
 | `sshKeys` | list | SSH public keys for `~/.ssh/authorized_keys` |
 
 ## Secrets Management
@@ -269,6 +277,116 @@ sops secrets/secrets.yaml
 | `anthropic_api_key` | `~/.config/sops-nix/secrets/anthropic_api_key` |
 | `database_password` | `~/.config/sops-nix/secrets/database_password` |
 | `ssh_private_key` | `~/.ssh/id_ed25519` (symlinked) |
+
+### Importing Existing SSH Keys
+
+To import your existing SSH key pair into this configuration:
+
+#### Step 1: Import Private Key (encrypted with sops)
+
+```bash
+# Open secrets file for editing
+sops secrets/secrets.yaml
+
+# Add your private key as a multiline string:
+# ssh_private_key: |
+#   -----BEGIN OPENSSH PRIVATE KEY-----
+#   b3BlbnNzaC1rZXktdjEAAAAA...
+#   ...entire key content...
+#   -----END OPENSSH PRIVATE KEY-----
+
+# Save and exit - sops will encrypt automatically
+```
+
+**Alternative: Import directly from file**
+
+```bash
+# Create a temp file with proper YAML format
+echo "ssh_private_key: |" > /tmp/key.yaml
+sed 's/^/  /' ~/.ssh/id_ed25519 >> /tmp/key.yaml
+
+# Decrypt secrets, merge, and re-encrypt
+sops -d secrets/secrets.yaml > /tmp/secrets_plain.yaml
+# Manually copy the ssh_private_key block from /tmp/key.yaml to /tmp/secrets_plain.yaml
+sops -e /tmp/secrets_plain.yaml > secrets/secrets.yaml
+
+# Clean up temp files
+rm /tmp/key.yaml /tmp/secrets_plain.yaml
+```
+
+#### Step 2: Create Public Key File
+
+The public key needs to exist alongside the private key:
+
+```bash
+# Copy your public key to ~/.ssh/
+cp /path/to/your/id_ed25519.pub ~/.ssh/id_ed25519.pub
+chmod 644 ~/.ssh/id_ed25519.pub
+```
+
+Or regenerate from private key after rebuild:
+
+```bash
+ssh-keygen -y -f ~/.ssh/id_ed25519 > ~/.ssh/id_ed25519.pub
+```
+
+#### Step 3: Add to authorized_keys (optional)
+
+If you want to allow SSH login with this key, add the public key to `config.nix`:
+
+```nix
+{
+  sshKeys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... your@email.com"
+  ];
+}
+```
+
+#### Step 4: Rebuild
+
+```bash
+rebuild
+```
+
+After rebuild, sops-nix will decrypt `ssh_private_key` to `~/.ssh/id_ed25519` with correct permissions (0600).
+
+#### Verify
+
+```bash
+# Check private key exists and has correct permissions
+ls -la ~/.ssh/id_ed25519
+# Should show: -rw------- ... id_ed25519
+
+# Test SSH connection
+ssh -T git@github.com
+```
+
+#### Troubleshooting
+
+**Key not being created:**
+```bash
+# Check sops-nix service status
+systemctl --user status sops-nix
+
+# Check logs
+cat ~/.config/sops-nix/sops.log
+```
+
+**Permission denied:**
+```bash
+# Ensure correct permissions
+chmod 600 ~/.ssh/id_ed25519
+chmod 644 ~/.ssh/id_ed25519.pub
+```
+
+**Wrong key format in secrets.yaml:**
+The private key must be a YAML multiline string with proper indentation:
+```yaml
+ssh_private_key: |
+  -----BEGIN OPENSSH PRIVATE KEY-----
+  b3BlbnNzaC1rZXktdjEAAAAABG5vbmU...
+  -----END OPENSSH PRIVATE KEY-----
+```
 
 ## Usage
 

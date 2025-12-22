@@ -9,10 +9,18 @@
   # Your macOS username
   # username = "your-username";
 
+  # Your machine hostname
+  # hostname = "your-hostname";
+
   # Enable/disable Laravel development environment
   # When true: installs PHP, Composer, MySQL, PostgreSQL, Redis
   # When false: skips Laravel-related packages and aliases
   # enableLaravel = true;
+
+  # Enable/disable tiling window manager
+  # When true: installs yabai, skhd, sketchybar
+  # When false: uses default macOS window management
+  # enableTilingWM = true;
 
   # SSH public keys for authorized_keys
   # Add your public keys here for SSH access

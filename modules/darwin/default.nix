@@ -3,20 +3,24 @@
   pkgs,
   lib,
   username,
+  enableTilingWM,
   ...
 }:
 {
-  imports = [
-    ./system
-    ./security
-    ./packages
-    ./defaults
-    ./fonts
-    ./homebrew
-    ./yabai
-    ./skhd
-    ./sketchybar
-  ];
+  imports =
+    [
+      ./system
+      ./security
+      ./packages
+      ./defaults
+      ./fonts
+      ./homebrew
+    ]
+    ++ lib.optionals enableTilingWM [
+      ./yabai
+      ./skhd
+      ./sketchybar
+    ];
 
   users.users.${username} = {
     name = username;

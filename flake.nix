@@ -2,15 +2,15 @@
   description = "ms's nix-darwin configuration";
 
   inputs = {
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     nix-darwin = {
-      url = "https://flakehub.com/f/nix-darwin/nix-darwin/0";
+      url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
-      url = "https://flakehub.com/f/nix-community/home-manager/0";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -58,16 +58,18 @@
           defaultConfig;
 
       username = config.username;
+      hostname = config.hostname;
       enableLaravel = config.enableLaravel;
+      enableTilingWM = config.enableTilingWM;
       sshKeys = config.sshKeys;
       system = "aarch64-darwin";
-      hostname = "mrscraper";
       secretsFile = ./secrets/secrets.yaml;
       specialArgs = {
         inherit
           username
           nixvim
           enableLaravel
+          enableTilingWM
           sshKeys
           sops-nix
           secretsFile
