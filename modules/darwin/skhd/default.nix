@@ -5,8 +5,8 @@
     package = pkgs.skhd;
 
     skhdConfig = ''
-      # Open Ghostty (cmd + enter)
-      cmd - return : open -a Ghostty
+      # Open Ghostty (cmd + shift + enter)
+      cmd + shift - return : open -a Ghostty
 
       # Switch to workspace (cmd + number)
       cmd - 1 : yabai -m space --focus 1

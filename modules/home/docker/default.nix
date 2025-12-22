@@ -8,7 +8,7 @@
     ];
 
     programs.zsh.shellAliases = {
-      dc = "docker-compose";
+      dc = "docker compose";
       dps = "docker ps";
       dpsa = "docker ps -a";
       di = "docker images";

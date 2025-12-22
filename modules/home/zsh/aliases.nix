@@ -24,11 +24,6 @@
     l = "eza -l --icons";
     cat = "bat";
 
-    # Docker
-    dc = "docker-compose";
-    dps = "docker ps";
-    dex = "docker exec -it";
-
     # Git
     gs = "git status";
     ga = "git add";

@@ -1,6 +1,11 @@
 { username, ... }:
 {
   system.stateVersion = 5;
+
+  # Never sleep unless lid is closed
+  power.sleep.computer = "never";
+  power.sleep.display = "never";
+  power.sleep.harddisk = "never";
   system.primaryUser = username;
 
   # Keyboard settings - swap Caps Lock and Escape using hidutil

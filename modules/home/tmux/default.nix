@@ -14,7 +14,7 @@
     home.file.".local/bin/tmux-startup" = {
       executable = true;
       text = ''
-        #!/bin/bash
+        #!/bin/zsh
 
         # Define sessions
         declare -A SESSIONS

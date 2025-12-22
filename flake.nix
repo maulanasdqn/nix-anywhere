@@ -49,24 +49,29 @@
       ...
     }:
     let
-      # Load user configuration
-      # Use config.local.nix if it exists (git-ignored), otherwise use config.nix
       defaultConfig = import ./config.nix;
       localConfigPath = ./config.local.nix;
       config =
-        if builtins.pathExists localConfigPath
-        then defaultConfig // (import localConfigPath)
-        else defaultConfig;
+        if builtins.pathExists localConfigPath then
+          defaultConfig // (import localConfigPath)
+        else
+          defaultConfig;
 
       username = config.username;
       enableLaravel = config.enableLaravel;
       sshKeys = config.sshKeys;
-
       system = "aarch64-darwin";
       hostname = "mrscraper";
       secretsFile = ./secrets/secrets.yaml;
       specialArgs = {
-        inherit username nixvim enableLaravel sshKeys sops-nix secretsFile;
+        inherit
+          username
+          nixvim
+          enableLaravel
+          sshKeys
+          sops-nix
+          secretsFile
+          ;
       };
     in
     {
