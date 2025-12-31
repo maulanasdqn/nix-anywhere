@@ -1,6 +1,6 @@
-# nix-darwin
+# nix-config
 
-My personal macOS configuration using nix-darwin, home-manager, and nixvim.
+My personal unified Nix configuration for both **NixOS** and **macOS** (nix-darwin), with home-manager and nixvim.
 
 ## Structure
 
@@ -8,7 +8,7 @@ My personal macOS configuration using nix-darwin, home-manager, and nixvim.
 .
 ├── flake.nix                       # Main entry point
 ├── flake.lock
-├── config.nix                      # User configuration (git-ignored)
+├── config.nix                      # User configuration
 ├── config.example.nix              # Example configuration
 ├── .envrc                          # Direnv integration
 ├── templates/                      # Devenv project templates
@@ -17,181 +17,110 @@ My personal macOS configuration using nix-darwin, home-manager, and nixvim.
 │   └── rust/
 └── modules/
     ├── nix.nix                     # Nix/Determinate settings
-    ├── darwin/
-    │   ├── default.nix             # Darwin module entry
-    │   ├── defaults/
-    │   │   ├── default.nix         # Defaults entry
-    │   │   ├── dock.nix            # Dock settings
-    │   │   ├── finder.nix          # Finder settings
-    │   │   ├── global.nix          # Global macOS settings
-    │   │   └── trackpad.nix        # Trackpad gestures
+    ├── darwin/                     # macOS-specific modules
+    │   ├── default.nix
+    │   ├── defaults/               # macOS system defaults
     │   ├── fonts/
-    │   │   └── default.nix         # Nerd Fonts
     │   ├── homebrew/
-    │   │   └── default.nix         # Homebrew casks & brews
     │   ├── packages/
-    │   │   └── default.nix         # System packages
     │   ├── security/
-    │   │   └── default.nix         # Touch ID, sudo
     │   ├── system/
-    │   │   └── default.nix         # System settings
-    │   ├── yabai/
-    │   │   └── default.nix         # Tiling window manager
-    │   ├── skhd/
-    │   │   └── default.nix         # Keyboard shortcuts
-    │   └── sketchybar/
-    │       └── default.nix         # Custom menu bar
+    │   ├── yabai/                  # Tiling WM
+    │   ├── skhd/                   # Hotkey daemon
+    │   └── sketchybar/             # Custom menu bar
+    ├── nixos/                      # NixOS-specific modules
+    │   ├── default.nix
+    │   ├── boot.nix
+    │   ├── hardware.nix
+    │   ├── networking.nix
+    │   ├── locale.nix
+    │   ├── desktop.nix
+    │   ├── audio.nix
+    │   ├── users.nix
+    │   ├── fonts.nix
+    │   ├── programs.nix
+    │   └── nix.nix
     └── home/
-        ├── default.nix             # Home-manager entry
-        ├── docker/
-        │   └── default.nix         # Colima & Docker
-        ├── ghostty/
-        │   └── default.nix         # Ghostty terminal
-        ├── git/
-        │   └── default.nix         # Git configuration
-        ├── laravel/
-        │   └── default.nix         # PHP, Composer, databases
-        ├── neovim/
-        │   ├── default.nix         # Neovim entry
-        │   ├── keymaps.nix         # Key mappings
-        │   ├── options.nix         # Editor options
-        │   └── plugins/
-        │       ├── default.nix     # Plugins entry
-        │       ├── colorscheme.nix # Rose-pine theme
-        │       ├── cmp.nix         # Autocompletion
-        │       ├── formatting.nix  # Formatters & autopairs
-        │       ├── lsp.nix         # Language servers
-        │       ├── telescope.nix   # Fuzzy finder
-        │       ├── treesitter.nix  # Syntax highlighting
-        │       └── ui.nix          # UI components
+        ├── darwin.nix              # macOS home entry point
+        ├── nixos.nix               # NixOS home entry point
         ├── packages/
-        │   └── default.nix         # CLI tools
-        ├── services/
-        │   └── default.nix         # Auto-start services
-        ├── sketchybar/
-        │   └── default.nix         # Sketchybar plugins
-        ├── sops/
-        │   └── default.nix         # Secrets management
-        ├── starship/
-        │   └── default.nix         # Starship prompt
-        ├── tmux/
-        │   ├── default.nix         # Tmux entry
-        │   ├── keybindings.nix     # Tmux keybindings
-        │   └── theme.nix           # Rose-pine theme
-        ├── wallpaper/
-        │   └── default.nix         # NixOS wallpaper
-        └── zsh/
-            ├── default.nix         # Zsh entry
-            └── aliases.nix         # Shell aliases
+        │   ├── darwin.nix          # macOS packages
+        │   └── nixos.nix           # NixOS packages
+        ├── hyprland/               # NixOS-only (Wayland compositor)
+        ├── vscode/                 # NixOS-only
+        ├── docker/                 # macOS-only (Colima)
+        ├── ghostty/                # macOS-only
+        ├── laravel/                # macOS-only
+        ├── services/               # macOS-only
+        ├── sketchybar/             # macOS-only
+        ├── sops/                   # macOS-only
+        ├── wallpaper/              # macOS-only
+        └── ... (shared)
+            ├── git/
+            ├── neovim/
+            ├── starship/
+            ├── ssh/
+            ├── tmux/
+            └── zsh/
 ```
 
 ## What's Included
 
-### Window Management (yabai + skhd + sketchybar)
+### Shared (Both Platforms)
 
-A complete tiling window manager setup similar to Hyprland on Linux:
+| Component | Description |
+|-----------|-------------|
+| **Neovim** | Full IDE with LSP, Treesitter, Telescope, Rose Pine theme |
+| **Zsh** | Oh-My-Zsh, syntax highlighting, autosuggestions |
+| **Starship** | Cross-shell prompt |
+| **Tmux** | Terminal multiplexer with Rose Pine theme |
+| **Git** | Git configuration with delta |
 
-- **Yabai** - Binary space partitioning tiling WM
-- **skhd** - Simple hotkey daemon for keybindings
-- **Sketchybar** - Custom menu bar with Rose Pine theme
+### macOS (nix-darwin)
 
-#### Sketchybar Features
-- Nix logo (click to open System Settings)
-- Workspace icons (terminal, browser, slack, discord, code, folder, music, mail, settings)
-- Current app name
-- CPU & Memory usage
-- Battery with charging indicator
-- WiFi network name (click to open WiFi settings)
-- Volume level (click to open Sound settings)
-- Date & Time
+| Component | Description |
+|-----------|-------------|
+| **Yabai** | Tiling window manager |
+| **skhd** | Hotkey daemon |
+| **Sketchybar** | Custom menu bar |
+| **Ghostty** | GPU-accelerated terminal |
+| **Homebrew** | Casks and formulae |
+| **Colima** | Docker runtime |
+| **Laravel** | PHP development environment (optional) |
+| **Sops-nix** | Secrets management |
 
-### System (darwin)
-- Touch ID for sudo
-- Passwordless sudo
-- Nerd Fonts (JetBrains Mono, Fira Code, Hack)
-- macOS defaults (dock disabled, finder, keyboard)
-- Three-finger swipe for workspace switching
-- Reduced motion/animations
-- Homebrew integration
-- Caps Lock <-> Escape swap
+### NixOS
 
-### Development
-
-#### Languages & Runtimes
-- **PHP 8.3** with Laravel extensions (composer, phpactor, php-cs-fixer)
-- **TypeScript/JavaScript** via Volta, Bun, Deno
-- **Rust** via rustup with rustaceanvim
-- **Lua** with stylua formatter
-- **Nix** with nil LSP and nixfmt
-
-#### Databases
-- MySQL (via Homebrew, auto-start)
-- PostgreSQL 16 (via Homebrew, auto-start)
-- Redis (via Homebrew, auto-start)
-
-#### Docker
-- Colima (Docker runtime for macOS)
-- Docker client & docker-compose
-
-#### Devenv Templates
-Quick project setup with direnv:
-```bash
-init-laravel   # Laravel/PHP project
-init-nodejs    # Node.js project
-init-rust      # Rust project
-```
-
-### Shell (zsh)
-- Oh-My-Zsh with git, z, docker plugins
-- Starship prompt
-- Zoxide, fzf integration
-- Syntax highlighting & autosuggestions
-- Useful aliases for git, docker, php artisan
-
-### Editor (neovim via nixvim)
-- Rose-pine theme with transparent background
-- Full LSP support:
-  - PHP (phpactor)
-  - TypeScript/JavaScript (ts_ls, eslint)
-  - Rust (rustaceanvim)
-  - Tailwind CSS, HTML, CSS, JSON
-  - Lua, Nix
-- Treesitter with context
-- Telescope fuzzy finder
-- Neo-tree file explorer
-- Git signs, lualine, which-key
-- Autocompletion with nvim-cmp
-- Format on save
-- Claude Code integration (claudecode.nvim)
-- Noice.nvim for better UI
-
-### Terminal (Ghostty)
-- Rose Pine color scheme
-- Background blur & transparency
-- Hidden titlebar
-
-### Terminal Multiplexer (tmux)
-- Rose-pine theme
-- Vim-like navigation
-- Mouse support
-- Custom keybindings with `Ctrl+a` prefix
-- Auto-start with predefined sessions
-
-### Apps (via Homebrew)
-- Microsoft Edge
-- Ghostty
-- Postman
-- Discord
-- Raycast (Spotlight replacement)
-- Shottr (Screenshot tool)
+| Component | Description |
+|-----------|-------------|
+| **Hyprland** | Wayland compositor |
+| **Waybar** | Status bar |
+| **Wofi** | Application launcher |
+| **VSCode** | Visual Studio Code |
+| **PipeWire** | Audio |
+| **GNOME** | Desktop environment (fallback) |
 
 ## Installation
 
-### Prerequisites
-- macOS on Apple Silicon
-- [Determinate Nix](https://determinate.systems/posts/determinate-nix-installer)
+### macOS
 
-### Setup
+```bash
+# Prerequisites: Determinate Nix
+# https://determinate.systems/posts/determinate-nix-installer
+
+# Clone the repo
+git clone git@github.com:maulanasdqn/nix-darwin.git ~/.config/nix
+cd ~/.config/nix
+
+# Create your configuration
+cp config.example.nix config.nix
+nvim config.nix
+
+# Build and apply
+nix develop --command rebuild
+```
+
+### NixOS
 
 ```bash
 # Clone the repo
@@ -200,25 +129,13 @@ cd ~/.config/nix
 
 # Create your configuration
 cp config.example.nix config.nix
-
-# Edit config.nix with your settings
 nvim config.nix
 
+# Generate hardware config (first time only)
+sudo nixos-generate-config --show-hardware-config > modules/nixos/hardware.nix
+
 # Build and apply
-nix develop --command rebuild
-```
-
-### Enable Yabai Scripting Addition (for workspace switching)
-
-```bash
-# 1. Shut down Mac
-# 2. Hold power button -> Options -> Recovery
-# 3. Open Terminal and run:
-csrutil enable --without fs --without debug --without nvram
-
-# 4. Reboot, then run:
-sudo nvram boot-args=-arm64e_preview_abi
-sudo yabai --load-sa
+sudo nixos-rebuild switch --flake .#nixos
 ```
 
 ## Configuration
@@ -227,200 +144,80 @@ Edit `config.nix` to customize your setup:
 
 ```nix
 {
-  # Your macOS username
+  # Your username (used for both platforms)
   username = "your-username";
 
-  # Your machine hostname
-  hostname = "your-hostname";
+  # Hostnames
+  darwinHostname = "your-mac-hostname";
+  nixosHostname = "your-nixos-hostname";
 
-  # Enable/disable Laravel development environment
-  enableLaravel = true;
+  # macOS-only options
+  enableLaravel = true;      # PHP, Composer, MySQL, PostgreSQL, Redis
+  enableTilingWM = true;     # yabai, skhd, sketchybar
 
-  # Enable/disable tiling window manager (yabai, skhd, sketchybar)
-  enableTilingWM = true;
-
-  # SSH public keys for authorized_keys
+  # SSH public keys
   sshKeys = [
     "ssh-ed25519 AAAAC3Nza... user@example.com"
   ];
 }
 ```
 
-| Option | Type | Description |
-|--------|------|-------------|
-| `username` | string | Your macOS username |
-| `hostname` | string | Your machine hostname |
-| `enableLaravel` | bool | Enable PHP, Composer, MySQL, PostgreSQL, Redis |
-| `enableTilingWM` | bool | Enable yabai, skhd, sketchybar tiling WM setup |
-| `sshKeys` | list | SSH public keys for `~/.ssh/authorized_keys` |
-
-## Secrets Management
-
-Secrets are managed with [sops-nix](https://github.com/Mic92/sops-nix) using age encryption.
-
-### Setup
-
-```bash
-# Your age key is at ~/.config/sops/age/keys.txt
-# Public key is in .sops.yaml
-
-# Edit secrets (will decrypt, open editor, re-encrypt)
-sops secrets/secrets.yaml
-```
-
-### Available Secrets
-
-| Secret | Location |
-|--------|----------|
-| `github_token` | `~/.config/sops-nix/secrets/github_token` |
-| `openai_api_key` | `~/.config/sops-nix/secrets/openai_api_key` |
-| `anthropic_api_key` | `~/.config/sops-nix/secrets/anthropic_api_key` |
-| `database_password` | `~/.config/sops-nix/secrets/database_password` |
-| `ssh_private_key` | `~/.ssh/id_ed25519` (symlinked) |
-
-### Importing Existing SSH Keys
-
-To import your existing SSH key pair into this configuration:
-
-#### Step 1: Import Private Key (encrypted with sops)
-
-```bash
-# Open secrets file for editing
-sops secrets/secrets.yaml
-
-# Add your private key as a multiline string:
-# ssh_private_key: |
-#   -----BEGIN OPENSSH PRIVATE KEY-----
-#   b3BlbnNzaC1rZXktdjEAAAAA...
-#   ...entire key content...
-#   -----END OPENSSH PRIVATE KEY-----
-
-# Save and exit - sops will encrypt automatically
-```
-
-**Alternative: Import directly from file**
-
-```bash
-# Create a temp file with proper YAML format
-echo "ssh_private_key: |" > /tmp/key.yaml
-sed 's/^/  /' ~/.ssh/id_ed25519 >> /tmp/key.yaml
-
-# Decrypt secrets, merge, and re-encrypt
-sops -d secrets/secrets.yaml > /tmp/secrets_plain.yaml
-# Manually copy the ssh_private_key block from /tmp/key.yaml to /tmp/secrets_plain.yaml
-sops -e /tmp/secrets_plain.yaml > secrets/secrets.yaml
-
-# Clean up temp files
-rm /tmp/key.yaml /tmp/secrets_plain.yaml
-```
-
-#### Step 2: Create Public Key File
-
-The public key needs to exist alongside the private key:
-
-```bash
-# Copy your public key to ~/.ssh/
-cp /path/to/your/id_ed25519.pub ~/.ssh/id_ed25519.pub
-chmod 644 ~/.ssh/id_ed25519.pub
-```
-
-Or regenerate from private key after rebuild:
-
-```bash
-ssh-keygen -y -f ~/.ssh/id_ed25519 > ~/.ssh/id_ed25519.pub
-```
-
-#### Step 3: Add to authorized_keys (optional)
-
-If you want to allow SSH login with this key, add the public key to `config.nix`:
-
-```nix
-{
-  sshKeys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... your@email.com"
-  ];
-}
-```
-
-#### Step 4: Rebuild
-
-```bash
-rebuild
-```
-
-After rebuild, sops-nix will decrypt `ssh_private_key` to `~/.ssh/id_ed25519` with correct permissions (0600).
-
-#### Verify
-
-```bash
-# Check private key exists and has correct permissions
-ls -la ~/.ssh/id_ed25519
-# Should show: -rw------- ... id_ed25519
-
-# Test SSH connection
-ssh -T git@github.com
-```
-
-#### Troubleshooting
-
-**Key not being created:**
-```bash
-# Check sops-nix service status
-systemctl --user status sops-nix
-
-# Check logs
-cat ~/.config/sops-nix/sops.log
-```
-
-**Permission denied:**
-```bash
-# Ensure correct permissions
-chmod 600 ~/.ssh/id_ed25519
-chmod 644 ~/.ssh/id_ed25519.pub
-```
-
-**Wrong key format in secrets.yaml:**
-The private key must be a YAML multiline string with proper indentation:
-```yaml
-ssh_private_key: |
-  -----BEGIN OPENSSH PRIVATE KEY-----
-  b3BlbnNzaC1rZXktdjEAAAAABG5vbmU...
-  -----END OPENSSH PRIVATE KEY-----
-```
+| Option | Type | Platform | Description |
+|--------|------|----------|-------------|
+| `username` | string | Both | Your username |
+| `darwinHostname` | string | macOS | Machine hostname |
+| `nixosHostname` | string | NixOS | Machine hostname |
+| `enableLaravel` | bool | macOS | Enable PHP/Laravel stack |
+| `enableTilingWM` | bool | macOS | Enable yabai/skhd/sketchybar |
+| `sshKeys` | list | Both | SSH public keys |
 
 ## Usage
 
+### macOS
+
 ```bash
-# Rebuild after making changes
-build-system
+# Rebuild
+sudo darwin-rebuild switch --flake .#mrscraper
 
-# Or manually
-sudo darwin-rebuild switch --flake ~/.config/nix
+# Or use the helper
+nix develop --command rebuild
+```
 
-# Start tmux with all sessions
-t
+### NixOS
+
+```bash
+# Rebuild
+sudo nixos-rebuild switch --flake .#nixos
+
+# Or use the helper in dev shell
+nix develop --command rebuild
 ```
 
 ## Keybindings
 
-### Window Management (skhd)
+### macOS (skhd)
 
 | Key | Action |
 |-----|--------|
-| `Cmd + Enter` | Open Ghostty terminal |
-| `Cmd + 1-9` | Switch to workspace 1-9 |
-| `Cmd + Shift + 1-9` | Move window to workspace 1-9 |
-| `Cmd + h/j/k/l` | Focus window (left/down/up/right) |
+| `Cmd + Enter` | Open Ghostty |
+| `Cmd + 1-9` | Switch workspace |
+| `Cmd + Shift + 1-9` | Move window to workspace |
+| `Cmd + h/j/k/l` | Focus window |
 | `Cmd + Shift + h/j/k/l` | Swap windows |
-| `Cmd + Ctrl + h/j/k/l` | Warp (move) window |
-| `Cmd + Alt + h/j/k/l` | Resize window |
 | `Cmd + Shift + f` | Toggle fullscreen |
 | `Cmd + t` | Toggle float |
-| `Cmd + b` | Balance windows |
-| `Cmd + r` | Rotate layout 90° |
-| `Cmd + e` | Toggle split orientation |
-| `Cmd + Shift + q` | Close window |
-| `Three-finger swipe` | Switch workspace |
+
+### NixOS (Hyprland)
+
+| Key | Action |
+|-----|--------|
+| `Super + Enter` | Open terminal |
+| `Super + 1-9` | Switch workspace |
+| `Super + Shift + 1-9` | Move window to workspace |
+| `Super + h/j/k/l` | Focus window |
+| `Super + Shift + h/j/k/l` | Move window |
+| `Super + d` | Open Wofi |
+| `Super + q` | Close window |
 
 ### Neovim
 
@@ -430,17 +227,10 @@ t
 | `<leader>e` | Toggle file tree |
 | `<leader>ff` | Find files |
 | `<leader>fg` | Live grep |
-| `<leader>fb` | Buffers |
-| `<leader>fh` | Help tags |
 | `gd` | Go to definition |
 | `gr` | Find references |
-| `gi` | Go to implementation |
-| `gt` | Go to type definition |
 | `K` | Hover docs |
-| `<leader>rn` | Rename |
 | `<leader>ca` | Code action |
-| `<leader>f` | Format |
-| `[d` / `]d` | Prev/next diagnostic |
 
 ### Tmux
 
@@ -450,68 +240,19 @@ t
 | `prefix + \|` | Vertical split |
 | `prefix + -` | Horizontal split |
 | `prefix + h/j/k/l` | Navigate panes |
-| `prefix + H/J/K/L` | Resize panes |
-| `prefix + s` | List sessions |
-| `prefix + (` / `)` | Prev/next session |
-| `prefix + r` | Reload config |
-
-### Tmux Auto-Start Sessions
-
-Running `t` starts tmux with these sessions:
-1. **Nix Darwin** - `~/.config/nix`
-2. **MRScraperV3** - `~/Development/mrscraper/mrscraper-v3`
-3. **MRScraperWEB** - `~/Development/mrscraper/mrscraper-web`
-4. **YDM FE** - `~/Development/bsm/yes-date-me-frontend`
-5. **YDM BE** - `~/Development/bsm/yes-date-me-backend`
-6. **ECHO** - `~/Development/bsm/social-media-automation`
-7. **BSM Landing** - `~/Development/bsm/bsmart-landing`
 
 ## Shell Aliases
 
-### General
 | Alias | Command |
 |-------|---------|
-| `t` | Start tmux with all sessions |
 | `v` | nvim |
-| `c` | clear |
-| `cl` | claude |
-| `build-system` | Rebuild nix-darwin |
-
-### Docker
-| Alias | Command |
-|-------|---------|
-| `dc` | docker-compose |
-| `dps` | docker ps |
-| `dex` | docker exec -it |
-
-### Laravel/PHP
-| Alias | Command |
-|-------|---------|
-| `pa` | php artisan |
-| `pas` | php artisan serve |
-| `pam` | php artisan migrate |
-| `pamfs` | php artisan migrate:fresh --seed |
-| `ci` | composer install |
-| `cu` | composer update |
-
-### Git
-| Alias | Command |
-|-------|---------|
+| `t` | tmux startup script |
 | `gs` | git status |
 | `ga` | git add |
 | `gc` | git commit |
 | `gp` | git push |
-| `gl` | git pull |
-| `gco` | git checkout |
-| `gcb` | git checkout -b |
-
-### File Listing (eza)
-| Alias | Command |
-|-------|---------|
 | `ls` | eza --icons |
 | `ll` | eza -la --icons |
-| `la` | eza -a --icons |
-| `lt` | eza --tree --icons |
 | `cat` | bat |
 
 ## License
