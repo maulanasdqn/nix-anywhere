@@ -63,6 +63,18 @@
       ...
     }:
     let
+      # Supported systems
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+
+      # Helper to generate attrs for all systems
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+
+      # Config
       defaultConfig = import ./config.nix;
       localConfigPath = ./config.local.nix;
       config =
@@ -80,7 +92,6 @@
       secretsFile = ./secrets/secrets.yaml;
 
       # Darwin-specific
-      darwinSystem = "aarch64-darwin";
       darwinSpecialArgs = {
         inherit
           username
@@ -94,15 +105,17 @@
       };
 
       # NixOS-specific
-      nixosSystem = "x86_64-linux";
       nixosSpecialArgs = {
         inherit username nixvim enableTilingWM;
       };
+
+      # Check if system is darwin
+      isDarwin = system: builtins.elem system [ "x86_64-darwin" "aarch64-darwin" ];
     in
     {
       # macOS (nix-darwin) configuration
       darwinConfigurations.${darwinHostname} = nix-darwin.lib.darwinSystem {
-        system = darwinSystem;
+        system = "aarch64-darwin";
         specialArgs = darwinSpecialArgs;
         modules = [
           determinate.darwinModules.default
@@ -129,7 +142,7 @@
 
       # NixOS configuration
       nixosConfigurations.${nixosHostname} = nixpkgs.lib.nixosSystem {
-        system = nixosSystem;
+        system = "x86_64-linux";
         specialArgs = nixosSpecialArgs;
         modules = [
           ./modules/nixos
@@ -149,45 +162,40 @@
         ];
       };
 
-      # Dev shells for both systems
-      devShells.${darwinSystem}.default =
+      # Dev shells for all supported systems
+      devShells = forAllSystems (system:
         let
-          pkgs = import nixpkgs { system = darwinSystem; };
+          pkgs = nixpkgs.legacyPackages.${system};
         in
-        pkgs.mkShellNoCC {
-          packages = with pkgs; [
-            (writeShellApplication {
-              name = "rebuild";
-              runtimeInputs = [ nix-darwin.packages.${darwinSystem}.darwin-rebuild ];
-              text = ''
-                echo "Rebuilding nix-darwin configuration..."
-                sudo darwin-rebuild switch --flake .
-                echo "Done!"
-              '';
-            })
-            self.formatter.${darwinSystem}
-          ];
-        };
+        {
+          default = pkgs.mkShellNoCC {
+            packages = with pkgs; [
+              (writeShellApplication {
+                name = "rebuild";
+                runtimeInputs =
+                  if isDarwin system
+                  then [ nix-darwin.packages.${system}.darwin-rebuild ]
+                  else [ ];
+                text =
+                  if isDarwin system
+                  then ''
+                    echo "Rebuilding nix-darwin configuration..."
+                    sudo darwin-rebuild switch --flake .
+                    echo "Done!"
+                  ''
+                  else ''
+                    echo "Rebuilding NixOS configuration..."
+                    sudo nixos-rebuild switch --flake .
+                    echo "Done!"
+                  '';
+              })
+              nixfmt-rfc-style
+            ];
+          };
+        }
+      );
 
-      devShells.${nixosSystem}.default =
-        let
-          pkgs = import nixpkgs { system = nixosSystem; };
-        in
-        pkgs.mkShellNoCC {
-          packages = with pkgs; [
-            (writeShellApplication {
-              name = "rebuild";
-              text = ''
-                echo "Rebuilding NixOS configuration..."
-                sudo nixos-rebuild switch --flake .
-                echo "Done!"
-              '';
-            })
-            self.formatter.${nixosSystem}
-          ];
-        };
-
-      formatter.${darwinSystem} = nixpkgs.legacyPackages.${darwinSystem}.nixfmt-rfc-style;
-      formatter.${nixosSystem} = nixpkgs.legacyPackages.${nixosSystem}.nixfmt-rfc-style;
+      # Formatter for all systems
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
     };
 }
