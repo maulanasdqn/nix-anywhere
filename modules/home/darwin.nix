@@ -7,7 +7,7 @@
 }:
 {
   imports = [
-    ./packages
+    ./packages/darwin.nix
     ./git
     ./starship
     ./zsh

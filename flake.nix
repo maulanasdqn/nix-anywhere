@@ -1,5 +1,5 @@
 {
-  description = "ms's nix-darwin configuration";
+  description = "ms's unified Nix configuration (NixOS + nix-darwin)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -72,13 +72,16 @@
           defaultConfig;
 
       username = config.username;
-      hostname = config.hostname;
+      darwinHostname = config.darwinHostname or config.hostname;
+      nixosHostname = config.nixosHostname or "nixos";
       enableLaravel = config.enableLaravel;
       enableTilingWM = config.enableTilingWM;
       sshKeys = config.sshKeys;
-      system = "aarch64-darwin";
       secretsFile = ./secrets/secrets.yaml;
-      specialArgs = {
+
+      # Darwin-specific
+      darwinSystem = "aarch64-darwin";
+      darwinSpecialArgs = {
         inherit
           username
           nixvim
@@ -89,10 +92,18 @@
           secretsFile
           ;
       };
+
+      # NixOS-specific
+      nixosSystem = "x86_64-linux";
+      nixosSpecialArgs = {
+        inherit username nixvim;
+      };
     in
     {
-      darwinConfigurations.${hostname} = nix-darwin.lib.darwinSystem {
-        inherit system specialArgs;
+      # macOS (nix-darwin) configuration
+      darwinConfigurations.${darwinHostname} = nix-darwin.lib.darwinSystem {
+        system = darwinSystem;
+        specialArgs = darwinSpecialArgs;
         modules = [
           determinate.darwinModules.default
           home-manager.darwinModules.home-manager
@@ -112,29 +123,71 @@
           }
           ./modules/nix.nix
           ./modules/darwin
-          ./modules/home
+          ./modules/home/darwin.nix
         ];
       };
 
-      devShells.${system}.default =
+      # NixOS configuration
+      nixosConfigurations.${nixosHostname} = nixpkgs.lib.nixosSystem {
+        system = nixosSystem;
+        specialArgs = nixosSpecialArgs;
+        modules = [
+          ./modules/nixos
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = nixosSpecialArgs;
+              backupFileExtension = "backup";
+              sharedModules = [
+                nixvim.homeModules.nixvim
+              ];
+            };
+          }
+          ./modules/home/nixos.nix
+        ];
+      };
+
+      # Dev shells for both systems
+      devShells.${darwinSystem}.default =
         let
-          pkgs = import nixpkgs { inherit system; };
+          pkgs = import nixpkgs { system = darwinSystem; };
         in
         pkgs.mkShellNoCC {
           packages = with pkgs; [
             (writeShellApplication {
               name = "rebuild";
-              runtimeInputs = [ nix-darwin.packages.${system}.darwin-rebuild ];
+              runtimeInputs = [ nix-darwin.packages.${darwinSystem}.darwin-rebuild ];
               text = ''
                 echo "Rebuilding nix-darwin configuration..."
                 sudo darwin-rebuild switch --flake .
                 echo "Done!"
               '';
             })
-            self.formatter.${system}
+            self.formatter.${darwinSystem}
           ];
         };
 
-      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
+      devShells.${nixosSystem}.default =
+        let
+          pkgs = import nixpkgs { system = nixosSystem; };
+        in
+        pkgs.mkShellNoCC {
+          packages = with pkgs; [
+            (writeShellApplication {
+              name = "rebuild";
+              text = ''
+                echo "Rebuilding NixOS configuration..."
+                sudo nixos-rebuild switch --flake .
+                echo "Done!"
+              '';
+            })
+            self.formatter.${nixosSystem}
+          ];
+        };
+
+      formatter.${darwinSystem} = nixpkgs.legacyPackages.${darwinSystem}.nixfmt-rfc-style;
+      formatter.${nixosSystem} = nixpkgs.legacyPackages.${nixosSystem}.nixfmt-rfc-style;
     };
 }
