@@ -96,7 +96,7 @@
       # NixOS-specific
       nixosSystem = "x86_64-linux";
       nixosSpecialArgs = {
-        inherit username nixvim;
+        inherit username nixvim enableTilingWM;
       };
     in
     {

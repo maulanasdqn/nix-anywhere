@@ -20,9 +20,9 @@
   # When false: skips Laravel-related packages and aliases
   # enableLaravel = true;
 
-  # Enable/disable tiling window manager (darwin only)
-  # When true: installs yabai, skhd, sketchybar
-  # When false: uses default macOS window management
+  # Enable/disable tiling window manager
+  # Darwin: yabai, skhd, sketchybar
+  # NixOS: hyprland, waybar, wofi
   # enableTilingWM = true;
 
   # SSH public keys for authorized_keys

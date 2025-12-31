@@ -1,5 +1,7 @@
 {
   pkgs,
+  lib,
+  enableTilingWM,
   ...
 }:
 {
@@ -26,18 +28,19 @@
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
-  # Hyprland Window Manager
-  programs.hyprland = {
+  # Hyprland Window Manager (optional)
+  programs.hyprland = lib.mkIf enableTilingWM {
     enable = true;
     xwayland.enable = true;
   };
 
-  # XDG Portal for Hyprland
+  # XDG Portal
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
+    ] ++ lib.optionals enableTilingWM [
+      xdg-desktop-portal-hyprland
     ];
   };
 
@@ -53,8 +56,17 @@
   # Enable dconf for GNOME settings
   programs.dconf.enable = true;
 
-  # Packages needed for Hyprland
+  # Packages needed for Hyprland (only when enabled)
   environment.systemPackages = with pkgs; [
+    # File manager
+    nautilus
+
+    # Notifications
+    libnotify
+
+    # Authentication
+    polkit_gnome
+  ] ++ lib.optionals enableTilingWM [
     # Hyprland essentials
     hyprpaper
     hyprlock
@@ -68,14 +80,7 @@
     cliphist
 
     # Notifications
-    libnotify
     mako
-
-    # File manager
-    nautilus
-
-    # Authentication
-    polkit_gnome
   ];
 
   # Enable polkit for authentication dialogs

@@ -1,5 +1,6 @@
 {
   username,
+  enableTilingWM,
   lib,
   pkgs,
   ...
@@ -13,8 +14,9 @@
     ./neovim
     ./tmux
     ./ssh
-    ./hyprland
     ./vscode
+  ] ++ lib.optionals enableTilingWM [
+    ./hyprland
   ];
 
   home-manager.users.${username} = {
