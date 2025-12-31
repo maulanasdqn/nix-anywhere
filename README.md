@@ -1,4 +1,4 @@
-# nix-config
+# nix-anywhere
 
 My personal unified Nix configuration for both **NixOS** and **macOS** (nix-darwin), with home-manager and nixvim.
 
@@ -109,7 +109,7 @@ My personal unified Nix configuration for both **NixOS** and **macOS** (nix-darw
 # https://determinate.systems/posts/determinate-nix-installer
 
 # Clone the repo
-git clone git@github.com:maulanasdqn/nix-darwin.git ~/.config/nix
+git clone git@github.com:maulanasdqn/nix-anywhere.git ~/.config/nix
 cd ~/.config/nix
 
 # Create your configuration
@@ -124,7 +124,7 @@ nix develop --command rebuild
 
 ```bash
 # Clone the repo
-git clone git@github.com:maulanasdqn/nix-darwin.git ~/.config/nix
+git clone git@github.com:maulanasdqn/nix-anywhere.git ~/.config/nix
 cd ~/.config/nix
 
 # Create your configuration
