@@ -1,5 +1,5 @@
 {
-  description = "ms's unified Nix configuration (NixOS + nix-darwin)";
+  description = "nix-anywhere: unified Nix configuration for NixOS + macOS";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
