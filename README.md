@@ -80,9 +80,9 @@ My personal unified Nix configuration for both **NixOS** and **macOS** (nix-darw
 
 | Component | Description |
 |-----------|-------------|
-| **Yabai** | Tiling window manager |
-| **skhd** | Hotkey daemon |
-| **Sketchybar** | Custom menu bar |
+| **Yabai** | Tiling window manager (optional) |
+| **skhd** | Hotkey daemon (optional) |
+| **Sketchybar** | Custom menu bar (optional) |
 | **Ghostty** | GPU-accelerated terminal |
 | **Homebrew** | Casks and formulae |
 | **Colima** | Docker runtime |
@@ -93,12 +93,12 @@ My personal unified Nix configuration for both **NixOS** and **macOS** (nix-darw
 
 | Component | Description |
 |-----------|-------------|
-| **Hyprland** | Wayland compositor |
-| **Waybar** | Status bar |
-| **Wofi** | Application launcher |
+| **GNOME** | Desktop environment (default) |
+| **Hyprland** | Wayland compositor (optional) |
+| **Waybar** | Status bar (optional) |
+| **Wofi** | Application launcher (optional) |
 | **VSCode** | Visual Studio Code |
 | **PipeWire** | Audio |
-| **GNOME** | Desktop environment (fallback) |
 
 ## Installation
 
@@ -151,9 +151,9 @@ Edit `config.nix` to customize your setup:
   darwinHostname = "your-mac-hostname";
   nixosHostname = "your-nixos-hostname";
 
-  # macOS-only options
-  enableLaravel = true;      # PHP, Composer, MySQL, PostgreSQL, Redis
-  enableTilingWM = true;     # yabai, skhd, sketchybar
+  # Optional features
+  enableLaravel = true;      # PHP, Composer, MySQL, PostgreSQL, Redis (macOS only)
+  enableTilingWM = true;     # Tiling WM (see below)
 
   # SSH public keys
   sshKeys = [
@@ -168,7 +168,7 @@ Edit `config.nix` to customize your setup:
 | `darwinHostname` | string | macOS | Machine hostname |
 | `nixosHostname` | string | NixOS | Machine hostname |
 | `enableLaravel` | bool | macOS | Enable PHP/Laravel stack |
-| `enableTilingWM` | bool | macOS | Enable yabai/skhd/sketchybar |
+| `enableTilingWM` | bool | Both | macOS: yabai/skhd/sketchybar, NixOS: hyprland/waybar/wofi |
 | `sshKeys` | list | Both | SSH public keys |
 
 ## Usage
