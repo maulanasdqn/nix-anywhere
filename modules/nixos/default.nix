@@ -1,0 +1,20 @@
+{
+  pkgs,
+  lib,
+  username,
+  ...
+}:
+{
+  imports = [
+    ./hardware.nix
+    ./boot.nix
+    ./networking.nix
+    ./locale.nix
+    ./desktop.nix
+    ./audio.nix
+    ./users.nix
+    ./fonts.nix
+    ./programs.nix
+    ./nix.nix
+  ];
+}
