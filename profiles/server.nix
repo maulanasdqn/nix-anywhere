@@ -50,6 +50,44 @@
     };
   };
 
+  # Nginx web server
+  services.nginx = {
+    enable = true;
+
+    # Recommended settings
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+
+    # Default virtual host
+    virtualHosts."_" = {
+      default = true;
+      locations."/" = {
+        return = "200 'NixOS VPS is running!'";
+        extraConfig = ''
+          add_header Content-Type text/plain;
+        '';
+      };
+    };
+
+    # Example: Reverse proxy for Docker containers
+    # virtualHosts."app.example.com" = {
+    #   enableACME = true;
+    #   forceSSL = true;
+    #   locations."/" = {
+    #     proxyPass = "http://127.0.0.1:3000";
+    #     proxyWebsockets = true;
+    #   };
+    # };
+  };
+
+  # ACME (Let's Encrypt) for SSL certificates
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "admin@example.com"; # Change this!
+  };
+
   # Fail2ban for brute-force protection
   services.fail2ban = {
     enable = true;
@@ -98,6 +136,10 @@
   virtualisation.docker = {
     enable = true;
     enableOnBoot = true;
+    autoPrune = {
+      enable = true;
+      dates = "weekly";
+    };
   };
 
   # Automatic security updates
@@ -116,12 +158,26 @@
 
   # Server packages
   environment.systemPackages = with pkgs; [
+    # System monitoring
     htop
     iotop
     ncdu
+    bottom
+
+    # Tools
     tmux
     ripgrep
     fd
     jq
+    yq
+
+    # Docker tools
+    docker-compose
+    lazydocker
+
+    # Networking
+    curl
+    wget
+    httpie
   ];
 }
