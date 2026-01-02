@@ -46,6 +46,12 @@
     };
 
     flake-parts.url = "github:hercules-ci/flake-parts";
+
+    # Disko for declarative disk partitioning (nixos-anywhere)
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -60,6 +66,7 @@
       nix-homebrew,
       homebrew-core,
       homebrew-cask,
+      disko,
       ...
     }:
     let
@@ -86,6 +93,7 @@
       username = config.username;
       darwinHostname = config.darwinHostname or config.hostname;
       nixosHostname = config.nixosHostname or "nixos";
+      vpsHostname = config.vpsHostname or "vps";
       enableLaravel = config.enableLaravel;
       enableTilingWM = config.enableTilingWM;
       sshKeys = config.sshKeys;
@@ -104,9 +112,14 @@
           ;
       };
 
-      # NixOS-specific
+      # NixOS workstation args
       nixosSpecialArgs = {
-        inherit username nixvim enableTilingWM;
+        inherit username nixvim enableTilingWM sshKeys;
+      };
+
+      # NixOS VPS/server args
+      vpsSpecialArgs = {
+        inherit username nixvim sshKeys;
       };
 
       # Check if system is darwin
@@ -140,12 +153,12 @@
         ];
       };
 
-      # NixOS configuration
+      # NixOS workstation configuration
       nixosConfigurations.${nixosHostname} = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = nixosSpecialArgs;
         modules = [
-          ./modules/nixos
+          ./hosts/workstation
           home-manager.nixosModules.home-manager
           {
             home-manager = {
@@ -159,6 +172,29 @@
             };
           }
           ./modules/home/nixos.nix
+        ];
+      };
+
+      # NixOS VPS configuration (for nixos-anywhere deployment)
+      nixosConfigurations.${vpsHostname} = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = vpsSpecialArgs;
+        modules = [
+          disko.nixosModules.disko
+          ./hosts/vps
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = vpsSpecialArgs;
+              backupFileExtension = "backup";
+              sharedModules = [
+                nixvim.homeModules.nixvim
+              ];
+            };
+          }
+          ./modules/home/nixos-server.nix
         ];
       };
 
