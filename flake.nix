@@ -108,9 +108,9 @@
           ;
       };
 
-      nixosSpecialArgs = {
-        username = config.nixosUsername;
-        enableTilingWM = config.nixosEnableTilingWM;
+      workstationSpecialArgs = {
+        username = config.workstationUsername;
+        enableTilingWM = config.workstationEnableTilingWM;
         inherit
           nixvim
           enableLaravel
@@ -170,9 +170,9 @@
         ];
       };
 
-      nixosConfigurations.${config.nixosHostname} = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.${config.workstationHostname} = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = nixosSpecialArgs;
+        specialArgs = workstationSpecialArgs;
         modules = [
           ./hosts/workstation
           home-manager.nixosModules.home-manager
@@ -180,7 +180,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = nixosSpecialArgs;
+              extraSpecialArgs = workstationSpecialArgs;
               backupFileExtension = "backup";
             };
           }

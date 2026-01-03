@@ -11,10 +11,10 @@
   # darwinHostname = "your-mac-hostname";
   # darwinEnableTilingWM = true;  # yabai, skhd, sketchybar
 
-  # NixOS (workstation)
-  # nixosUsername = "your-username";
-  # nixosHostname = "your-nixos-hostname";
-  # nixosEnableTilingWM = true;   # hyprland, waybar, wofi
+  # Workstation (NixOS desktop)
+  # workstationUsername = "your-username";
+  # workstationHostname = "your-workstation-hostname";
+  # workstationEnableTilingWM = true;  # hyprland, waybar, wofi
 
   # VPS - Hostinger
   # vpsHostingerUsername = "your-username";

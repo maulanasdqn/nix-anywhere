@@ -4,10 +4,10 @@
   darwinHostname = "mrscraper";
   darwinEnableTilingWM = true;
 
-  # NixOS (workstation)
-  nixosUsername = "ms";
-  nixosHostname = "nixos";
-  nixosEnableTilingWM = true;
+  # Workstation (NixOS desktop)
+  workstationUsername = "ms";
+  workstationHostname = "workstation";
+  workstationEnableTilingWM = true;
 
   # VPS - Hostinger
   vpsHostingerUsername = "ms";
