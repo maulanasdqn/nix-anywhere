@@ -34,6 +34,10 @@
       NODE_ENV = "production";
       HOST = "127.0.0.1";
       PORT = "4321";
+      GTM_ID = "G-7TD92DV318";
+      GOOGLE_ANALYTICS_ID = "G-7TD92DV318";
+      SUPABASE_URL = "https://btdmfdxfqwhxnexgtxxd.supabase.co";
+      SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0ZG1mZHhmcXdoeG5leGd0eHhkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEwMDY4MTQsImV4cCI6MjA2NjU4MjgxNH0.P0cDn1kBlF1hw8Z5Yd59LZl_CMsBnI58kzVkjDMchF4";
     };
     serviceConfig = {
       Type = "simple";
