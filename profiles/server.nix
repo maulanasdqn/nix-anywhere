@@ -146,6 +146,8 @@
     wget
     httpie
     git
+    nodejs_22
+    nodePackages.npm
   ];
 
 }
