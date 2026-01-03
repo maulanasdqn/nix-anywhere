@@ -11,6 +11,14 @@ My personal unified Nix configuration for both **NixOS** and **macOS** (nix-darw
 ├── config.nix                      # User configuration
 ├── config.example.nix              # Example configuration
 ├── .envrc                          # Direnv integration
+├── hosts/
+│   ├── workstation/                # NixOS workstation config
+│   └── vps/                        # VPS configurations (nixos-anywhere)
+│       ├── hostinger/              # Hostinger VPS (static IP, BIOS)
+│       └── digitalocean/           # DigitalOcean Droplet (DHCP, hybrid boot)
+├── profiles/
+│   ├── base.nix                    # Base profile for all systems
+│   └── server.nix                  # Server profile (hardened SSH, nginx, docker)
 ├── templates/                      # Devenv project templates
 │   ├── laravel/
 │   ├── nodejs/
@@ -137,6 +145,29 @@ sudo nixos-generate-config --show-hardware-config > modules/nixos/hardware.nix
 # Build and apply
 sudo nixos-rebuild switch --flake .#nixos
 ```
+
+### VPS Deployment (nixos-anywhere)
+
+Deploy NixOS to a fresh VPS running Ubuntu/Debian:
+
+```bash
+# Hostinger VPS (uses static IP, BIOS boot, LTS kernel)
+nix run github:nix-community/nixos-anywhere -- \
+  --flake .#hostinger --build-on remote root@<VPS_IP>
+
+# DigitalOcean Droplet (uses DHCP, hybrid BIOS/EFI boot)
+nix run github:nix-community/nixos-anywhere -- \
+  --flake .#digitalocean --build-on remote root@<VPS_IP>
+```
+
+**VPS Provider Configurations:**
+
+| Provider | Boot Mode | Disk Device | Network | Kernel |
+|----------|-----------|-------------|---------|--------|
+| Hostinger | BIOS (GRUB) | `/dev/sda` | Static IP | LTS 6.6 |
+| DigitalOcean | Hybrid BIOS/EFI | `/dev/vda` | DHCP | Latest |
+
+**Note:** For Hostinger, edit `hosts/vps/hostinger/default.nix` to set your static IP, gateway, and nameservers before deployment.
 
 ## Configuration
 

@@ -4,5 +4,6 @@
     git
     curl
     wget
+    qemu
   ];
 }
