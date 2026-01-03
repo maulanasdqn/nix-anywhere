@@ -41,7 +41,6 @@
       };
     };
 
-    # Low battery notification service
     systemd.user.services.battery-monitor = {
       Unit = {
         Description = "Low battery notification";

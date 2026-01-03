@@ -3,7 +3,6 @@
   home-manager.users.${username}.programs.nixvim.plugins = {
     web-devicons.enable = true;
 
-    # Noice - better UI for messages, cmdline, and popupmenu
     noice = {
       enable = true;
       settings = {
@@ -60,7 +59,6 @@
       };
     };
 
-    # Required by noice
     notify = {
       enable = true;
       settings = {

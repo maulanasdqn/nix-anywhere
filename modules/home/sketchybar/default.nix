@@ -5,7 +5,6 @@
       sketchybar
     ];
 
-    # Plugin scripts
     home.file.".config/sketchybar/plugins/space.sh" = {
       executable = true;
       text = ''

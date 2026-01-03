@@ -19,7 +19,6 @@
 
     ts-autotag.enable = true;
 
-    # Better context (shows function name at top)
     treesitter-context = {
       enable = true;
       settings = {

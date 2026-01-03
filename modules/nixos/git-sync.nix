@@ -1,6 +1,3 @@
-# Git-based NixOS config sync
-# Clone: git clone https://github.com/maulanasdqn/nix-anywhere.git /etc/nixos-config
-# Manual rebuild: nixos-rebuild switch --flake /etc/nixos-config#<target>
 { config, lib, pkgs, ... }:
 let
   cfg = config.services.nixos-git-sync;
@@ -11,19 +8,16 @@ in
 
     flakeTarget = lib.mkOption {
       type = lib.types.str;
-      description = "Flake target to build (e.g., hostinger, digitalocean)";
     };
 
     repoPath = lib.mkOption {
       type = lib.types.str;
       default = "/etc/nixos-config";
-      description = "Path to the cloned config repository";
     };
 
     interval = lib.mkOption {
       type = lib.types.str;
       default = "hourly";
-      description = "Sync interval (systemd calendar format)";
     };
   };
 

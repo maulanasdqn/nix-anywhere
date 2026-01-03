@@ -20,16 +20,13 @@
         devenv.shells.default = {
           name = "nodejs";
 
-          # Node.js version - change as needed: nodejs_18, nodejs_20, nodejs_22
           languages.javascript = {
             enable = true;
             package = pkgs.nodejs_22;
           };
 
-          # TypeScript support
           languages.typescript.enable = true;
 
-          # Packages
           packages = with pkgs; [
             nodePackages.npm
             nodePackages.pnpm
@@ -42,19 +39,17 @@
             deno
           ];
 
-          # Environment variables
           env = {
             NODE_ENV = "development";
           };
 
-          # Scripts
           scripts.dev.exec = "npm run dev";
           scripts.build.exec = "npm run build";
           scripts.test.exec = "npm test";
           scripts.lint.exec = "npm run lint";
 
           enterShell = ''
-            echo "🚀 Node.js Development Environment"
+            echo "Node.js Development Environment"
             echo "Node: $(node --version)"
             echo "NPM: $(npm --version)"
             echo "PNPM: $(pnpm --version)"

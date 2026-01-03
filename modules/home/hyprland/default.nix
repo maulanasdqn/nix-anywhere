@@ -16,7 +16,6 @@
       xwayland.enable = true;
 
       settings = {
-        # Light baby pink color palette
         "$pink" = "rgb(ff85a2)";
         "$hotpink" = "rgb(ff69b4)";
         "$lightpink" = "rgb(ffc0cb)";
@@ -27,10 +26,8 @@
         "$text" = "rgb(5d4057)";
         "$surface" = "rgb(ffe4e9)";
 
-        # Monitor config with scaling (adjust scale as needed: 1, 1.25, 1.5, 2)
         monitor = ",preferred,auto,1.25";
 
-        # Autostart (waybar started via systemd, mako via home-manager service)
         exec-once = [
           "hyprctl setcursor catppuccin-mocha-pink-cursors 24"
           "hyprpaper"
@@ -40,7 +37,6 @@
           "wl-paste --type image --watch cliphist store"
         ];
 
-        # General settings
         general = {
           gaps_in = 8;
           gaps_out = 16;
@@ -51,7 +47,6 @@
           allow_tearing = false;
         };
 
-        # Decoration (blur, rounding, shadows)
         decoration = {
           rounding = 16;
           blur = {
@@ -69,7 +64,6 @@
           };
         };
 
-        # Animations (cute and bouncy)
         animations = {
           enabled = true;
           bezier = [
@@ -88,19 +82,16 @@
           ];
         };
 
-        # Dwindle layout
         dwindle = {
           pseudotile = true;
           preserve_split = true;
           force_split = 2;
         };
 
-        # Master layout
         master = {
           new_status = "master";
         };
 
-        # Input settings
         input = {
           kb_layout = "us";
           kb_options = "caps:escape";
@@ -112,7 +103,6 @@
           };
         };
 
-        # Cursor
         cursor = {
           default_monitor = "";
         };
@@ -122,14 +112,12 @@
           "XCURSOR_SIZE,24"
         ];
 
-        # Misc
         misc = {
           force_default_wallpaper = 0;
           disable_hyprland_logo = true;
           disable_splash_rendering = true;
         };
 
-        # Window rules
         windowrulev2 = [
           "float, class:^(pavucontrol)$"
           "float, class:^(nm-connection-editor)$"
@@ -140,7 +128,6 @@
           "opacity 0.9, class:^(code)$"
         ];
 
-        # Layer rules
         layerrule = [
           "blur, waybar"
           "blur, wofi"
@@ -148,7 +135,6 @@
           "ignorezero, wofi"
         ];
 
-        # Keybindings
         "$mod" = "SUPER";
         "$terminal" = "kitty";
         "$menu" = "wofi --show drun";
@@ -156,14 +142,12 @@
         "$fileManager" = "nautilus";
 
         bind = [
-          # Applications
           "$mod, Return, exec, $terminal"
           "$mod, Space, exec, $menu"
           "$mod, D, exec, $menu"
           "$mod, E, exec, $fileManager"
           "$mod, B, exec, $browser"
 
-          # Window management
           "$mod SHIFT, Q, killactive"
           "$mod SHIFT, E, exit"
           "$mod, V, togglefloating"
@@ -171,7 +155,6 @@
           "$mod, P, pseudo"
           "$mod, J, togglesplit"
 
-          # Focus
           "$mod, left, movefocus, l"
           "$mod, right, movefocus, r"
           "$mod, up, movefocus, u"
@@ -181,7 +164,6 @@
           "$mod, K, movefocus, u"
           "$mod, J, movefocus, d"
 
-          # Workspaces
           "$mod, 1, workspace, 1"
           "$mod, 2, workspace, 2"
           "$mod, 3, workspace, 3"
@@ -193,7 +175,6 @@
           "$mod, 9, workspace, 9"
           "$mod, 0, workspace, 10"
 
-          # Move to workspace
           "$mod SHIFT, 1, movetoworkspace, 1"
           "$mod SHIFT, 2, movetoworkspace, 2"
           "$mod SHIFT, 3, movetoworkspace, 3"
@@ -205,35 +186,27 @@
           "$mod SHIFT, 9, movetoworkspace, 9"
           "$mod SHIFT, 0, movetoworkspace, 10"
 
-          # Special workspace (scratchpad)
           "$mod, S, togglespecialworkspace, magic"
           "$mod SHIFT, S, movetoworkspace, special:magic"
 
-          # Scroll through workspaces
           "$mod, mouse_down, workspace, e+1"
           "$mod, mouse_up, workspace, e-1"
 
-          # Screenshots
           ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
           "SHIFT, Print, exec, grim - | wl-copy"
 
-          # Clipboard history
           "$mod, C, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
 
-          # Color picker
           "$mod SHIFT, C, exec, hyprpicker -a"
 
-          # Lock screen
           "$mod, X, exec, hyprlock"
         ];
 
-        # Mouse bindings
         bindm = [
           "$mod, mouse:272, movewindow"
           "$mod, mouse:273, resizewindow"
         ];
 
-        # Volume keys (with OSD feedback, 2% steps)
         bindel = [
           ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume +2"
           ", XF86AudioLowerVolume, exec, swayosd-client --output-volume -2"
@@ -245,27 +218,23 @@
           ", switch:on:Lid Switch, exec, systemctl suspend"
         ];
 
-        # Brightness keys (with OSD feedback, 2% steps)
         binde = [
           ", XF86MonBrightnessUp, exec, swayosd-client --brightness +2"
           ", XF86MonBrightnessDown, exec, swayosd-client --brightness -2"
         ];
 
-        # Touchpad gesture for workspace switching
         gesture = [
           "3, horizontal, workspace"
         ];
       };
     };
 
-    # Hyprpaper wallpaper config
     home.file.".config/hypr/hyprpaper.conf".text = ''
       preload = ~/.config/hypr/wallpaper.jpg
       wallpaper = ,~/.config/hypr/wallpaper.jpg
       splash = false
     '';
 
-    # Hyprlock config (light baby pink themed)
     home.file.".config/hypr/hyprlock.conf".text = ''
       background {
         monitor =
@@ -316,7 +285,6 @@
       }
     '';
 
-    # Mako notification daemon (light pink themed)
     services.mako = {
       enable = true;
       settings = {
@@ -334,22 +302,18 @@
       };
     };
 
-    # Install additional packages
     home.packages = with pkgs; [
       kitty
       pavucontrol
       networkmanagerapplet
     ];
 
-    # Kitty terminal (light baby pink themed)
     programs.kitty = {
       enable = true;
       settings = {
-        # Font
         font_family = "JetBrainsMono Nerd Font";
         font_size = 14;
 
-        # Light pink theme colors
         background = "#fff5f7";
         foreground = "#5d4057";
         cursor = "#ff69b4";
@@ -357,13 +321,11 @@
         selection_background = "#ffc0cb";
         selection_foreground = "#5d4057";
 
-        # Tab bar
         active_tab_background = "#ff69b4";
         active_tab_foreground = "#ffffff";
         inactive_tab_background = "#ffe4e9";
         inactive_tab_foreground = "#5d4057";
 
-        # Normal colors
         color0 = "#5d4057";
         color1 = "#e84a72";
         color2 = "#7cb879";
@@ -373,7 +335,6 @@
         color6 = "#b47ead";
         color7 = "#fce4ec";
 
-        # Bright colors
         color8 = "#7d6077";
         color9 = "#ff6b8a";
         color10 = "#8ed88b";
@@ -383,22 +344,18 @@
         color14 = "#d49bcf";
         color15 = "#ffffff";
 
-        # Window
         background_opacity = "0.95";
         window_padding_width = 12;
         confirm_os_window_close = 0;
 
-        # Other
         enable_audio_bell = false;
         shell_integration = "enabled";
       };
       keybindings = {
-        # Claude Code Shift+Enter binding
         "shift+enter" = "send_text all \\x1b[13;2u";
       };
     };
 
-    # SwayOSD styling (pink theme)
     home.file.".config/swayosd/style.css".text = ''
       window {
         background: rgba(255, 250, 251, 0.95);

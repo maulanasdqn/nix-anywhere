@@ -125,7 +125,6 @@
       '';
     };
 
-    # Power menu script
     home.file.".local/bin/wofi-power" = {
       executable = true;
       text = ''

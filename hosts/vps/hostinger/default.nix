@@ -25,8 +25,6 @@
     nameservers = [ "8.8.8.8" "1.1.1.1" ];
   };
 
-  # Personal website (Astro SSR)
-  # Env vars loaded from /var/www/personal-website/.env
   systemd.services.personal-website = {
     description = "Personal Website (Astro)";
     after = [ "network.target" ];
@@ -46,7 +44,6 @@
     };
   };
 
-  # Nginx reverse proxy with SSL
   services.nginx.virtualHosts."msdqn.dev" = {
     enableACME = true;
     forceSSL = true;
@@ -56,13 +53,10 @@
     };
   };
 
-  # n8n workflow automation
   virtualisation.oci-containers.containers.n8n = {
     image = "n8nio/n8n:latest";
     ports = [ "5678:5678" ];
-    volumes = [
-      "/var/lib/n8n:/home/node/.n8n"
-    ];
+    volumes = [ "/var/lib/n8n:/home/node/.n8n" ];
     environment = {
       N8N_HOST = "n8n.msdqn.dev";
       N8N_PORT = "5678";
@@ -72,12 +66,8 @@
     };
   };
 
-  # Ensure n8n data directory exists (uid 1000 = node user in container)
-  systemd.tmpfiles.rules = [
-    "d /var/lib/n8n 0755 1000 1000 -"
-  ];
+  systemd.tmpfiles.rules = [ "d /var/lib/n8n 0755 1000 1000 -" ];
 
-  # n8n nginx reverse proxy
   services.nginx.virtualHosts."n8n.msdqn.dev" = {
     enableACME = true;
     forceSSL = true;

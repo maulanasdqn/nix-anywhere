@@ -6,7 +6,6 @@
     hostName = "nixos";
     networkmanager.enable = true;
 
-    # Firewall configuration
     firewall = {
       enable = true;
       allowedTCPPorts = [ ];
@@ -14,7 +13,6 @@
     };
   };
 
-  # Enable OpenSSH daemon
   services.openssh = {
     enable = true;
     settings = {

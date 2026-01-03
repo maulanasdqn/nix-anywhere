@@ -8,14 +8,12 @@
   services.xserver = {
     enable = true;
 
-    # Keyboard layout
     xkb = {
       layout = "us";
       variant = "";
     };
   };
 
-  # Touchpad settings via libinput
   services.libinput = {
     enable = true;
     touchpad = {
@@ -24,17 +22,14 @@
     };
   };
 
-  # GNOME Desktop Environment
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
-  # Hyprland Window Manager (optional)
   programs.hyprland = lib.mkIf enableTilingWM {
     enable = true;
     xwayland.enable = true;
   };
 
-  # XDG Portal
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
@@ -44,7 +39,6 @@
     ];
   };
 
-  # Exclude some default GNOME packages
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
     gnome-music
@@ -53,40 +47,26 @@
     totem
   ];
 
-  # Enable dconf for GNOME settings
   programs.dconf.enable = true;
 
-  # Packages needed for Hyprland (only when enabled)
   environment.systemPackages = with pkgs; [
-    # File manager
     nautilus
-
-    # Notifications
     libnotify
-
-    # Authentication
     polkit_gnome
   ] ++ lib.optionals enableTilingWM [
-    # Hyprland essentials
     hyprpaper
     hyprlock
     hypridle
     hyprpicker
-
-    # Screenshot & utilities
     grim
     slurp
     wl-clipboard
     cliphist
-
-    # Notifications
     mako
   ];
 
-  # Enable polkit for authentication dialogs
   security.polkit.enable = true;
 
-  # Power management and lid settings
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend";
     HandleLidSwitchExternalPower = "suspend";
@@ -95,7 +75,6 @@
     HandlePowerKeyLongPress = "poweroff";
   };
 
-  # Enable suspend/hibernate
   security.polkit.extraConfig = ''
     polkit.addRule(function(action, subject) {
       if (action.id == "org.freedesktop.login1.suspend" ||
@@ -108,7 +87,6 @@
     });
   '';
 
-  # Disable USB wake to prevent immediate wake after suspend
   systemd.services.disable-usb-wake = {
     description = "Disable USB wake from suspend";
     wantedBy = [ "multi-user.target" ];

@@ -14,26 +14,20 @@
     ];
 
     extraConfigLua = ''
-      -- Claude Code integration
       require("claudecode").setup({
-        -- Auto-start the WebSocket server when Neovim opens
         auto_start = true,
-        -- Port range for the WebSocket server
         port_range = { min = 10000, max = 65535 },
-        -- Terminal settings for Claude Code
         terminal = {
           split_side = "right",
           split_width_percentage = 0.4,
           provider = "native",
         },
-        -- Diff settings
         diff_opts = {
           auto_close_on_accept = true,
           show_diff_stats = true,
         },
       })
 
-      -- Keymaps for Claude Code
       vim.keymap.set("n", "<leader>cc", "<cmd>ClaudeCode<cr>", { desc = "Toggle Claude Code" })
       vim.keymap.set("n", "<leader>cs", "<cmd>ClaudeCodeSend<cr>", { desc = "Send to Claude" })
       vim.keymap.set("v", "<leader>cs", "<cmd>ClaudeCodeSend<cr>", { desc = "Send selection to Claude" })
@@ -41,10 +35,8 @@
       vim.keymap.set("n", "<leader>cx", "<cmd>ClaudeCodeClose<cr>", { desc = "Close Claude Code" })
     '';
 
-    # Auto-reload files when modified externally (by Claude)
     opts.autoread = true;
 
-    # Extra config to check for file changes
     autoCmd = [
       {
         event = [ "FocusGained" "BufEnter" "CursorHold" "CursorHoldI" ];

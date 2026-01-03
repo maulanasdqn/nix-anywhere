@@ -1,6 +1,5 @@
 { username, enableLaravel, lib, ... }:
 {
-  # Auto-start Homebrew services on login
   home-manager.users.${username}.launchd.agents = lib.mkIf enableLaravel {
     postgresql = {
       enable = true;

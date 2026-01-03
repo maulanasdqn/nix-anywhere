@@ -29,7 +29,6 @@
     home.sessionVariables =
       {
         NPM_CONFIG_PREFIX = "$HOME/.npm-global";
-        # n8n configuration
         DB_SQLITE_POOL_SIZE = "4";
         N8N_RUNNERS_ENABLED = "true";
         N8N_BLOCK_ENV_ACCESS_IN_NODE = "false";

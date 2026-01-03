@@ -2,20 +2,16 @@
 {
   home-manager.users.${username}.programs.nixvim = {
     extraPackages = with pkgs; [
-      # PHP
       phpactor
       php83Packages.php-cs-fixer
       php83Packages.phpstan
 
-      # TypeScript/JavaScript
       nodePackages.typescript-language-server
       nodePackages.vscode-langservers-extracted
       nodePackages.eslint
 
-      # Astro
       nodePackages."@astrojs/language-server"
 
-      # Rust
       rust-analyzer
       clippy
     ];
@@ -24,7 +20,6 @@
       lsp = {
         enable = true;
         servers = {
-          # Lua
           lua_ls = {
             enable = true;
             settings = {
@@ -36,10 +31,8 @@
             };
           };
 
-          # Nix
           nil_ls.enable = true;
 
-          # PHP/Laravel
           phpactor = {
             enable = true;
             settings = {
@@ -48,7 +41,6 @@
             };
           };
 
-          # TypeScript/JavaScript/React
           ts_ls = {
             enable = true;
             settings = {
@@ -79,13 +71,8 @@
 
           eslint.enable = true;
 
-          # Rust - disabled, using rustaceanvim instead
-          # rust_analyzer.enable = true;
-
-          # TOML (Cargo.toml, etc.)
           taplo.enable = true;
 
-          # CSS/Tailwind
           tailwindcss = {
             enable = true;
             filetypes = [
@@ -101,7 +88,6 @@
           };
           cssls.enable = true;
 
-          # HTML
           html.enable = true;
           emmet_ls = {
             enable = true;
@@ -119,10 +105,8 @@
             ];
           };
 
-          # JSON
           jsonls.enable = true;
 
-          # Astro
           astro = {
             enable = true;
             settings = {
@@ -162,7 +146,6 @@
         };
       };
 
-      # Rust tools
       rustaceanvim = {
         enable = true;
         settings = {
