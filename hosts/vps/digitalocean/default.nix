@@ -1,12 +1,6 @@
 # DigitalOcean Droplet configuration
-{
-  config,
-  lib,
-  pkgs,
-  username,
-  sshKeys,
-  ...
-}:
+# Deploy: nix run github:nix-community/nixos-anywhere -- --flake .#digitalocean --build-on remote root@<IP>
+{ lib, ... }:
 {
   imports = [
     ./hardware.nix
@@ -14,12 +8,8 @@
     ../../../profiles/server.nix
   ];
 
-  networking.hostName = "droplet"; # Change this per droplet
-
-  # DigitalOcean uses DHCP
-  networking.useDHCP = true;
-
-  # Ensure SSH keys are configured
-  users.users.root.openssh.authorizedKeys.keys = sshKeys;
-  users.users.${username}.openssh.authorizedKeys.keys = sshKeys;
+  networking = {
+    hostName = "droplet"; # Change per droplet
+    useDHCP = true;       # DigitalOcean provides DHCP
+  };
 }
