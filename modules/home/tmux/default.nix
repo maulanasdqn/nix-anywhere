@@ -10,13 +10,11 @@
   ];
 
   home-manager.users.${username} = {
-    # Tmux startup script
     home.file.".local/bin/tmux-startup" = {
       executable = true;
       text = ''
         #!/bin/zsh
 
-        # Define sessions
         declare -A SESSIONS
         SESSIONS=(
           ["Nix Darwin"]="$HOME/.config/nix"
@@ -28,10 +26,8 @@
           ["BSM Landing"]="$HOME/Development/bsm/bsmart-landing"
         )
 
-        # Session order
         SESSION_ORDER=("Nix Darwin" "MRScraperV3" "MRScraperWEB" "YDM FE" "YDM BE" "ECHO" "BSM Landing")
 
-        # Create sessions if they don't exist
         for name in "''${SESSION_ORDER[@]}"; do
           dir="''${SESSIONS[$name]}"
           if ! tmux has-session -t "$name" 2>/dev/null; then
@@ -43,7 +39,6 @@
           fi
         done
 
-        # Attach to first session if not already in tmux
         if [ -z "$TMUX" ]; then
           tmux attach-session -t "Nix Darwin"
         fi

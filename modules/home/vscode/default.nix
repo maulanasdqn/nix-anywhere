@@ -11,11 +11,9 @@
 
       profiles.default = {
         extensions = with pkgs.vscode-extensions; [
-          # Theme
           catppuccin.catppuccin-vsc
           catppuccin.catppuccin-vsc-icons
 
-          # Languages
           jnoortheen.nix-ide
           rust-lang.rust-analyzer
           golang.go
@@ -25,29 +23,24 @@
           dbaeumer.vscode-eslint
           esbenp.prettier-vscode
 
-          # Git
           eamodio.gitlens
           mhutchie.git-graph
 
-          # Editor enhancements
           usernamehw.errorlens
           christian-kohler.path-intellisense
           formulahendry.auto-rename-tag
           formulahendry.auto-close-tag
 
-          # Utilities
           yzhang.markdown-all-in-one
           redhat.vscode-yaml
           tamasfe.even-better-toml
         ];
 
         userSettings = {
-          # Theme - Catppuccin Latte with Pink accent
           "workbench.colorTheme" = "Catppuccin Latte";
           "workbench.iconTheme" = "catppuccin-latte";
           "catppuccin.accentColor" = "pink";
 
-          # Custom pink title bar and accents
           "workbench.colorCustomizations" = {
             "[Catppuccin Latte]" = {
               "titleBar.activeBackground" = "#ff69b4";
@@ -79,13 +72,11 @@
             };
           };
 
-          # Font settings
           "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'Fira Code', monospace";
           "editor.fontSize" = 14;
           "editor.fontLigatures" = true;
           "editor.lineHeight" = 1.6;
 
-          # Editor settings
           "editor.smoothScrolling" = true;
           "editor.cursorBlinking" = "smooth";
           "editor.cursorSmoothCaretAnimation" = "on";
@@ -97,35 +88,28 @@
           "editor.tabSize" = 2;
           "editor.wordWrap" = "on";
 
-          # Window settings
           "window.titleBarStyle" = "custom";
           "window.menuBarVisibility" = "toggle";
 
-          # Terminal
           "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font'";
           "terminal.integrated.fontSize" = 13;
 
-          # File settings
           "files.autoSave" = "afterDelay";
           "files.autoSaveDelay" = 1000;
           "files.trimTrailingWhitespace" = true;
           "files.insertFinalNewline" = true;
 
-          # Nix
           "nix.enableLanguageServer" = true;
           "nix.serverPath" = "nil";
 
-          # Git
           "git.autofetch" = true;
           "git.confirmSync" = false;
 
-          # Telemetry off
           "telemetry.telemetryLevel" = "off";
         };
       };
     };
 
-    # Add nil for nix language server
     home.packages = with pkgs; [
       nil
       nixpkgs-fmt

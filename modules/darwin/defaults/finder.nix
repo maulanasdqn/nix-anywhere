@@ -5,14 +5,11 @@
     FXEnableExtensionChangeWarning = false;
     ShowPathbar = true;
     ShowStatusBar = true;
-
-    # Performance optimizations
-    FXDefaultSearchScope = "SCcf"; # Search current folder only (faster)
+    FXDefaultSearchScope = "SCcf";
     _FXShowPosixPathInTitle = true;
-    QuitMenuItem = true; # Allow quitting Finder
+    QuitMenuItem = true;
   };
 
-  # Disable .DS_Store on network/USB (faster file operations)
   system.defaults.CustomUserPreferences."com.apple.desktopservices" = {
     DSDontWriteNetworkStores = true;
     DSDontWriteUSBStores = true;

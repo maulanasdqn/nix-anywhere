@@ -17,10 +17,8 @@
     shell = pkgs.zsh;
   };
 
-  # Enable zsh system-wide
   programs.zsh.enable = true;
 
-  # Passwordless sudo for wheel group
   security.sudo = {
     enable = true;
     wheelNeedsPassword = false;

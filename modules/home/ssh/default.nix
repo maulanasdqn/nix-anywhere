@@ -13,7 +13,6 @@
       };
     };
 
-    # Create authorized_keys file if sshKeys are provided
     home.file.".ssh/authorized_keys" = lib.mkIf (sshKeys != []) {
       text = lib.concatStringsSep "\n" sshKeys + "\n";
     };

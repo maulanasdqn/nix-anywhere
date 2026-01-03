@@ -27,14 +27,12 @@
         devenv.shells.default = {
           name = "rust";
 
-          # Rust toolchain - options: stable, beta, nightly
           languages.rust = {
             enable = true;
-            channel = "stable";  # or "beta" or "nightly"
+            channel = "stable";
             components = [ "rustc" "cargo" "clippy" "rustfmt" "rust-analyzer" ];
           };
 
-          # Packages
           packages = with pkgs; [
             cargo-watch
             cargo-edit
@@ -46,13 +44,11 @@
             openssl
           ];
 
-          # Environment variables
           env = {
             RUST_BACKTRACE = "1";
             RUST_LOG = "debug";
           };
 
-          # Scripts
           scripts.dev.exec = "cargo watch -x run";
           scripts.build.exec = "cargo build --release";
           scripts.test.exec = "cargo test";
@@ -60,7 +56,7 @@
           scripts.doc.exec = "cargo doc --open";
 
           enterShell = ''
-            echo "🦀 Rust Development Environment"
+            echo "Rust Development Environment"
             echo "Rust: $(rustc --version)"
             echo "Cargo: $(cargo --version)"
             echo ""

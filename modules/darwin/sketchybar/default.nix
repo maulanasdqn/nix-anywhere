@@ -7,7 +7,6 @@
     config = ''
       #!/bin/bash
 
-      # Color Palette (Rose Pine)
       export BLACK=0xff191724
       export WHITE=0xffe0def4
       export RED=0xffeb6f92
@@ -22,7 +21,6 @@
       export ICON_COLOR=$WHITE
       export LABEL_COLOR=$WHITE
 
-      # Bar Appearance
       sketchybar --bar \
         height=32 \
         color=$BAR_COLOR \
@@ -37,7 +35,6 @@
         blur_radius=20 \
         notch_width=188
 
-      # Default Item Appearance
       sketchybar --default \
         icon.font="Hack Nerd Font Mono:Bold:14.0" \
         icon.color=$ICON_COLOR \
@@ -53,7 +50,6 @@
         icon.padding_left=4 \
         icon.padding_right=4
 
-      # Nix logo
       sketchybar --add item nix left \
         --set nix \
           icon="󱄅" \
@@ -62,8 +58,6 @@
           label.drawing=off \
           click_script="open -a 'System Settings'"
 
-      # Spaces (Workspaces) with icons
-      # 1=terminal, 2=browser, 3=slack, 4=discord, 5=code, 6=folder, 7=music, 8=mail, 9=settings
       SPACE_ICONS=("󰆍" "󰖟" "󰒱" "󰙯" "󰨞" "󰉋" "󰎆" "󰇮" "󰒓")
       for i in {0..8}
       do
@@ -82,11 +76,9 @@
             click_script="yabai -m space --focus $sid"
       done
 
-      # Left bracket for spaces
       sketchybar --add bracket spaces '/space\..*/' \
         --set spaces background.color=$BAR_COLOR
 
-      # Front App (current focused app)
       sketchybar --add item front_app left \
         --set front_app \
           icon.drawing=off \
@@ -95,7 +87,6 @@
           script="~/.config/sketchybar/plugins/front_app.sh" \
         --subscribe front_app front_app_switched
 
-      # Clock
       sketchybar --add item clock right \
         --set clock \
           icon="󰥔" \
@@ -103,7 +94,6 @@
           update_freq=10 \
           script="~/.config/sketchybar/plugins/clock.sh"
 
-      # Date
       sketchybar --add item date right \
         --set date \
           icon="󰃭" \
@@ -111,7 +101,6 @@
           update_freq=60 \
           script="~/.config/sketchybar/plugins/date.sh"
 
-      # Volume
       sketchybar --add item volume right \
         --set volume \
           icon="󰕾" \
@@ -120,7 +109,6 @@
           script="~/.config/sketchybar/plugins/volume.sh" \
           click_script="open 'x-apple.systempreferences:com.apple.Sound-Settings.extension'"
 
-      # WiFi
       sketchybar --add item wifi right \
         --set wifi \
           icon="󰤨" \
@@ -129,7 +117,6 @@
           script="~/.config/sketchybar/plugins/wifi.sh" \
           click_script="open 'x-apple.systempreferences:com.apple.wifi-settings-extension'"
 
-      # Battery
       sketchybar --add item battery right \
         --set battery \
           icon.color=$GREEN \
@@ -137,7 +124,6 @@
           script="~/.config/sketchybar/plugins/battery.sh" \
         --subscribe battery system_woke power_source_change
 
-      # CPU
       sketchybar --add item cpu right \
         --set cpu \
           icon="󰍛" \
@@ -145,7 +131,6 @@
           update_freq=5 \
           script="~/.config/sketchybar/plugins/cpu.sh"
 
-      # Memory
       sketchybar --add item memory right \
         --set memory \
           icon="󰘚" \
@@ -153,7 +138,6 @@
           update_freq=10 \
           script="~/.config/sketchybar/plugins/memory.sh"
 
-      # Initialize
       sketchybar --update
     '';
   };

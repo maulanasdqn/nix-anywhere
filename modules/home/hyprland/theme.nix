@@ -5,7 +5,6 @@
 }:
 {
   home-manager.users.${username} = {
-    # GTK Theme (Light Pink)
     gtk = {
       enable = true;
 
@@ -47,7 +46,6 @@
       };
     };
 
-    # QT Theme
     qt = {
       enable = true;
       platformTheme.name = "gtk";
@@ -56,7 +54,6 @@
       };
     };
 
-    # Kvantum theme config
     home.packages = with pkgs; [
       libsForQt5.qtstyleplugin-kvantum
       kdePackages.qtstyleplugin-kvantum
@@ -68,7 +65,6 @@
       theme=catppuccin-latte-pink
     '';
 
-    # Cursor theme for Hyprland (dark pink for visibility)
     home.pointerCursor = {
       name = "catppuccin-mocha-pink-cursors";
       package = pkgs.catppuccin-cursors.mochaPink;
@@ -77,14 +73,12 @@
       x11.enable = true;
     };
 
-    # Environment variables for theming
     home.sessionVariables = {
       XCURSOR_SIZE = "24";
       XCURSOR_THEME = "catppuccin-mocha-pink-cursors";
       GTK_THEME = "Catppuccin-Latte-Standard-Pink-Light";
     };
 
-    # Cute preppy lipstick wallpaper
     home.file.".config/hypr/wallpaper.jpg".source = ../../../wallpaper.jpg;
   };
 }

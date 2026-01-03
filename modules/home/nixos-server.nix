@@ -1,4 +1,3 @@
-# Minimal home-manager config for headless servers
 {
   username,
   lib,
@@ -21,7 +20,6 @@
       stateVersion = "25.05";
 
       packages = with pkgs; [
-        # CLI essentials
         eza
         bat
         fzf
@@ -31,17 +29,14 @@
         jq
         yq
 
-        # Git tools
         lazygit
         gh
         delta
 
-        # System tools
         htop
         ncdu
         bottom
 
-        # Network tools
         httpie
         curl
         wget
@@ -58,7 +53,6 @@
 
     programs.home-manager.enable = true;
 
-    # SSH config without 1Password agent (server doesn't have GUI)
     programs.ssh = {
       enable = true;
     };

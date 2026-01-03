@@ -5,22 +5,18 @@
 {
   nix = {
     settings = {
-      # Enable flakes and new nix command
       experimental-features = [
         "nix-command"
         "flakes"
       ];
 
-      # Automatic garbage collection
       auto-optimise-store = true;
 
-      # Trusted users
       trusted-users = [
         "root"
         "@wheel"
       ];
 
-      # Substituters for faster builds
       substituters = [
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
@@ -32,7 +28,6 @@
       ];
     };
 
-    # Garbage collection
     gc = {
       automatic = true;
       dates = "weekly";
