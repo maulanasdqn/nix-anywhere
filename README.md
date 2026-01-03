@@ -47,7 +47,8 @@ My personal unified Nix configuration for both **NixOS** and **macOS** (nix-darw
     │   ├── users.nix
     │   ├── fonts.nix
     │   ├── programs.nix
-    │   └── nix.nix
+    │   ├── nix.nix
+    │   └── git-sync.nix            # VPS config sync from git
     └── home/
         ├── darwin.nix              # macOS home entry point
         ├── nixos.nix               # NixOS home entry point
@@ -167,7 +168,26 @@ nix run github:nix-community/nixos-anywhere -- \
 | Hostinger | BIOS (GRUB) | `/dev/sda` | Static IP | LTS 6.6 |
 | DigitalOcean | Hybrid BIOS/EFI | `/dev/vda` | DHCP | Latest |
 
-**Note:** For Hostinger, edit `hosts/vps/hostinger/default.nix` to set your static IP, gateway, and nameservers before deployment.
+**Note:** Configure your VPS settings in `config.nix` before deployment.
+
+### VPS Git Sync
+
+After initial deployment, VPS servers automatically sync configuration from git:
+
+```bash
+# Config is cloned to /etc/nixos-config on first rebuild
+# Auto-sync runs hourly via systemd timer
+
+# Manual sync
+ssh root@<VPS_IP> "systemctl start nixos-config-sync.service"
+
+# Check sync status
+ssh root@<VPS_IP> "systemctl status nixos-config-sync.timer"
+```
+
+**Workflow:**
+1. Edit config locally and push to GitHub
+2. VPS auto-pulls and rebuilds hourly (or trigger manually)
 
 ## Configuration
 
@@ -175,16 +195,30 @@ Edit `config.nix` to customize your setup:
 
 ```nix
 {
-  # Your username (used for both platforms)
-  username = "your-username";
-
-  # Hostnames
+  # Darwin (macOS)
+  darwinUsername = "your-username";
   darwinHostname = "your-mac-hostname";
-  nixosHostname = "your-nixos-hostname";
+  darwinEnableTilingWM = true;  # yabai, skhd, sketchybar
 
-  # Optional features
-  enableLaravel = true;      # PHP, Composer, MySQL, PostgreSQL, Redis (macOS only)
-  enableTilingWM = true;     # Tiling WM (see below)
+  # NixOS (workstation)
+  nixosUsername = "your-username";
+  nixosHostname = "your-nixos-hostname";
+  nixosEnableTilingWM = true;   # hyprland, waybar, wofi
+
+  # VPS - Hostinger
+  vpsHostingerUsername = "your-username";
+  vpsHostingerHostname = "your-vps-hostname";
+  vpsHostingerIP = "your-vps-ip";
+  vpsHostingerGateway = "your-gateway-ip";
+
+  # VPS - DigitalOcean
+  vpsDigitalOceanUsername = "your-username";
+  vpsDigitalOceanHostname = "your-droplet-hostname";
+
+  # Development tools
+  enableLaravel = true;  # PHP, Composer, MySQL, PostgreSQL, Redis
+  enableRust = true;     # Rust toolchain (rustup)
+  enableVolta = true;    # Node.js version manager
 
   # SSH public keys
   sshKeys = [
@@ -193,14 +227,26 @@ Edit `config.nix` to customize your setup:
 }
 ```
 
-| Option | Type | Platform | Description |
-|--------|------|----------|-------------|
-| `username` | string | Both | Your username |
-| `darwinHostname` | string | macOS | Machine hostname |
-| `nixosHostname` | string | NixOS | Machine hostname |
-| `enableLaravel` | bool | macOS | Enable PHP/Laravel stack |
-| `enableTilingWM` | bool | Both | macOS: yabai/skhd/sketchybar, NixOS: hyprland/waybar/wofi |
-| `sshKeys` | list | Both | SSH public keys |
+### Configuration Options
+
+| Option | Platform | Description |
+|--------|----------|-------------|
+| `darwinUsername` | macOS | Your macOS username |
+| `darwinHostname` | macOS | Machine hostname |
+| `darwinEnableTilingWM` | macOS | Enable yabai/skhd/sketchybar |
+| `nixosUsername` | NixOS | Your NixOS username |
+| `nixosHostname` | NixOS | Machine hostname |
+| `nixosEnableTilingWM` | NixOS | Enable hyprland/waybar/wofi |
+| `vpsHostingerUsername` | VPS | Hostinger VPS username |
+| `vpsHostingerHostname` | VPS | Hostinger VPS hostname |
+| `vpsHostingerIP` | VPS | Hostinger static IP address |
+| `vpsHostingerGateway` | VPS | Hostinger gateway IP |
+| `vpsDigitalOceanUsername` | VPS | DigitalOcean username |
+| `vpsDigitalOceanHostname` | VPS | DigitalOcean hostname |
+| `enableLaravel` | macOS | Enable PHP/Laravel stack |
+| `enableRust` | macOS | Enable Rust toolchain |
+| `enableVolta` | macOS | Enable Volta (Node.js manager) |
+| `sshKeys` | All | SSH public keys for authorized access |
 
 ## Usage
 
