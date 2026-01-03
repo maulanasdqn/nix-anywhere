@@ -2,6 +2,7 @@
   lib,
   pkgs,
   username,
+  acmeEmail,
   ...
 }:
 {
@@ -73,7 +74,7 @@
 
   security.acme = {
     acceptTerms = true;
-    defaults.email = "admin@example.com"; # Change this!
+    defaults.email = acmeEmail;
   };
 
   services.fail2ban = {

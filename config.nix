@@ -15,6 +15,9 @@
   vpsHostingerIP = "72.62.125.38";
   vpsHostingerGateway = "72.62.125.254";
 
+  # ACME (Let's Encrypt)
+  acmeEmail = "maulanasdqn@gmail.com";
+
   # VPS - DigitalOcean
   vpsDigitalOceanUsername = "ms";
   vpsDigitalOceanHostname = "droplet";
