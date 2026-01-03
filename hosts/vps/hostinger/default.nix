@@ -75,9 +75,9 @@
     };
   };
 
-  # Ensure n8n data directory exists
+  # Ensure n8n data directory exists (uid 1000 = node user in container)
   systemd.tmpfiles.rules = [
-    "d /var/lib/n8n 0755 root root -"
+    "d /var/lib/n8n 0755 1000 1000 -"
   ];
 
   # n8n nginx reverse proxy
