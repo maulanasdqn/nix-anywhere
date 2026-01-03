@@ -1,4 +1,3 @@
-# Workstation host configuration
 {
   config,
   lib,

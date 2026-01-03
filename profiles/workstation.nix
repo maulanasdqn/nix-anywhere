@@ -1,6 +1,4 @@
-# Workstation profile - Desktop environment with development tools
 {
-  config,
   lib,
   pkgs,
   username,
@@ -12,7 +10,6 @@
     ./base.nix
   ];
 
-  # Additional workstation groups
   users.users.${username}.extraGroups = [
     "wheel"
     "networkmanager"
@@ -21,13 +18,10 @@
     "video"
   ];
 
-  # NetworkManager for desktop
   networking.networkmanager.enable = true;
 
-  # Firewall
   networking.firewall.enable = true;
 
-  # X11 and display
   services.xserver = {
     enable = true;
     xkb = {
@@ -36,7 +30,6 @@
     };
   };
 
-  # Touchpad
   services.libinput = {
     enable = true;
     touchpad = {
@@ -45,17 +38,14 @@
     };
   };
 
-  # GNOME Desktop
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
-  # Hyprland (optional)
   programs.hyprland = lib.mkIf enableTilingWM {
     enable = true;
     xwayland.enable = true;
   };
 
-  # XDG Portal
   xdg.portal = {
     enable = true;
     extraPortals =
@@ -68,7 +58,6 @@
       ];
   };
 
-  # Exclude some default GNOME packages
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
     gnome-music
@@ -79,7 +68,6 @@
 
   programs.dconf.enable = true;
 
-  # Audio (PipeWire)
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -91,7 +79,6 @@
     jack.enable = true;
   };
 
-  # SSH
   services.openssh = {
     enable = true;
     settings = {
@@ -100,13 +87,11 @@
     };
   };
 
-  # Docker
   virtualisation.docker = {
     enable = true;
     enableOnBoot = true;
   };
 
-  # nix-ld for dynamically linked executables
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [
@@ -118,7 +103,6 @@
     ];
   };
 
-  # Programs
   programs = {
     firefox.enable = true;
     git = {
@@ -131,10 +115,8 @@
     };
   };
 
-  # Printing
   services.printing.enable = true;
 
-  # Fonts
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs; [
@@ -154,7 +136,6 @@
     };
   };
 
-  # Power management
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend";
     HandleLidSwitchExternalPower = "suspend";
@@ -165,11 +146,9 @@
 
   security.polkit.enable = true;
 
-  # Desktop packages
   environment.systemPackages =
     with pkgs;
     [
-      # Essential tools
       wget
       curl
       unzip
@@ -177,39 +156,24 @@
       htop
       btop
       neofetch
-
-      # Development
       gcc
       gnumake
       cmake
-
-      # GNOME tools
       gnome-tweaks
       dconf-editor
-
-      # File manager
       nautilus
-
-      # Notifications
       libnotify
-
-      # Authentication
       polkit_gnome
     ]
     ++ lib.optionals enableTilingWM [
-      # Hyprland essentials
       hyprpaper
       hyprlock
       hypridle
       hyprpicker
-
-      # Screenshot & utilities
       grim
       slurp
       wl-clipboard
       cliphist
-
-      # Notifications
       mako
     ];
 }

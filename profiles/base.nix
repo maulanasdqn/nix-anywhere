@@ -1,6 +1,4 @@
-# Base profile - Common configuration for all NixOS systems
 {
-  config,
   lib,
   pkgs,
   username,
@@ -8,7 +6,6 @@
   ...
 }:
 {
-  # Time and locale
   time.timeZone = lib.mkDefault "Asia/Jakarta";
 
   i18n = {
@@ -40,7 +37,6 @@
     tmp.cleanOnBoot = true;
   };
 
-  # User configuration
   users.users.${username} = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
@@ -48,19 +44,15 @@
     openssh.authorizedKeys.keys = sshKeys;
   };
 
-  # Root SSH keys for nixos-anywhere
   users.users.root.openssh.authorizedKeys.keys = sshKeys;
 
-  # Enable zsh system-wide
   programs.zsh.enable = true;
 
-  # Passwordless sudo for wheel group
   security.sudo = {
     enable = true;
     wheelNeedsPassword = false;
   };
 
-  # Nix settings
   nix.settings = {
     experimental-features = [
       "nix-command"
@@ -81,7 +73,6 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  # Base packages
   environment.systemPackages = with pkgs; [
     vim
     wget

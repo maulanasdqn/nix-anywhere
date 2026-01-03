@@ -1,4 +1,3 @@
-# Hostinger disk configuration - GPT with BIOS boot
 { ... }:
 {
   disko.devices.disk.main = {
@@ -9,7 +8,7 @@
       partitions = {
         boot = {
           size = "1M";
-          type = "EF02"; # BIOS boot
+          type = "EF02";
         };
         root = {
           size = "100%";

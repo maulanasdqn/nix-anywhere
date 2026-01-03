@@ -5,30 +5,34 @@
 #
 # This file is merged with config.nix, so you only need to
 # specify the values you want to override.
-#
-# This configuration supports both NixOS and nix-darwin (macOS).
 {
-  # Your username (used for both NixOS and Darwin)
-  # username = "your-username";
+  # Darwin (macOS)
+  # darwinUsername = "your-username";
+  # darwinHostname = "your-mac-hostname";
+  # darwinEnableTilingWM = true;  # yabai, skhd, sketchybar
 
-  # Hostnames for each system
-  # darwinHostname = "your-mac-hostname";  # macOS hostname
-  # nixosHostname = "your-nixos-hostname"; # NixOS hostname
+  # NixOS (workstation)
+  # nixosUsername = "your-username";
+  # nixosHostname = "your-nixos-hostname";
+  # nixosEnableTilingWM = true;   # hyprland, waybar, wofi
 
-  # Enable/disable Laravel development environment (darwin only)
-  # When true: installs PHP, Composer, MySQL, PostgreSQL, Redis
-  # When false: skips Laravel-related packages and aliases
-  # enableLaravel = true;
+  # VPS - Hostinger
+  # vpsHostingerUsername = "your-username";
+  # vpsHostingerHostname = "your-vps-hostname";
+  # vpsHostingerIP = "your-vps-ip";
+  # vpsHostingerGateway = "your-gateway-ip";
 
-  # Enable/disable tiling window manager
-  # Darwin: yabai, skhd, sketchybar
-  # NixOS: hyprland, waybar, wofi
-  # enableTilingWM = true;
+  # VPS - DigitalOcean
+  # vpsDigitalOceanUsername = "your-username";
+  # vpsDigitalOceanHostname = "your-droplet-hostname";
+
+  # Development tools
+  # enableLaravel = true;  # PHP, Composer, MySQL, PostgreSQL, Redis
+  # enableRust = true;     # Rust toolchain
+  # enableVolta = true;    # Node.js version manager
 
   # SSH public keys for authorized_keys
-  # Add your public keys here for SSH access
   # sshKeys = [
   #   "ssh-ed25519 AAAAC3Nza... user@example.com"
-  #   "ssh-rsa AAAAB3Nza... another@example.com"
   # ];
 }

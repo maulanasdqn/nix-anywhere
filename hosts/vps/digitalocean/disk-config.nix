@@ -1,4 +1,3 @@
-# DigitalOcean disk configuration - GPT with hybrid BIOS/EFI boot
 { lib, ... }:
 {
   disko.devices.disk.main = {
@@ -9,11 +8,11 @@
       partitions = {
         boot = {
           size = "1M";
-          type = "EF02"; # BIOS boot
+          type = "EF02";
         };
         esp = {
           size = "500M";
-          type = "EF00"; # EFI system partition
+          type = "EF00";
           content = {
             type = "filesystem";
             format = "vfat";
