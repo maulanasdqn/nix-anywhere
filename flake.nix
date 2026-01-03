@@ -207,7 +207,6 @@
         ];
       };
 
-      # NixOS VPS - DigitalOcean (for nixos-anywhere deployment)
       nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = digitaloceanSpecialArgs;
@@ -227,7 +226,6 @@
         ];
       };
 
-      # Dev shells for all supported systems
       devShells = forAllSystems (
         system:
         let
@@ -259,7 +257,6 @@
         }
       );
 
-      # Formatter for all systems
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
     };
 }
