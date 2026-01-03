@@ -148,6 +148,7 @@
     git
     nodejs_22
     nodePackages.npm
+    neofetch
   ];
 
 }
