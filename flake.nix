@@ -88,6 +88,7 @@
 
       inherit (config)
         sshKeys
+        acmeEmail
         enableLaravel
         enableRust
         enableVolta
@@ -126,14 +127,14 @@
         ipAddress = config.vpsHostingerIP;
         gateway = config.vpsHostingerGateway;
         enableLaravel = false;
-        inherit nixvim sshKeys;
+        inherit nixvim sshKeys acmeEmail;
       };
 
       digitaloceanSpecialArgs = {
         username = config.vpsDigitalOceanUsername;
         hostname = config.vpsDigitalOceanHostname;
         enableLaravel = false;
-        inherit nixvim sshKeys;
+        inherit nixvim sshKeys acmeEmail;
       };
 
       isDarwin =

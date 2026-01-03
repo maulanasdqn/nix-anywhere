@@ -22,6 +22,9 @@
   # vpsHostingerIP = "your-vps-ip";
   # vpsHostingerGateway = "your-gateway-ip";
 
+  # ACME (Let's Encrypt) - required for SSL certificates
+  # acmeEmail = "your-email@example.com";
+
   # VPS - DigitalOcean
   # vpsDigitalOceanUsername = "your-username";
   # vpsDigitalOceanHostname = "your-droplet-hostname";

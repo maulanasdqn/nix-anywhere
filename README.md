@@ -211,6 +211,9 @@ Edit `config.nix` to customize your setup:
   vpsHostingerIP = "your-vps-ip";
   vpsHostingerGateway = "your-gateway-ip";
 
+  # ACME (Let's Encrypt)
+  acmeEmail = "your-email@example.com";
+
   # VPS - DigitalOcean
   vpsDigitalOceanUsername = "your-username";
   vpsDigitalOceanHostname = "your-droplet-hostname";
@@ -243,6 +246,7 @@ Edit `config.nix` to customize your setup:
 | `vpsHostingerGateway` | VPS | Hostinger gateway IP |
 | `vpsDigitalOceanUsername` | VPS | DigitalOcean username |
 | `vpsDigitalOceanHostname` | VPS | DigitalOcean hostname |
+| `acmeEmail` | VPS | Email for Let's Encrypt SSL certificates |
 | `enableLaravel` | macOS | Enable PHP/Laravel stack |
 | `enableRust` | macOS | Enable Rust toolchain |
 | `enableVolta` | macOS | Enable Volta (Node.js manager) |
