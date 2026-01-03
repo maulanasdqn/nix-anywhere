@@ -1,5 +1,5 @@
 {
-  description = "nix-anywhere: unified Nix configuration for NixOS + macOS";
+  description = "nix-anywhere: unified Nix configuration for All (NixOS, macOS, Cloud VPS)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -47,7 +47,6 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
-    # Disko for declarative disk partitioning (nixos-anywhere)
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -70,7 +69,6 @@
       ...
     }:
     let
-      # Supported systems
       supportedSystems = [
         "x86_64-linux"
         "aarch64-linux"
@@ -78,10 +76,8 @@
         "aarch64-darwin"
       ];
 
-      # Helper to generate attrs for all systems
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
-      # Config
       defaultConfig = import ./config.nix;
       localConfigPath = ./config.local.nix;
       config =
@@ -90,44 +86,65 @@
         else
           defaultConfig;
 
-      username = config.username;
-      darwinHostname = config.darwinHostname or config.hostname;
-      nixosHostname = config.nixosHostname or "nixos";
-      enableLaravel = config.enableLaravel;
-      enableTilingWM = config.enableTilingWM;
-      sshKeys = config.sshKeys;
+      inherit (config)
+        sshKeys
+        enableLaravel
+        enableRust
+        enableVolta
+        ;
       secretsFile = ./secrets/secrets.yaml;
 
-      # Darwin-specific
       darwinSpecialArgs = {
+        username = config.darwinUsername;
+        enableTilingWM = config.darwinEnableTilingWM;
         inherit
-          username
           nixvim
           enableLaravel
-          enableTilingWM
+          enableRust
+          enableVolta
           sshKeys
           sops-nix
           secretsFile
           ;
       };
 
-      # NixOS workstation args
       nixosSpecialArgs = {
-        inherit username nixvim enableTilingWM sshKeys;
+        username = config.nixosUsername;
+        enableTilingWM = config.nixosEnableTilingWM;
+        inherit
+          nixvim
+          enableLaravel
+          enableRust
+          enableVolta
+          sshKeys
+          ;
       };
 
-      # NixOS VPS/server args (no Laravel on server)
-      vpsSpecialArgs = {
-        inherit username nixvim sshKeys;
+      hostingerSpecialArgs = {
+        username = config.vpsHostingerUsername;
+        hostname = config.vpsHostingerHostname;
+        ipAddress = config.vpsHostingerIP;
+        gateway = config.vpsHostingerGateway;
         enableLaravel = false;
+        inherit nixvim sshKeys;
       };
 
-      # Check if system is darwin
-      isDarwin = system: builtins.elem system [ "x86_64-darwin" "aarch64-darwin" ];
+      digitaloceanSpecialArgs = {
+        username = config.vpsDigitalOceanUsername;
+        hostname = config.vpsDigitalOceanHostname;
+        enableLaravel = false;
+        inherit nixvim sshKeys;
+      };
+
+      isDarwin =
+        system:
+        builtins.elem system [
+          "x86_64-darwin"
+          "aarch64-darwin"
+        ];
     in
     {
-      # macOS (nix-darwin) configuration
-      darwinConfigurations.${darwinHostname} = nix-darwin.lib.darwinSystem {
+      darwinConfigurations.${config.darwinHostname} = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = darwinSpecialArgs;
         modules = [
@@ -138,7 +155,7 @@
             nix-homebrew = {
               enable = true;
               enableRosetta = true;
-              user = username;
+              user = config.darwinUsername;
               autoMigrate = true;
               mutableTaps = false;
               taps = {
@@ -153,8 +170,7 @@
         ];
       };
 
-      # NixOS workstation configuration
-      nixosConfigurations.${nixosHostname} = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.${config.nixosHostname} = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = nixosSpecialArgs;
         modules = [
@@ -172,10 +188,9 @@
         ];
       };
 
-      # NixOS VPS - Hostinger (for nixos-anywhere deployment)
       nixosConfigurations.hostinger = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = vpsSpecialArgs;
+        specialArgs = hostingerSpecialArgs;
         modules = [
           disko.nixosModules.disko
           ./hosts/vps/hostinger
@@ -184,7 +199,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = vpsSpecialArgs;
+              extraSpecialArgs = hostingerSpecialArgs;
               backupFileExtension = "backup";
             };
           }
@@ -195,7 +210,7 @@
       # NixOS VPS - DigitalOcean (for nixos-anywhere deployment)
       nixosConfigurations.digitalocean = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = vpsSpecialArgs;
+        specialArgs = digitaloceanSpecialArgs;
         modules = [
           disko.nixosModules.disko
           ./hosts/vps/digitalocean
@@ -204,7 +219,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = vpsSpecialArgs;
+              extraSpecialArgs = digitaloceanSpecialArgs;
               backupFileExtension = "backup";
             };
           }
@@ -213,7 +228,8 @@
       };
 
       # Dev shells for all supported systems
-      devShells = forAllSystems (system:
+      devShells = forAllSystems (
+        system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
         in
@@ -222,22 +238,20 @@
             packages = with pkgs; [
               (writeShellApplication {
                 name = "rebuild";
-                runtimeInputs =
-                  if isDarwin system
-                  then [ nix-darwin.packages.${system}.darwin-rebuild ]
-                  else [ ];
+                runtimeInputs = if isDarwin system then [ nix-darwin.packages.${system}.darwin-rebuild ] else [ ];
                 text =
-                  if isDarwin system
-                  then ''
-                    echo "Rebuilding nix-darwin configuration..."
-                    sudo darwin-rebuild switch --flake .
-                    echo "Done!"
-                  ''
-                  else ''
-                    echo "Rebuilding NixOS configuration..."
-                    sudo nixos-rebuild switch --flake .
-                    echo "Done!"
-                  '';
+                  if isDarwin system then
+                    ''
+                      echo "Rebuilding nix-darwin configuration..."
+                      sudo darwin-rebuild switch --flake .
+                      echo "Done!"
+                    ''
+                  else
+                    ''
+                      echo "Rebuilding NixOS configuration..."
+                      sudo nixos-rebuild switch --flake .
+                      echo "Done!"
+                    '';
               })
               nixfmt-rfc-style
             ];

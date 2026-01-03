@@ -1,15 +1,19 @@
-# DigitalOcean Droplet configuration
-# Deploy: nix run github:nix-community/nixos-anywhere -- --flake .#digitalocean --build-on remote root@<IP>
-{ lib, ... }:
+{ hostname, ... }:
 {
   imports = [
     ./hardware.nix
     ./disk-config.nix
     ../../../profiles/server.nix
+    ../../../modules/nixos/git-sync.nix
   ];
 
+  services.nixos-git-sync = {
+    enable = true;
+    flakeTarget = "digitalocean";
+  };
+
   networking = {
-    hostName = "droplet"; # Change per droplet
-    useDHCP = true;       # DigitalOcean provides DHCP
+    hostName = hostname;
+    useDHCP = true;
   };
 }

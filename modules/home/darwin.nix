@@ -1,6 +1,8 @@
 {
   username,
   enableLaravel,
+  enableRust,
+  enableVolta,
   sshKeys,
   lib,
   ...
