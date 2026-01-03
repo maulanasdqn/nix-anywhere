@@ -129,7 +129,7 @@ nvim config.nix
 nix develop --command rebuild
 ```
 
-### NixOS
+### Workstation (NixOS)
 
 ```bash
 # Clone the repo
@@ -144,7 +144,7 @@ nvim config.nix
 sudo nixos-generate-config --show-hardware-config > modules/nixos/hardware.nix
 
 # Build and apply
-sudo nixos-rebuild switch --flake .#nixos
+sudo nixos-rebuild switch --flake .#workstation
 ```
 
 ### VPS Deployment (nixos-anywhere)
@@ -200,10 +200,10 @@ Edit `config.nix` to customize your setup:
   darwinHostname = "your-mac-hostname";
   darwinEnableTilingWM = true;  # yabai, skhd, sketchybar
 
-  # NixOS (workstation)
-  nixosUsername = "your-username";
-  nixosHostname = "your-nixos-hostname";
-  nixosEnableTilingWM = true;   # hyprland, waybar, wofi
+  # Workstation (NixOS desktop)
+  workstationUsername = "your-username";
+  workstationHostname = "your-workstation-hostname";
+  workstationEnableTilingWM = true;  # hyprland, waybar, wofi
 
   # VPS - Hostinger
   vpsHostingerUsername = "your-username";
@@ -234,9 +234,9 @@ Edit `config.nix` to customize your setup:
 | `darwinUsername` | macOS | Your macOS username |
 | `darwinHostname` | macOS | Machine hostname |
 | `darwinEnableTilingWM` | macOS | Enable yabai/skhd/sketchybar |
-| `nixosUsername` | NixOS | Your NixOS username |
-| `nixosHostname` | NixOS | Machine hostname |
-| `nixosEnableTilingWM` | NixOS | Enable hyprland/waybar/wofi |
+| `workstationUsername` | Workstation | Your workstation username |
+| `workstationHostname` | Workstation | Machine hostname |
+| `workstationEnableTilingWM` | Workstation | Enable hyprland/waybar/wofi |
 | `vpsHostingerUsername` | VPS | Hostinger VPS username |
 | `vpsHostingerHostname` | VPS | Hostinger VPS hostname |
 | `vpsHostingerIP` | VPS | Hostinger static IP address |
@@ -260,11 +260,11 @@ sudo darwin-rebuild switch --flake .#mrscraper
 nix develop --command rebuild
 ```
 
-### NixOS
+### Workstation
 
 ```bash
 # Rebuild
-sudo nixos-rebuild switch --flake .#nixos
+sudo nixos-rebuild switch --flake .#workstation
 
 # Or use the helper in dev shell
 nix develop --command rebuild
@@ -284,7 +284,7 @@ nix develop --command rebuild
 | `Cmd + Shift + f` | Toggle fullscreen |
 | `Cmd + t` | Toggle float |
 
-### NixOS (Hyprland)
+### Workstation (Hyprland)
 
 | Key | Action |
 |-----|--------|
