@@ -58,4 +58,40 @@
       proxyWebsockets = true;
     };
   };
+
+  # n8n workflow automation
+  virtualisation.oci-containers.containers.n8n = {
+    image = "n8nio/n8n:latest";
+    ports = [ "5678:5678" ];
+    volumes = [
+      "/var/lib/n8n:/home/node/.n8n"
+    ];
+    environment = {
+      N8N_HOST = "n8n.msdqn.dev";
+      N8N_PORT = "5678";
+      N8N_PROTOCOL = "https";
+      WEBHOOK_URL = "https://n8n.msdqn.dev/";
+      GENERIC_TIMEZONE = "Asia/Jakarta";
+    };
+  };
+
+  # Ensure n8n data directory exists
+  systemd.tmpfiles.rules = [
+    "d /var/lib/n8n 0755 root root -"
+  ];
+
+  # n8n nginx reverse proxy
+  services.nginx.virtualHosts."n8n.msdqn.dev" = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:5678";
+      proxyWebsockets = true;
+      extraConfig = ''
+        proxy_buffering off;
+        proxy_cache off;
+        chunked_transfer_encoding off;
+      '';
+    };
+  };
 }
