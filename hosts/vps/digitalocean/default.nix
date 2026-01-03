@@ -1,4 +1,4 @@
-# VPS host configuration
+# DigitalOcean Droplet configuration
 {
   config,
   lib,
@@ -11,12 +11,15 @@
   imports = [
     ./hardware.nix
     ./disk-config.nix
-    ../../profiles/server.nix
+    ../../../profiles/server.nix
   ];
 
-  networking.hostName = "vps";
+  networking.hostName = "droplet"; # Change this per droplet
 
-  # Ensure SSH keys are configured for nixos-anywhere
+  # DigitalOcean uses DHCP
+  networking.useDHCP = true;
+
+  # Ensure SSH keys are configured
   users.users.root.openssh.authorizedKeys.keys = sshKeys;
   users.users.${username}.openssh.authorizedKeys.keys = sshKeys;
 }
