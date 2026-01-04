@@ -1,4 +1,4 @@
-{ hostname, ipAddress, gateway, acmeEmail, ... }:
+{ hostname, ipAddress, gateway, acmeEmail, pkgs, ... }:
 {
   imports = [
     ./hardware.nix
@@ -86,13 +86,76 @@
         "--pid=host"
       ];
     };
+
+    glitchtip-postgres = {
+      image = "postgres:15-alpine";
+      volumes = [ "/var/lib/glitchtip/postgres:/var/lib/postgresql/data" ];
+      environment = {
+        POSTGRES_USER = "glitchtip";
+        POSTGRES_PASSWORD = "glitchtip";
+        POSTGRES_DB = "glitchtip";
+      };
+      extraOptions = [ "--network=glitchtip-net" ];
+    };
+
+    glitchtip-redis = {
+      image = "redis:7-alpine";
+      extraOptions = [ "--network=glitchtip-net" ];
+    };
+
+    glitchtip-web = {
+      image = "glitchtip/glitchtip:latest";
+      ports = [ "8000:8000" ];
+      dependsOn = [ "glitchtip-postgres" "glitchtip-redis" ];
+      environment = {
+        DATABASE_URL = "postgresql://glitchtip:glitchtip@glitchtip-postgres:5432/glitchtip";
+        REDIS_URL = "redis://glitchtip-redis:6379/0";
+        SECRET_KEY = "3f51ce2a9089402f13fb408f78002872ffeb4a2518fb397641e5938209def47b";
+        PORT = "8000";
+        GLITCHTIP_DOMAIN = "https://glitchtip.msdqn.dev";
+        DEFAULT_FROM_EMAIL = "noreply@msdqn.dev";
+        CELERY_WORKER_AUTOSCALE = "1,3";
+        CELERY_WORKER_MAX_TASKS_PER_CHILD = "10000";
+      };
+      extraOptions = [ "--network=glitchtip-net" ];
+    };
+
+    glitchtip-worker = {
+      image = "glitchtip/glitchtip:latest";
+      dependsOn = [ "glitchtip-postgres" "glitchtip-redis" ];
+      cmd = [ "./bin/run-celery-with-beat.sh" ];
+      environment = {
+        DATABASE_URL = "postgresql://glitchtip:glitchtip@glitchtip-postgres:5432/glitchtip";
+        REDIS_URL = "redis://glitchtip-redis:6379/0";
+        SECRET_KEY = "3f51ce2a9089402f13fb408f78002872ffeb4a2518fb397641e5938209def47b";
+        GLITCHTIP_DOMAIN = "https://glitchtip.msdqn.dev";
+        DEFAULT_FROM_EMAIL = "noreply@msdqn.dev";
+        CELERY_WORKER_AUTOSCALE = "1,3";
+        CELERY_WORKER_MAX_TASKS_PER_CHILD = "10000";
+      };
+      extraOptions = [ "--network=glitchtip-net" ];
+    };
   };
 
   systemd.tmpfiles.rules = [
     "d /var/lib/n8n 0755 1000 1000 -"
     "d /var/lib/uptime-kuma 0755 root root -"
     "d /var/lib/netdata-config 0755 root root -"
+    "d /var/lib/glitchtip 0755 root root -"
+    "d /var/lib/glitchtip/postgres 0755 999 999 -"
   ];
+
+  systemd.services.glitchtip-network = {
+    description = "Create Glitchtip podman network";
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    before = [ "podman-glitchtip-postgres.service" "podman-glitchtip-redis.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.podman}/bin/podman network create glitchtip-net --ignore";
+    };
+  };
 
   services.nginx.virtualHosts."n8n.msdqn.dev" = {
     enableACME = true;
@@ -130,5 +193,14 @@
     enableACME = true;
     forceSSL = true;
     globalRedirect = "msdqn.dev";
+  };
+
+  services.nginx.virtualHosts."glitchtip.msdqn.dev" = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:8000";
+      proxyWebsockets = true;
+    };
   };
 }
