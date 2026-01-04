@@ -30,11 +30,6 @@
           proxy_set_header X-Forwarded-Proto $scheme;
           proxy_set_header X-NginX-Proxy true;
 
-          # Websocket support
-          proxy_http_version 1.1;
-          proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection "upgrade";
-
           proxy_connect_timeout 300;
           proxy_read_timeout 300;
           proxy_send_timeout 300;
