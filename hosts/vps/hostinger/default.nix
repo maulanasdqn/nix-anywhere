@@ -59,7 +59,7 @@
     };
 
     netdata = {
-      image = "netdata/netdata:v1.47.5";
+      image = "netdata/netdata:v1.40.1";
       ports = [ "19999:19999" ];
       volumes = [
         "/var/lib/netdata-config/netdata.conf:/etc/netdata/netdata.conf:ro"
