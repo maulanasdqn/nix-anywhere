@@ -57,8 +57,8 @@
       RemainAfterExit = true;
       ExecStart = toString (pkgs.writeShellScript "copy-mail-certs" ''
         mkdir -p /var/lib/mailserver/ssl
-        cp /var/lib/acme/mail.msdqn.dev/fullchain.pem /var/lib/mailserver/ssl/
-        cp /var/lib/acme/mail.msdqn.dev/privkey.pem /var/lib/mailserver/ssl/
+        cp /var/lib/acme/mail.msdqn.dev/fullchain.pem /var/lib/mailserver/ssl/fullchain.pem
+        cp /var/lib/acme/mail.msdqn.dev/key.pem /var/lib/mailserver/ssl/privkey.pem
         chmod 644 /var/lib/mailserver/ssl/*.pem
       '');
     };
