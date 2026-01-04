@@ -62,7 +62,7 @@
       image = "netdata/netdata:stable";
       ports = [ "19999:19999" ];
       volumes = [
-        "netdataconfig:/etc/netdata"
+        "/var/lib/netdata-config/netdata.conf:/etc/netdata/netdata.conf:ro"
         "netdatalib:/var/lib/netdata"
         "netdatacache:/var/cache/netdata"
         "/:/host/root:ro,rslave"
@@ -91,6 +91,7 @@
   systemd.tmpfiles.rules = [
     "d /var/lib/n8n 0755 1000 1000 -"
     "d /var/lib/uptime-kuma 0755 root root -"
+    "d /var/lib/netdata-config 0755 root root -"
   ];
 
   services.nginx.virtualHosts."n8n.msdqn.dev" = {
