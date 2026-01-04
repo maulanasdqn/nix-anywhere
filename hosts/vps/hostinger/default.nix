@@ -108,4 +108,10 @@
       proxyWebsockets = true;
     };
   };
+
+  services.nginx.virtualHosts."www.msdqn.dev" = {
+    enableACME = true;
+    forceSSL = true;
+    globalRedirect = "msdqn.dev";
+  };
 }
