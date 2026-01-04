@@ -10,6 +10,18 @@
     ./base.nix
   ];
 
+  # Cachix binary cache
+  nix.settings = {
+    substituters = [
+      "https://cache.nixos.org"
+      "https://msdqn.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "msdqn.cachix.org-1:I5z8egjNf2iKYLwLGF2REfpELlFoUdaSLsh7dQk1a+o="
+    ];
+  };
+
   time.timeZone = lib.mkForce "UTC";
 
   users.users.${username}.extraGroups = [
@@ -147,6 +159,7 @@
     nodejs_22
     nodePackages.npm
     neofetch
+    cachix
   ];
 
 }
