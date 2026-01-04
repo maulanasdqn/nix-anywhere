@@ -24,6 +24,24 @@
       locations."/" = {
         proxyPass = "http://127.0.0.1:9003";
         proxyWebsockets = true;
+        extraConfig = ''
+          proxy_set_header Host $http_host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_set_header X-NginX-Proxy true;
+
+          # Websocket support
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+
+          proxy_connect_timeout 300;
+          proxy_read_timeout 300;
+          proxy_send_timeout 300;
+
+          chunked_transfer_encoding off;
+        '';
       };
     };
 
@@ -34,15 +52,20 @@
       locations."/" = {
         proxyPass = "http://127.0.0.1:9002";
         extraConfig = ''
-          proxy_set_header Host $host;
+          proxy_set_header Host $http_host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_set_header X-NginX-Proxy true;
+
+          proxy_connect_timeout 300;
+          proxy_http_version 1.1;
 
           # Required for large file uploads
           client_max_body_size 0;
           proxy_buffering off;
           proxy_request_buffering off;
+          chunked_transfer_encoding off;
         '';
       };
     };
