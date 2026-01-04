@@ -11,6 +11,7 @@
     ./services/glitchtip.nix
     ./services/mailserver.nix
     ./services/roundcube.nix
+    ./services/minio.nix
   ];
 
   services.nixos-git-sync = {
