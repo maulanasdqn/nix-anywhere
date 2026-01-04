@@ -328,11 +328,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1767536792,
-        "narHash": "sha256-UH+6qugEcSfK985vSab9cEH3sJ1UUoMlDKz/l2NGOV4=",
+        "lastModified": 1767537028,
+        "narHash": "sha256-VJDmbMrIWU1XSDjbG0EDmLNyrdPCWHZfpg5X5V8Dp5A=",
         "owner": "maulanasdqn",
         "repo": "rust-backend-best-practice",
-        "rev": "53d8abc41e132bda56c8d5352fda1c56e16841f6",
+        "rev": "0cf7878d51bca2b899c6b391a6679c1265150928",
         "type": "github"
       },
       "original": {
