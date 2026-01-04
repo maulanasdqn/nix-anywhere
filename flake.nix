@@ -51,6 +51,11 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    personal-website = {
+      url = "github:maulanasdqn/personal-website/develop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -66,6 +71,7 @@
       homebrew-core,
       homebrew-cask,
       disko,
+      personal-website,
       ...
     }:
     let
@@ -194,6 +200,7 @@
         specialArgs = hostingerSpecialArgs;
         modules = [
           disko.nixosModules.disko
+          personal-website.nixosModules.default
           ./hosts/vps/hostinger
           home-manager.nixosModules.home-manager
           {
