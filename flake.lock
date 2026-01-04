@@ -617,11 +617,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1767504295,
-        "narHash": "sha256-CEgYx64bUWZ6icVIsARF2mr2h0UKB/jPybnOcuceURI=",
+        "lastModified": 1767505231,
+        "narHash": "sha256-sf6pNeRttN0gluf+PZZQ6/Ug/yabnsLgUUKqDkqfPSs=",
         "owner": "maulanasdqn",
         "repo": "personal-website",
-        "rev": "f3758e3c266bb019916d8600920825730b108a46",
+        "rev": "ed2bd6f74faa9cfb98d3317fc54c0fd76a38bcd8",
         "type": "github"
       },
       "original": {
