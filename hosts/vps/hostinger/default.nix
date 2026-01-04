@@ -76,8 +76,8 @@
         "/var/run/docker.sock:/var/run/docker.sock:ro"
       ];
       environment = {
-        NETDATA_CLAIM_TOKEN = "";
-        NETDATA_CLAIM_ROOMS = "";
+        DO_NOT_TRACK = "1";
+        NETDATA_DISABLE_CLOUD = "1";
       };
       extraOptions = [
         "--cap-add=SYS_PTRACE"
