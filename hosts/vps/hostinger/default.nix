@@ -57,18 +57,34 @@
       ports = [ "3001:3001" ];
       volumes = [ "/var/lib/uptime-kuma:/app/data" ];
     };
-  };
 
-  services.netdata = {
-    enable = true;
-    config = {
-      global = {
-        "memory mode" = "ram";
-        "update every" = 5;
+    netdata = {
+      image = "netdata/netdata:stable";
+      ports = [ "19999:19999" ];
+      volumes = [
+        "netdataconfig:/etc/netdata"
+        "netdatalib:/var/lib/netdata"
+        "netdatacache:/var/cache/netdata"
+        "/:/host/root:ro,rslave"
+        "/etc/passwd:/host/etc/passwd:ro"
+        "/etc/group:/host/etc/group:ro"
+        "/etc/localtime:/etc/localtime:ro"
+        "/proc:/host/proc:ro"
+        "/sys:/host/sys:ro"
+        "/etc/os-release:/host/etc/os-release:ro"
+        "/var/log:/host/var/log:ro"
+        "/var/run/docker.sock:/var/run/docker.sock:ro"
+      ];
+      environment = {
+        NETDATA_CLAIM_TOKEN = "";
+        NETDATA_CLAIM_ROOMS = "";
       };
-      web = {
-        "bind to" = "127.0.0.1";
-      };
+      extraOptions = [
+        "--cap-add=SYS_PTRACE"
+        "--cap-add=SYS_ADMIN"
+        "--security-opt=apparmor=unconfined"
+        "--pid=host"
+      ];
     };
   };
 
