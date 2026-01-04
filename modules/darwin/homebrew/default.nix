@@ -20,6 +20,7 @@
       "discord"
       "raycast"
       "shottr"
+      "figma"
     ];
   };
 }
