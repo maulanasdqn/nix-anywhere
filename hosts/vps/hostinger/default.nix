@@ -38,20 +38,44 @@
     };
   };
 
-  virtualisation.oci-containers.containers.n8n = {
-    image = "n8nio/n8n:latest";
-    ports = [ "5678:5678" ];
-    volumes = [ "/var/lib/n8n:/home/node/.n8n" ];
-    environment = {
-      N8N_HOST = "n8n.msdqn.dev";
-      N8N_PORT = "5678";
-      N8N_PROTOCOL = "https";
-      WEBHOOK_URL = "https://n8n.msdqn.dev/";
-      GENERIC_TIMEZONE = "Asia/Jakarta";
+  virtualisation.oci-containers.containers = {
+    n8n = {
+      image = "n8nio/n8n:latest";
+      ports = [ "5678:5678" ];
+      volumes = [ "/var/lib/n8n:/home/node/.n8n" ];
+      environment = {
+        N8N_HOST = "n8n.msdqn.dev";
+        N8N_PORT = "5678";
+        N8N_PROTOCOL = "https";
+        WEBHOOK_URL = "https://n8n.msdqn.dev/";
+        GENERIC_TIMEZONE = "Asia/Jakarta";
+      };
+    };
+
+    uptime-kuma = {
+      image = "louislam/uptime-kuma:1";
+      ports = [ "3001:3001" ];
+      volumes = [ "/var/lib/uptime-kuma:/app/data" ];
     };
   };
 
-  systemd.tmpfiles.rules = [ "d /var/lib/n8n 0755 1000 1000 -" ];
+  services.netdata = {
+    enable = true;
+    config = {
+      global = {
+        "memory mode" = "ram";
+        "update every" = 5;
+      };
+      web = {
+        "bind to" = "127.0.0.1";
+      };
+    };
+  };
+
+  systemd.tmpfiles.rules = [
+    "d /var/lib/n8n 0755 1000 1000 -"
+    "d /var/lib/uptime-kuma 0755 root root -"
+  ];
 
   services.nginx.virtualHosts."n8n.msdqn.dev" = {
     enableACME = true;
@@ -64,6 +88,24 @@
         proxy_cache off;
         chunked_transfer_encoding off;
       '';
+    };
+  };
+
+  services.nginx.virtualHosts."uptime.msdqn.dev" = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:3001";
+      proxyWebsockets = true;
+    };
+  };
+
+  services.nginx.virtualHosts."netdata.msdqn.dev" = {
+    enableACME = true;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:19999";
+      proxyWebsockets = true;
     };
   };
 }
