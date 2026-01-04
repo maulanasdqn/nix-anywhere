@@ -1,10 +1,11 @@
-{ hostname, ipAddress, gateway, acmeEmail, ... }:
+{ hostname, ipAddress, gateway, ... }:
 {
   imports = [
     ./hardware.nix
     ./disk-config.nix
     ../../../profiles/server.nix
     ../../../modules/nixos/git-sync.nix
+    ./services/personal-website.nix
     ./services/n8n.nix
     ./services/uptime-kuma.nix
     ./services/netdata.nix
@@ -30,24 +31,5 @@
     ];
     defaultGateway = gateway;
     nameservers = [ "8.8.8.8" "1.1.1.1" ];
-  };
-
-  services.personal-website = {
-    enable = true;
-    port = 4321;
-    host = "127.0.0.1";
-    environmentFile = "/etc/personal-website.env";
-    nginx = {
-      enable = true;
-      domain = "msdqn.dev";
-      enableSSL = true;
-      acmeEmail = acmeEmail;
-    };
-  };
-
-  services.nginx.virtualHosts."www.msdqn.dev" = {
-    enableACME = true;
-    forceSSL = true;
-    globalRedirect = "msdqn.dev";
   };
 }
