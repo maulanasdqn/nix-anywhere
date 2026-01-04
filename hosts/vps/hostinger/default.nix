@@ -13,6 +13,7 @@
     ./services/mailserver.nix
     ./services/roundcube.nix
     ./services/minio.nix
+    ./services/fta-server.nix
   ];
 
   services.nixos-git-sync = {

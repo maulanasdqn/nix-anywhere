@@ -56,6 +56,11 @@
       url = "github:maulanasdqn/personal-website/develop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    fta-server = {
+      url = "github:maulanasdqn/rust-backend-best-practice/develop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -72,6 +77,7 @@
       homebrew-cask,
       disko,
       personal-website,
+      fta-server,
       ...
     }:
     let
@@ -201,6 +207,7 @@
         modules = [
           disko.nixosModules.disko
           personal-website.nixosModules.default
+          fta-server.nixosModules.default
           ./hosts/vps/hostinger
           home-manager.nixosModules.home-manager
           {
