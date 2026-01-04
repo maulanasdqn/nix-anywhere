@@ -15,6 +15,17 @@ My personal unified Nix configuration for both **NixOS** and **macOS** (nix-darw
 │   ├── workstation/                # NixOS workstation config
 │   └── vps/                        # VPS configurations (nixos-anywhere)
 │       ├── hostinger/              # Hostinger VPS (static IP, BIOS)
+│       │   ├── default.nix
+│       │   ├── hardware.nix
+│       │   ├── disk-config.nix
+│       │   └── services/           # Self-hosted services
+│       │       ├── n8n.nix
+│       │       ├── uptime-kuma.nix
+│       │       ├── netdata.nix
+│       │       ├── glitchtip.nix
+│       │       ├── mailserver.nix
+│       │       ├── roundcube.nix
+│       │       └── minio.nix
 │       └── digitalocean/           # DigitalOcean Droplet (DHCP, hybrid boot)
 ├── profiles/
 │   ├── base.nix                    # Base profile for all systems
@@ -169,6 +180,73 @@ nix run github:nix-community/nixos-anywhere -- \
 | DigitalOcean | Hybrid BIOS/EFI | `/dev/vda` | DHCP | Latest |
 
 **Note:** Configure your VPS settings in `config.nix` before deployment.
+
+### VPS Services (Hostinger)
+
+The Hostinger VPS includes the following self-hosted services:
+
+| Service | Description | URL Pattern |
+|---------|-------------|-------------|
+| **Personal Website** | Astro SSR application | `yourdomain.com` |
+| **n8n** | Workflow automation | `n8n.yourdomain.com` |
+| **Uptime Kuma** | Uptime monitoring | `uptime.yourdomain.com` |
+| **Netdata** | System monitoring | `netdata.yourdomain.com` |
+| **Glitchtip** | Error tracking (Sentry alternative) | `glitchtip.yourdomain.com` |
+| **Mail Server** | Full email server (docker-mailserver) | `mail.yourdomain.com` |
+| **Roundcube** | Webmail client | `webmail.yourdomain.com` |
+| **Minio** | S3-compatible object storage | `minio.yourdomain.com` / `s3.yourdomain.com` |
+
+#### Required Environment Files
+
+Each service requires environment files with secrets. Create these on the VPS before deployment:
+
+```bash
+# Glitchtip
+/etc/glitchtip.env          # DATABASE_URL, SECRET_KEY, REDIS_URL, etc.
+/etc/glitchtip-postgres.env # POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB
+
+# Mail Server
+/etc/mailserver.env         # SSL_TYPE, SSL_CERT_PATH, SSL_KEY_PATH, etc.
+
+# Roundcube
+/etc/roundcube.env          # ROUNDCUBEMAIL_DB_*, etc.
+/etc/roundcube-db.env       # POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB
+
+# Minio
+/etc/minio.env              # MINIO_ROOT_USER, MINIO_ROOT_PASSWORD, etc.
+
+# Personal Website
+/etc/personal-website.env   # SENTRY_DSN, etc.
+```
+
+#### Required DNS Records
+
+For the mail server to work properly, add these DNS records:
+
+| Type | Name | Value |
+|------|------|-------|
+| A | `mail` | `<VPS_IP>` (DNS only, no proxy) |
+| A | `minio` | `<VPS_IP>` |
+| A | `s3` | `<VPS_IP>` |
+| MX | `@` | `mail.yourdomain.com` (priority 10) |
+| TXT | `@` | `v=spf1 mx a:mail.yourdomain.com ~all` |
+| TXT | `mail._domainkey` | `<DKIM_KEY>` |
+| TXT | `_dmarc` | `v=DMARC1; p=quarantine; rua=mailto:postmaster@yourdomain.com` |
+
+**Important:** Set the PTR (reverse DNS) record for your VPS IP to `mail.yourdomain.com` in your VPS provider's control panel.
+
+#### Managing Email Accounts
+
+```bash
+# Add email account
+ssh root@<VPS_IP> "podman exec -it mailserver setup email add user@yourdomain.com"
+
+# List email accounts
+ssh root@<VPS_IP> "podman exec mailserver setup email list"
+
+# Generate DKIM key
+ssh root@<VPS_IP> "podman exec mailserver setup config dkim"
+```
 
 ### VPS Git Sync
 
