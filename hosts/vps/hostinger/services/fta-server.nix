@@ -7,7 +7,7 @@
     environmentFile = "/etc/fta-server.env";
     nginx = {
       enable = true;
-      domain = "api.fta.msdqn.dev";
+      domain = "api-fta.msdqn.dev";
       enableSSL = true;
       acmeEmail = acmeEmail;
     };
