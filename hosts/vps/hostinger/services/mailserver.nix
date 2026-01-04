@@ -39,7 +39,6 @@
   services.nginx.virtualHosts."mail.msdqn.dev" = {
     enableACME = true;
     forceSSL = true;
-    acmeRoot = null;
     locations."/" = {
       return = "200 'Mail server running'";
       extraConfig = ''
