@@ -14,6 +14,10 @@
     ./services/roundcube.nix
     ./services/minio.nix
     ./services/fta-server.nix
+    # BSM Test Services
+    ./services/bsmart-landing.nix
+    ./services/echo.nix
+    ./services/ydm.nix
   ];
 
   services.nixos-git-sync = {

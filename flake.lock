@@ -17,6 +17,27 @@
         "type": "github"
       }
     },
+    "bsmart-landing": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1767597992,
+        "narHash": "sha256-5vuJ1IIBfyfh59ra/HqzHgaWFvK1wgvflTIjq87rZ+8=",
+        "ref": "develop",
+        "rev": "be7ccda2a17bb21277a25c48feccc34793a96008",
+        "revCount": 121,
+        "type": "git",
+        "url": "ssh://git@gitlab.com/mrzte/bsmart-landing.git"
+      },
+      "original": {
+        "ref": "develop",
+        "type": "git",
+        "url": "ssh://git@gitlab.com/mrzte/bsmart-landing.git"
+      }
+    },
     "cachix": {
       "inputs": {
         "devenv": [
@@ -51,6 +72,36 @@
       }
     },
     "crane": {
+      "locked": {
+        "lastModified": 1767461147,
+        "narHash": "sha256-TH/xTeq/RI+DOzo+c+4F431eVuBpYVwQwBxzURe7kcI=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "7d59256814085fd9666a2ae3e774dc5ee216b630",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
+    "crane_2": {
+      "locked": {
+        "lastModified": 1767461147,
+        "narHash": "sha256-TH/xTeq/RI+DOzo+c+4F431eVuBpYVwQwBxzURe7kcI=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "7d59256814085fd9666a2ae3e774dc5ee216b630",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
+    "crane_3": {
       "locked": {
         "lastModified": 1767461147,
         "narHash": "sha256-TH/xTeq/RI+DOzo+c+4F431eVuBpYVwQwBxzURe7kcI=",
@@ -167,6 +218,50 @@
         "owner": "nix-community",
         "repo": "disko",
         "type": "github"
+      }
+    },
+    "echo-backend": {
+      "inputs": {
+        "crane": "crane",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1767599069,
+        "narHash": "sha256-5ReRuz7/k+z7NTVsbDGhwpXbcXyZKDh+uh3I31LpIZQ=",
+        "ref": "develop",
+        "rev": "e032687fbfbaecd4eb0aeb9089afdc27ea5b0224",
+        "revCount": 94,
+        "type": "git",
+        "url": "ssh://git@gitlab.com/mrzte/echo-backend.git"
+      },
+      "original": {
+        "ref": "develop",
+        "type": "git",
+        "url": "ssh://git@gitlab.com/mrzte/echo-backend.git"
+      }
+    },
+    "echo-frontend": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1767597984,
+        "narHash": "sha256-cdhaO798Y2n2SpehdC+Ol2pybKGUHvrBAFqJ1ITYyJE=",
+        "ref": "develop",
+        "rev": "875269216b173c95130aed495553521cfef53278",
+        "revCount": 158,
+        "type": "git",
+        "url": "ssh://git@gitlab.com/mrzte/echo-frontend.git"
+      },
+      "original": {
+        "ref": "develop",
+        "type": "git",
+        "url": "ssh://git@gitlab.com/mrzte/echo-frontend.git"
       }
     },
     "flake-compat": {
@@ -320,12 +415,12 @@
     },
     "fta-server": {
       "inputs": {
-        "crane": "crane",
+        "crane": "crane_2",
         "flake-utils": "flake-utils",
         "nixpkgs": [
           "nixpkgs"
         ],
-        "rust-overlay": "rust-overlay"
+        "rust-overlay": "rust-overlay_2"
       },
       "locked": {
         "lastModified": 1767543012,
@@ -690,9 +785,12 @@
     },
     "root": {
       "inputs": {
+        "bsmart-landing": "bsmart-landing",
         "determinate": "determinate",
         "devenv": "devenv",
         "disko": "disko",
+        "echo-backend": "echo-backend",
+        "echo-frontend": "echo-frontend",
         "flake-parts": "flake-parts_3",
         "fta-server": "fta-server",
         "home-manager": "home-manager",
@@ -703,10 +801,33 @@
         "nixpkgs": "nixpkgs_2",
         "nixvim": "nixvim",
         "personal-website": "personal-website",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "ydm-backend": "ydm-backend",
+        "ydm-frontend": "ydm-frontend"
       }
     },
     "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "echo-backend",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1767581716,
+        "narHash": "sha256-FUbiUzdrGkLou37OGfb4vCLPnqdSIvtmJBxjh2iljiE=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "1d3f83babdd21e16bf5cfe0f1efcb4f49ee1bc2c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_2": {
       "inputs": {
         "nixpkgs": [
           "fta-server",
@@ -719,6 +840,27 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "rev": "cb24c5cc207ba8e9a4ce245eedd2d37c3a988bc1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_3": {
+      "inputs": {
+        "nixpkgs": [
+          "ydm-backend",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1767581716,
+        "narHash": "sha256-FUbiUzdrGkLou37OGfb4vCLPnqdSIvtmJBxjh2iljiE=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "1d3f83babdd21e16bf5cfe0f1efcb4f49ee1bc2c",
         "type": "github"
       },
       "original": {
@@ -790,6 +932,50 @@
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
+      }
+    },
+    "ydm-backend": {
+      "inputs": {
+        "crane": "crane_3",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay_3"
+      },
+      "locked": {
+        "lastModified": 1767597888,
+        "narHash": "sha256-k1UprTXmN39ZkhXQOI77kX8dMepDc18FxA1pkteSOFI=",
+        "ref": "develop",
+        "rev": "cb48dd4de4ebaee2c04e37e393d36ec456005ab5",
+        "revCount": 101,
+        "type": "git",
+        "url": "ssh://git@gitlab.com/mrzte/yes-date-me-backend.git"
+      },
+      "original": {
+        "ref": "develop",
+        "type": "git",
+        "url": "ssh://git@gitlab.com/mrzte/yes-date-me-backend.git"
+      }
+    },
+    "ydm-frontend": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1767597980,
+        "narHash": "sha256-BH9R4pYbxxfK/sZ0Elkzw0Dvljrt+r0ZXCuvnVQ0MRs=",
+        "ref": "beta",
+        "rev": "eb2413bcf4298636a986b69d9ffe14a430e506cb",
+        "revCount": 261,
+        "type": "git",
+        "url": "ssh://git@gitlab.com/mrzte/yes-date-me-frontend.git"
+      },
+      "original": {
+        "ref": "beta",
+        "type": "git",
+        "url": "ssh://git@gitlab.com/mrzte/yes-date-me-frontend.git"
       }
     }
   },

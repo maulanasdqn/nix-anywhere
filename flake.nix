@@ -61,6 +61,32 @@
       url = "github:maulanasdqn/rust-backend-best-practice/develop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # BSM Projects for testing
+    bsmart-landing = {
+      url = "git+ssh://git@gitlab.com/mrzte/bsmart-landing.git?ref=develop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    echo-frontend = {
+      url = "git+ssh://git@gitlab.com/mrzte/echo-frontend.git?ref=develop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    echo-backend = {
+      url = "git+ssh://git@gitlab.com/mrzte/echo-backend.git?ref=develop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    ydm-frontend = {
+      url = "git+ssh://git@gitlab.com/mrzte/yes-date-me-frontend.git?ref=beta";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    ydm-backend = {
+      url = "git+ssh://git@gitlab.com/mrzte/yes-date-me-backend.git?ref=develop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -78,6 +104,11 @@
       disko,
       personal-website,
       fta-server,
+      bsmart-landing,
+      echo-frontend,
+      echo-backend,
+      ydm-frontend,
+      ydm-backend,
       ...
     }:
     let
@@ -208,6 +239,12 @@
           disko.nixosModules.disko
           personal-website.nixosModules.default
           fta-server.nixosModules.default
+          # BSM Projects
+          bsmart-landing.nixosModules.default
+          echo-frontend.nixosModules.default
+          echo-backend.nixosModules.default
+          ydm-frontend.nixosModules.default
+          ydm-backend.nixosModules.default
           ./hosts/vps/hostinger
           home-manager.nixosModules.home-manager
           {
