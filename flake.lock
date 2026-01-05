@@ -943,11 +943,11 @@
         "rust-overlay": "rust-overlay_3"
       },
       "locked": {
-        "lastModified": 1767597888,
-        "narHash": "sha256-k1UprTXmN39ZkhXQOI77kX8dMepDc18FxA1pkteSOFI=",
+        "lastModified": 1767630031,
+        "narHash": "sha256-fCmAbtRqTX6j/6P3g0JyKsd9rf5CNPhEOOX2OaPTsKE=",
         "ref": "develop",
-        "rev": "cb48dd4de4ebaee2c04e37e393d36ec456005ab5",
-        "revCount": 101,
+        "rev": "d407d48772b5b01713ded51679ec3a32ff899e0d",
+        "revCount": 102,
         "type": "git",
         "url": "ssh://git@gitlab.com/mrzte/yes-date-me-backend.git"
       },
