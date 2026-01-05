@@ -229,11 +229,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1767616534,
-        "narHash": "sha256-ZZqgs2G+wWAjru9du99YT7w3ikEW8SmBfZAyJQ69MJQ=",
+        "lastModified": 1767629716,
+        "narHash": "sha256-LQpsO60rVhFetiQwxccqaB5kTBTP6n9JZnwZQXoysC4=",
         "ref": "develop",
-        "rev": "f14a7fa46e6b931c22e2f0e2b927486b9c5d851d",
-        "revCount": 99,
+        "rev": "876262afa256fc84828152b7faa8ea96b26c07a9",
+        "revCount": 103,
         "type": "git",
         "url": "ssh://git@gitlab.com/mrzte/echo-backend.git"
       },
