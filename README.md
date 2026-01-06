@@ -8,8 +8,8 @@ My personal unified Nix configuration for both **NixOS** and **macOS** (nix-darw
 .
 ├── flake.nix                       # Main entry point
 ├── flake.lock
-├── config.nix                      # User configuration
-├── config.example.nix              # Example configuration
+├── config.nix                      # User configuration (gitignored, local only)
+├── config.example.nix              # Example configuration (copy to config.nix)
 ├── .envrc                          # Direnv integration
 ├── hosts/
 │   ├── workstation/                # NixOS workstation config
@@ -172,6 +172,27 @@ nix run github:nix-community/nixos-anywhere -- \
   --flake .#digitalocean --build-on remote root@<VPS_IP>
 ```
 
+#### Using Cachix for Faster Deployments
+
+Pre-built binaries are available on Cachix. For faster fresh VPS deployments:
+
+```bash
+# Deploy with Cachix substituter (skips building Rust/Node apps from scratch)
+nix run github:nix-community/nixos-anywhere -- \
+  --flake .#hostinger --build-on remote \
+  --env 'NIX_CONFIG=extra-substituters = https://msdqn.cachix.org; extra-trusted-public-keys = msdqn.cachix.org-1:ZXbpVr3DqsceNIVLZEfXdXlnPOPxak/PKztmFXBqnfI=' \
+  root@<VPS_IP>
+```
+
+#### Build Here, Deploy There
+
+Since local Mac (aarch64-darwin) can't cross-compile to VPS (x86_64-linux), use an existing VPS as remote builder:
+
+```bash
+# Build on VPS and deploy to another VPS
+ssh root@<BUILD_VPS_IP> "nixos-rebuild switch --flake /etc/nixos#<TARGET_CONFIG> --target-host root@<TARGET_VPS_IP>"
+```
+
 **VPS Provider Configurations:**
 
 | Provider | Boot Mode | Disk Device | Network | Kernel |
@@ -179,7 +200,25 @@ nix run github:nix-community/nixos-anywhere -- \
 | Hostinger | BIOS (GRUB) | `/dev/sda` | Static IP | LTS 6.6 |
 | DigitalOcean | Hybrid BIOS/EFI | `/dev/vda` | DHCP | Latest |
 
-**Note:** Configure your VPS settings in `config.nix` before deployment.
+**Note:** Configure your VPS settings in `config.nix` before deployment. The file is gitignored - copy from `config.example.nix`.
+
+### Pre-built Packages on Cachix
+
+The following heavy packages are pre-built and available on `msdqn.cachix.org`:
+
+| Package | Description | Size |
+|---------|-------------|------|
+| **ydm-api** | YDM API Gateway (Rust) | ~45 MiB |
+| **ydm-auth-server** | YDM Auth gRPC Service (Rust) | ~50 MiB |
+| **ydm-companions-server** | YDM Companions gRPC (Rust) | ~13 MiB |
+| **ydm-conversations-server** | YDM Conversations gRPC (Rust) | ~15 MiB |
+| **ydm-subscriptions-server** | YDM Subscriptions gRPC (Rust) | ~14 MiB |
+| **ydm-storage-server** | YDM Storage gRPC (Rust) | ~18 MiB |
+| **ydm-voice-server** | YDM Voice gRPC (Rust) | ~7 MiB |
+| **ydm-frontend** | YDM Frontend (Next.js) | ~164 MiB |
+| **echo-backend** | Echo Backend API (Rust) | ~64 MiB |
+| **bundle-social-service** | Bundle Social (NestJS) | ~100 MiB |
+| **bsmart-landing** | BSmart Landing (Next.js) | ~37 MiB |
 
 ### VPS Services (Hostinger)
 
