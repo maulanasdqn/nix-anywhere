@@ -103,6 +103,21 @@
     },
     "crane_3": {
       "locked": {
+        "lastModified": 1767744144,
+        "narHash": "sha256-9/9ntI0D+HbN4G0TrK3KmHbTvwgswz7p8IEJsWyef8Q=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "2fb033290bf6b23f226d4c8b32f7f7a16b043d7e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
+    "crane_4": {
+      "locked": {
         "lastModified": 1767461147,
         "narHash": "sha256-TH/xTeq/RI+DOzo+c+4F431eVuBpYVwQwBxzURe7kcI=",
         "owner": "ipetkov",
@@ -563,6 +578,29 @@
         "type": "github"
       }
     },
+    "hpyd": {
+      "inputs": {
+        "crane": "crane_3",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay_3"
+      },
+      "locked": {
+        "lastModified": 1767771003,
+        "narHash": "sha256-Gw+KzEbcRo7VN25aqbkpYldJqDJhrPyA515nOkpvLqE=",
+        "owner": "maulanasdqn",
+        "repo": "high-performance-youtube-downloader",
+        "rev": "92cad443c0a24b6f11015f5e92da91b7f7ab8b09",
+        "type": "github"
+      },
+      "original": {
+        "owner": "maulanasdqn",
+        "ref": "develop",
+        "repo": "high-performance-youtube-downloader",
+        "type": "github"
+      }
+    },
     "nix": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -796,6 +834,7 @@
         "home-manager": "home-manager",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "hpyd": "hpyd",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs_2",
@@ -849,6 +888,27 @@
       }
     },
     "rust-overlay_3": {
+      "inputs": {
+        "nixpkgs": [
+          "hpyd",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1767754000,
+        "narHash": "sha256-znoNJs2QZFl+wCFLd6FbUJ00c74kvzOjyQYXc45uFvo=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "0b3a5ad260479f2c9bdadf3ba5b2a4be359cfcdd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_4": {
       "inputs": {
         "nixpkgs": [
           "ydm-backend",
@@ -936,11 +996,11 @@
     },
     "ydm-backend": {
       "inputs": {
-        "crane": "crane_3",
+        "crane": "crane_4",
         "nixpkgs": [
           "nixpkgs"
         ],
-        "rust-overlay": "rust-overlay_3"
+        "rust-overlay": "rust-overlay_4"
       },
       "locked": {
         "lastModified": 1767639189,

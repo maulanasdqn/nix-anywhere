@@ -18,6 +18,7 @@
     ./services/bsmart-landing.nix
     ./services/echo.nix
     ./services/ydm.nix
+    ./services/hpyd.nix
   ];
 
   services.nixos-git-sync = {

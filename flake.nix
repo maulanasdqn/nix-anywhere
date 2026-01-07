@@ -62,6 +62,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hpyd = {
+      url = "github:maulanasdqn/high-performance-youtube-downloader/develop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # BSM Projects for testing
     bsmart-landing = {
       url = "git+ssh://git@gitlab.com/mrzte/bsmart-landing.git?ref=develop";
@@ -104,6 +109,7 @@
       disko,
       personal-website,
       fta-server,
+      hpyd,
       bsmart-landing,
       echo-frontend,
       echo-backend,
@@ -245,6 +251,7 @@
           echo-backend.nixosModules.default
           ydm-frontend.nixosModules.default
           ydm-backend.nixosModules.default
+          hpyd.nixosModules.default
           ./hosts/vps/hostinger
           home-manager.nixosModules.home-manager
           {
