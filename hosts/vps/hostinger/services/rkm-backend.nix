@@ -4,7 +4,7 @@
     enable = true;
     port = 3300;
     host = "127.0.0.1";
-    databaseUrl = "postgresql://rkm:rkm@localhost:5432/rkm_cms";
+    databaseUrl = "postgresql://rkm:rkm@localhost:5432/rkm";
     environmentFile = "/var/lib/rkm-backend/app.env";
     nginx = {
       enable = true;
