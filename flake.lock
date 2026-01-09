@@ -118,6 +118,21 @@
     },
     "crane_4": {
       "locked": {
+        "lastModified": 1767744144,
+        "narHash": "sha256-9/9ntI0D+HbN4G0TrK3KmHbTvwgswz7p8IEJsWyef8Q=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "2fb033290bf6b23f226d4c8b32f7f7a16b043d7e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
+    "crane_5": {
+      "locked": {
         "lastModified": 1767461147,
         "narHash": "sha256-TH/xTeq/RI+DOzo+c+4F431eVuBpYVwQwBxzURe7kcI=",
         "owner": "ipetkov",
@@ -821,6 +836,29 @@
         "type": "github"
       }
     },
+    "rkm-backend": {
+      "inputs": {
+        "crane": "crane_4",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay_4"
+      },
+      "locked": {
+        "lastModified": 1767978863,
+        "narHash": "sha256-a0Vj4e0QCwZ78q3VyjOcUPll989+SvrI4cDXEyE/jkI=",
+        "ref": "develop",
+        "rev": "5e0182212e3b33acdc8efd9c285e3743fb5d68e1",
+        "revCount": 3,
+        "type": "git",
+        "url": "ssh://git@github.com/rajawalikaryamulya/rkm-backend.git"
+      },
+      "original": {
+        "ref": "develop",
+        "type": "git",
+        "url": "ssh://git@github.com/rajawalikaryamulya/rkm-backend.git"
+      }
+    },
     "root": {
       "inputs": {
         "bsmart-landing": "bsmart-landing",
@@ -840,6 +878,7 @@
         "nixpkgs": "nixpkgs_2",
         "nixvim": "nixvim",
         "personal-website": "personal-website",
+        "rkm-backend": "rkm-backend",
         "sops-nix": "sops-nix",
         "ydm-backend": "ydm-backend",
         "ydm-frontend": "ydm-frontend"
@@ -909,6 +948,27 @@
       }
     },
     "rust-overlay_4": {
+      "inputs": {
+        "nixpkgs": [
+          "rkm-backend",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1767926800,
+        "narHash": "sha256-x0n73J6ufD/EhDlVdcoAmF0OQHZ+b0a2cKDc8RZyt+o=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "499e9eed88ff9494b6604205b42847e847dfeb91",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_5": {
       "inputs": {
         "nixpkgs": [
           "ydm-backend",
@@ -996,11 +1056,11 @@
     },
     "ydm-backend": {
       "inputs": {
-        "crane": "crane_4",
+        "crane": "crane_5",
         "nixpkgs": [
           "nixpkgs"
         ],
-        "rust-overlay": "rust-overlay_4"
+        "rust-overlay": "rust-overlay_5"
       },
       "locked": {
         "lastModified": 1767639189,

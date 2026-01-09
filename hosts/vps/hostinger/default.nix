@@ -19,6 +19,7 @@
     ./services/echo.nix
     ./services/ydm.nix
     ./services/hpyd.nix
+    ./services/rkm-backend.nix
   ];
 
   services.nixos-git-sync = {
