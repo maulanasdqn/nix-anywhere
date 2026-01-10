@@ -223,8 +223,6 @@
 
   # Disable unnecessary services
   services.xserver.enable = false;
-  sound.enable = false;
-  hardware.pulseaudio.enable = false;
 
   environment.systemPackages = with pkgs; [
     # System monitoring
