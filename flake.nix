@@ -71,6 +71,11 @@
       url = "git+ssh://git@github.com/rajawalikaryamulya/rkm-frontend.git?ref=develop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    rkm-admin-frontend = {
+      url = "git+ssh://git@github.com/rajawalikaryamulya/rkm-admin-frontend.git?ref=develop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -89,6 +94,7 @@
       hpyd,
       rkm-backend,
       rkm-frontend,
+      rkm-admin-frontend,
       ...
     }:
     let
@@ -221,6 +227,7 @@
           personal-website.nixosModules.default
           rkm-backend.nixosModules.default
           rkm-frontend.nixosModules.default
+          rkm-admin-frontend.nixosModules.default
           ./hosts/vps/hostinger
         ];
       };

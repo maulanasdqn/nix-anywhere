@@ -331,6 +331,24 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_3"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "git-hooks": {
       "inputs": {
         "flake-compat": [
@@ -727,6 +745,28 @@
         "type": "github"
       }
     },
+    "rkm-admin-frontend": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768074787,
+        "narHash": "sha256-zMq9sJuW/OHmIqueRKn5HZVqQMr37ewwkHijKre7I6I=",
+        "ref": "develop",
+        "rev": "b86665fa43ddc18456fb9a8f979b7f133ae2d2fb",
+        "revCount": 1,
+        "type": "git",
+        "url": "ssh://git@github.com/rajawalikaryamulya/rkm-admin-frontend.git"
+      },
+      "original": {
+        "ref": "develop",
+        "type": "git",
+        "url": "ssh://git@github.com/rajawalikaryamulya/rkm-admin-frontend.git"
+      }
+    },
     "rkm-backend": {
       "inputs": {
         "crane": "crane_2",
@@ -786,6 +826,7 @@
         "nixpkgs": "nixpkgs_2",
         "nixvim": "nixvim",
         "personal-website": "personal-website",
+        "rkm-admin-frontend": "rkm-admin-frontend",
         "rkm-backend": "rkm-backend",
         "rkm-frontend": "rkm-frontend",
         "sops-nix": "sops-nix"
@@ -869,6 +910,21 @@
       }
     },
     "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_3": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
