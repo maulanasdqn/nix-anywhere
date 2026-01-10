@@ -150,7 +150,7 @@
         ipAddress = config.vpsHostingerIP;
         gateway = config.vpsHostingerGateway;
         enableLaravel = false;
-        inherit nixvim sshKeys acmeEmail;
+        inherit nixvim sshKeys acmeEmail sops-nix secretsFile;
       };
 
       digitaloceanSpecialArgs = {

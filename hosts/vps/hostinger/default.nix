@@ -9,6 +9,7 @@
     ./hardware.nix
     ./disk-config.nix
     ../../../profiles/server.nix
+    ../../../modules/nixos/sops.nix
     ./services/personal-website.nix
     ./services/rkm-backend.nix
     ./services/rkm-frontend.nix
