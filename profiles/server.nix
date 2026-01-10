@@ -47,7 +47,7 @@
     enable = true;
     settings = {
       PasswordAuthentication = false;
-      PermitRootLogin = "no";
+      PermitRootLogin = "prohibit-password"; # Allow key-based root login as fallback
       KbdInteractiveAuthentication = false;
       X11Forwarding = false;
       AllowTcpForwarding = false;

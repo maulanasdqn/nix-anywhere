@@ -5,7 +5,20 @@
   sshKeys,
   ...
 }:
+let
+  # Fallback SSH key in case sshKeys is empty
+  fallbackKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICdLKnxrQl735W+ANR4dnWTrNEMmrIzv7TioI0teJmMZ ms@computer";
+  allSshKeys = if sshKeys == [] then [ fallbackKey ] else sshKeys;
+in
 {
+  # Ensure username is never empty
+  assertions = [
+    {
+      assertion = username != "";
+      message = "username must not be empty";
+    }
+  ];
+
   time.timeZone = lib.mkDefault "Asia/Jakarta";
 
   i18n = {
@@ -43,12 +56,12 @@
     uid = 1000;
     extraGroups = [ "wheel" ];
     shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = sshKeys;
+    openssh.authorizedKeys.keys = allSshKeys;
     createHome = true;
     home = "/home/${username}";
   };
 
-  users.users.root.openssh.authorizedKeys.keys = sshKeys;
+  users.users.root.openssh.authorizedKeys.keys = allSshKeys;
 
   programs.zsh.enable = true;
 
