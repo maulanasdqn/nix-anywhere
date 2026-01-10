@@ -145,7 +145,7 @@
       };
 
       hostingerSpecialArgs = {
-        username = config.vpsHostingerUsername;
+        username = "root";
         hostname = config.vpsHostingerHostname;
         ipAddress = config.vpsHostingerIP;
         gateway = config.vpsHostingerGateway;
@@ -222,16 +222,6 @@
           rkm-backend.nixosModules.default
           rkm-frontend.nixosModules.default
           ./hosts/vps/hostinger
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = hostingerSpecialArgs;
-              backupFileExtension = "backup";
-            };
-          }
-          ./modules/home/nixos-server.nix
         ];
       };
 

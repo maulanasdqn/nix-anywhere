@@ -16,7 +16,7 @@
   home-manager.users.${username} = {
     home = {
       username = username;
-      homeDirectory = "/home/${username}";
+      homeDirectory = if username == "root" then "/root" else "/home/${username}";
       stateVersion = "25.05";
 
       packages = with pkgs; [

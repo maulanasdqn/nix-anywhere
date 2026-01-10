@@ -9,10 +9,6 @@
   # Ensure config is valid
   assertions = [
     {
-      assertion = username != "";
-      message = "username must not be empty";
-    }
-    {
       assertion = sshKeys != [];
       message = "sshKeys must not be empty - you will be locked out!";
     }
@@ -50,17 +46,23 @@
 
   users.mutableUsers = true;
 
-  users.users.${username} = {
-    isNormalUser = true;
-    uid = 1000;
-    extraGroups = [ "wheel" ];
-    shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = sshKeys;
-    createHome = true;
-    home = "/home/${username}";
-  };
-
-  users.users.root.openssh.authorizedKeys.keys = sshKeys;
+  # Only create non-root user if username is not "root"
+  users.users = lib.mkMerge [
+    (lib.mkIf (username != "root") {
+      ${username} = {
+        isNormalUser = true;
+        uid = 1000;
+        extraGroups = [ "wheel" ];
+        shell = pkgs.zsh;
+        openssh.authorizedKeys.keys = sshKeys;
+        createHome = true;
+        home = "/home/${username}";
+      };
+    })
+    {
+      root.openssh.authorizedKeys.keys = sshKeys;
+    }
+  ];
 
   programs.zsh.enable = true;
 

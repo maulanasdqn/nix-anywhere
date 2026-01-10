@@ -1,7 +1,6 @@
 {
   lib,
   pkgs,
-  username,
   acmeEmail,
   ...
 }:
@@ -23,10 +22,8 @@
 
   time.timeZone = lib.mkForce "UTC";
 
-  users.users.${username}.extraGroups = [
-    "wheel"
-    "docker"
-  ];
+  # Root gets docker access
+  users.users.root.extraGroups = [ "docker" ];
 
   networking = {
     useDHCP = lib.mkDefault true;
@@ -47,7 +44,7 @@
     enable = true;
     settings = {
       PasswordAuthentication = false;
-      PermitRootLogin = "no";
+      PermitRootLogin = "prohibit-password";
       KbdInteractiveAuthentication = false;
       X11Forwarding = false;
       AllowTcpForwarding = false;
