@@ -10,14 +10,6 @@
     ./disk-config.nix
     ../../../profiles/server.nix
     ./services/personal-website.nix
-    ./services/n8n.nix
-    ./services/uptime-kuma.nix
-    ./services/netdata.nix
-    ./services/glitchtip.nix
-    ./services/mailserver.nix
-    ./services/roundcube.nix
-    ./services/minio.nix
-    ./services/hpyd.nix
     ./services/rkm-backend.nix
     ./services/rkm-frontend.nix
   ];
