@@ -1,12 +1,12 @@
 keys:
   # Local machine (macOS)
   - &local age1mv29htz8yawa3ksxggjanphgee38dxfprr93j4jy9jpx5z6kt3vqkkkpft
-  # Hostinger VPS - add after first deploy with:
-  # ssh root@72.62.125.38 "cat /etc/ssh/ssh_host_ed25519_key.pub" | nix run nixpkgs#ssh-to-age
-  # Then run: sops updatekeys secrets/secrets.yaml
+  # Hostinger VPS
+  - &hostinger age1y8xx867mels7vl5ykcnm8wcy52f0v2cuu8h26pwplk2uac3r85xqwcygqj
 
 creation_rules:
   - path_regex: secrets/secrets\.yaml$
     key_groups:
       - age:
           - *local
+          - *hostinger
