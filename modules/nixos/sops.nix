@@ -23,6 +23,12 @@
         mode = "0400";
         owner = "root";
       };
+
+      # Rclone config for backups
+      "rclone_config" = {
+        mode = "0400";
+        owner = "root";
+      };
     };
   };
 }

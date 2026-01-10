@@ -13,6 +13,7 @@
     ./services/personal-website.nix
     ./services/rkm-backend.nix
     ./services/rkm-frontend.nix
+    ./services/backup.nix
   ];
 
   networking = {
