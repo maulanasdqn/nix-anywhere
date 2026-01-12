@@ -1,19 +1,43 @@
-{ ... }:
+{ config, pkgs, ... }:
 {
-  virtualisation.oci-containers.containers.minio = {
-    image = "minio/minio:latest";
-    ports = [
-      "127.0.0.1:9002:9000"  # S3 API
-      "127.0.0.1:9003:9001"  # Console
-    ];
-    volumes = [ "/var/lib/minio/data:/data" ];
-    environmentFiles = [ "/etc/minio.env" ];
-    cmd = [ "server" "/data" "--console-address" ":9001" ];
+  services.minio = {
+    enable = true;
+    listenAddress = "127.0.0.1:9000";
+    consoleAddress = "127.0.0.1:9001";
+    dataDir = [ "/var/lib/minio/data" ];
+    rootCredentialsFile = "/var/lib/minio/credentials";
+  };
+
+  # Create credentials file (change password after first setup!)
+  environment.etc."minio-credentials-setup".text = ''
+    MINIO_ROOT_USER=minioadmin
+    MINIO_ROOT_PASSWORD=MinioSecure2026!
+  '';
+
+  systemd.services.minio-credentials-setup = {
+    description = "Setup MinIO credentials";
+    wantedBy = [ "minio.service" ];
+    before = [ "minio.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      if [ ! -f /var/lib/minio/credentials ]; then
+        mkdir -p /var/lib/minio
+        cat > /var/lib/minio/credentials <<EOF
+      MINIO_ROOT_USER=minioadmin
+      MINIO_ROOT_PASSWORD=MinioSecure2026!
+      EOF
+        chmod 600 /var/lib/minio/credentials
+        chown minio:minio /var/lib/minio/credentials
+      fi
+    '';
   };
 
   systemd.tmpfiles.rules = [
-    "d /var/lib/minio 0755 root root -"
-    "d /var/lib/minio/data 0755 root root -"
+    "d /var/lib/minio 0755 minio minio -"
+    "d /var/lib/minio/data 0755 minio minio -"
   ];
 
   services.nginx.virtualHosts = {
@@ -22,7 +46,7 @@
       enableACME = true;
       forceSSL = true;
       locations."/" = {
-        proxyPass = "http://127.0.0.1:9003";
+        proxyPass = "http://127.0.0.1:9001";
         proxyWebsockets = true;
         extraConfig = ''
           proxy_set_header X-Real-IP $remote_addr;
@@ -44,7 +68,7 @@
       enableACME = true;
       forceSSL = true;
       locations."/" = {
-        proxyPass = "http://127.0.0.1:9002";
+        proxyPass = "http://127.0.0.1:9000";
         extraConfig = ''
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -55,7 +79,7 @@
           proxy_http_version 1.1;
 
           # Required for large file uploads
-          client_max_body_size 0;
+          client_max_body_size 100M;
           proxy_buffering off;
           proxy_request_buffering off;
           chunked_transfer_encoding off;
