@@ -13,7 +13,7 @@
     ./services/personal-website.nix
     ./services/rkm-backend.nix
     ./services/rkm-frontend.nix
-    ./services/rkm-admin-frontend.nix
+    # ./services/rkm-admin-frontend.nix  # disabled for now
     ./services/backup.nix
     ./services/yes-date-me-backup.nix
   ];
