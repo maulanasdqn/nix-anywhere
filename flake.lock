@@ -753,11 +753,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768385415,
-        "narHash": "sha256-D+4XWhSVbP1W/o5PRqct1BFBFFyQu808ugAF2K3+az4=",
+        "lastModified": 1768386377,
+        "narHash": "sha256-/AYljOqLHsKDp2tUjOL6R4CuHSjuv9T0m6QRJ6LhkH4=",
         "ref": "develop",
-        "rev": "55aa53201466d7a16f76ce660ed1443b2aa831d9",
-        "revCount": 20,
+        "rev": "5dba7957fccc62879ea274e24e856105188d1aa0",
+        "revCount": 21,
         "type": "git",
         "url": "ssh://git@github.com/rajawalikaryamulya/rkm-admin-frontend.git"
       },
@@ -797,11 +797,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768385411,
-        "narHash": "sha256-lXf3o/Y6kF4fZbd0AfGrEjHKtHHT0o0UfCGwTsOwR/o=",
+        "lastModified": 1768386377,
+        "narHash": "sha256-G5msXa+D3vWbhQX+8jzNVIkHhyDaPlXXW+L+vjRgDys=",
         "ref": "develop",
-        "rev": "487976ca456431e34cdb00c7017d267c851bf13e",
-        "revCount": 35,
+        "rev": "bda90467556d068b3b87210e80aa97a6d6484dc8",
+        "revCount": 36,
         "type": "git",
         "url": "ssh://git@github.com/rajawalikaryamulya/rkm-frontend.git"
       },
