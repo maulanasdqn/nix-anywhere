@@ -152,11 +152,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768406370,
-        "narHash": "sha256-9aWoZQMzE0lBE2EFSCHAI4Zue+jpL/DF13UGf6zfOr8=",
+        "lastModified": 1768495715,
+        "narHash": "sha256-1RVQjA6GYKJnBUV1ZJ66ULC4Aj5rk8b6JyoHF9E/YNM=",
         "owner": "cachix",
         "repo": "devenv",
-        "rev": "9487ba6df6cbbfb59c051f9410cdc4521a4471ed",
+        "rev": "23729dc54bbca0f36878ae2935cbfea834335f1a",
         "type": "github"
       },
       "original": {
@@ -430,11 +430,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768434960,
-        "narHash": "sha256-cJbFn17oyg6qAraLr+NVeNJrXsrzJdrudkzI4H2iTcg=",
+        "lastModified": 1768530555,
+        "narHash": "sha256-EBXKDho4t1YSgodAL6C8M3UTm8MGMZNQ9rQnceR5+6c=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "b4d88c9ac42ae1a745283f6547701da43b6e9f9b",
+        "rev": "d21bee5abf9fb4a42b2fa7728bf671f8bb246ba6",
         "type": "github"
       },
       "original": {
@@ -446,11 +446,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1768444423,
-        "narHash": "sha256-6qf9+62eph5qdlEe4wTXZKTdL6uvRBBIlLlPu/xqHkA=",
+        "lastModified": 1768567938,
+        "narHash": "sha256-qFuzacc00T8+PEdJ5YGqXcUqctaZTYUf6juW1A4A5Jg=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "19fe0374f145a78231c12d7e639026366d599dd1",
+        "rev": "210050683808009ae2e84efbf475a49ebf2e0b84",
         "type": "github"
       },
       "original": {
@@ -462,11 +462,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1768444102,
-        "narHash": "sha256-16EywYgMXf5CD6mSN5jW+UQ802bejHyZqqNRP4rA3ZU=",
+        "lastModified": 1768567505,
+        "narHash": "sha256-rKhLzCRskXIonY1rR0r/qWHui3CyaZ2GxR72fSchjyk=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "24f4aa795b8ce9496c33876e91e568795c09566e",
+        "rev": "7880712bd87f0b3908055136defb28773d934d3c",
         "type": "github"
       },
       "original": {
@@ -526,11 +526,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768220509,
-        "narHash": "sha256-8wMrJP/Xk5Dkm0TxzaERLt3eGFEhHTWaJKUpK3AoL4o=",
+        "lastModified": 1768561867,
+        "narHash": "sha256-prGOZ+w3pZfGTRxworKcJliCNsewF0L4HUPjgU/6eaw=",
         "owner": "nix-darwin",
         "repo": "nix-darwin",
-        "rev": "7b1d394e7d9112d4060e12ef3271b38a7c43e83b",
+        "rev": "8b720b9662d4dd19048664b7e4216ce530591adc",
         "type": "github"
       },
       "original": {
@@ -583,11 +583,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768322802,
-        "narHash": "sha256-8/Ye9hw1SFXn+odPhZcISZyErFloPZLATI6VMjwzPps=",
+        "lastModified": 1768491252,
+        "narHash": "sha256-ZlIPlKCYXwQJsw9WYVeyCapF5Y8JZL2Hctf22+IbHqo=",
         "owner": "cachix",
         "repo": "nix",
-        "rev": "4cbf6a9e07dc2eb035865cde51e74217862573a1",
+        "rev": "9f0da1cd90b271569752a4c83f3ff700b8fcbe12",
         "type": "github"
       },
       "original": {
@@ -710,11 +710,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1767906546,
-        "narHash": "sha256-AoSWS8+P+7hQ/jIdv0wBjgH1MvnerdWBFXO4GV3JoQs=",
+        "lastModified": 1768486009,
+        "narHash": "sha256-I7ymDe6UQooHy9I9wrafKCCDnRbox/EMWAgJgpm7fGs=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "7eb8f36f085b85a2aeff929aff52d0f6aa14e000",
+        "rev": "03a638205b5cb04ba9c2ed6c604e137b15f07fa1",
         "type": "github"
       },
       "original": {
@@ -776,11 +776,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1768363900,
-        "narHash": "sha256-Dun1QJoQuhhiOP5OoJTd+syBb5TtZZ8B5P9iLkD0TEk=",
+        "lastModified": 1768632676,
+        "narHash": "sha256-f57Uk6dPZyUcDiMKk2vHYV2Wh/vJcjAvPJ5sTuc7YVg=",
         "ref": "develop",
-        "rev": "b458554edd761663908c57465855e543553f9bef",
-        "revCount": 27,
+        "rev": "652837158d344333592af4d3a840f27caacd8d0f",
+        "revCount": 28,
         "type": "git",
         "url": "ssh://git@github.com/rajawalikaryamulya/rkm-backend.git"
       },
@@ -881,11 +881,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768271704,
-        "narHash": "sha256-jJqlW8A3OZ5tYbXphF7U8P8g/3Cn8PPwPa4YlJ/9agg=",
+        "lastModified": 1768481291,
+        "narHash": "sha256-NjKtkJraCZEnLHAJxLTI+BfdU//9coAz9p5TqveZwPU=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "691b8b6713855d0fe463993867291c158472fc6f",
+        "rev": "e085e303dfcce21adcb5fec535d65aacb066f101",
         "type": "github"
       },
       "original": {

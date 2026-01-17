@@ -17,7 +17,7 @@
   vpsDigitalOceanUsername = "ms";
   vpsDigitalOceanHostname = "droplet";
 
-  enableLaravel = true;
+  enableLaravel = false; # Disabled due to nixpkgs composer bug
   enableRust = true;
   enableVolta = true;
 
