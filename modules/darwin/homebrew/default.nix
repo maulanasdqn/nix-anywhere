@@ -22,6 +22,7 @@
       "raycast"
       "shottr"
       "figma"
+      "inkscape"
     ];
   };
 }

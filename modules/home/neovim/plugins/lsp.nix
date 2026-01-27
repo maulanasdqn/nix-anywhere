@@ -4,7 +4,7 @@
     extraPackages = with pkgs; [
       phpactor
       php83Packages.php-cs-fixer
-      php83Packages.phpstan
+      phpstan
 
       nodePackages.typescript-language-server
       nodePackages.vscode-langservers-extracted
