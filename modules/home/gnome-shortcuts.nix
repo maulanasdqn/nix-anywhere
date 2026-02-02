@@ -95,6 +95,11 @@
       "org/gnome/desktop/wm/preferences" = {
         num-workspaces = 4;
       };
+
+      # App Switching: show only apps from current workspace
+      "org/gnome/shell/app-switcher" = {
+        current-workspace-only = true;
+      };
     };
   };
 }
