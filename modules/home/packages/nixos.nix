@@ -46,6 +46,7 @@
       slack
 
       microsoft-edge
+      antigravity
 
       imagemagick
       ffmpeg

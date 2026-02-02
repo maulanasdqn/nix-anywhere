@@ -5,7 +5,7 @@
 
   workstationUsername = "azam";
   workstationPassword = "nixos";
-  workstationHostname = "workstation";
+  workstationHostname = "nixos";
   workstationEnableTilingWM = true;
 
   vpsHostingerUsername = "ms";

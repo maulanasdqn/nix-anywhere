@@ -12,5 +12,4 @@
     ../../profiles/workstation.nix
   ];
 
-  networking.hostName = "nixos";
 }
