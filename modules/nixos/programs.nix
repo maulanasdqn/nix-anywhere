@@ -17,7 +17,7 @@
   };
 
   programs = {
-    firefox.enable = true;
+    firefox.enable = false;
 
     git = {
       enable = true;

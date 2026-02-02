@@ -138,7 +138,7 @@
         "$mod" = "SUPER";
         "$terminal" = "kitty";
         "$menu" = "wofi --show drun";
-        "$browser" = "firefox";
+        "$browser" = "google-chrome-stable";
         "$fileManager" = "nautilus";
 
         bind = [

@@ -45,7 +45,7 @@
 
       slack
 
-      microsoft-edge
+      google-chrome
       antigravity
 
       imagemagick
