@@ -11,5 +11,5 @@
     ./hardware.nix
     ../../profiles/workstation.nix
   ];
-
 }
+

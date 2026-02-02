@@ -17,5 +17,6 @@
     ./fonts.nix
     ./programs.nix
     ./nix.nix
+    ./hibernate.nix
   ];
 }

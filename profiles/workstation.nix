@@ -140,8 +140,8 @@
   };
 
   services.logind.settings.Login = {
-    HandleLidSwitch = "suspend";
-    HandleLidSwitchExternalPower = "suspend";
+    HandleLidSwitch = "hibernate";
+    HandleLidSwitchExternalPower = "suspend";  # Ketika di-charge, suspend saja
     HandleLidSwitchDocked = "ignore";
     HandlePowerKey = "suspend";
     HandlePowerKeyLongPress = "poweroff";
