@@ -5,46 +5,45 @@
   modulesPath,
   ...
 }:
-
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
-
+  
   boot.initrd.availableKernelModules = [
-    "nvme"
     "xhci_pci"
+    "nvme"
     "usb_storage"
     "sd_mod"
   ];
+  
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
+  
+  boot.kernelModules = [ "kvm-intel" ];
+  
   boot.extraModulePackages = [ ];
-
-  boot.kernelParams = [
-    "acpi.ec_no_wakeup=1"
-  ];
-
+  
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/dbdeaa49-4716-4c13-acdf-13ebfbc4b82f";
+    device = "/dev/disk/by-uuid/0a958c64-cf38-49d9-ad25-1cdc1acb2f03";
     fsType = "ext4";
   };
-
+  
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/55FA-1BA7";
+    device = "/dev/disk/by-uuid/C1EA-8240";
     fsType = "vfat";
     options = [
       "fmask=0077"
       "dmask=0077"
     ];
   };
-
+  
   swapDevices = [
-    { device = "/dev/disk/by-uuid/4e465fd0-d532-4c71-a725-eb7040166ab7"; }
+    { device = "/dev/disk/by-uuid/869ec0b7-c4bf-49d3-9d4b-dee739c9449e"; }
   ];
-
+  
   networking.useDHCP = lib.mkDefault true;
-
+  
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

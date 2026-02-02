@@ -3,6 +3,7 @@
   pkgs,
   username,
   sshKeys,
+  userPassword ? null,
   ...
 }:
 {
@@ -57,6 +58,19 @@
         openssh.authorizedKeys.keys = sshKeys;
         createHome = true;
         home = "/home/${username}";
+      } // lib.optionalAttrs (userPassword != null) {
+        # Auto-hash password if plaintext (doesn't start with $)
+        hashedPassword =
+          if builtins.substring 0 1 userPassword == "$"
+          then userPassword
+          else
+            builtins.replaceStrings [ "\n" ] [ "" ] (
+              builtins.readFile (
+                pkgs.runCommand "hash-password" { } ''
+                  ${pkgs.mkpasswd}/bin/mkpasswd -m sha-512 "${userPassword}" > $out
+                ''
+              )
+            );
       };
     })
     {
@@ -96,6 +110,7 @@
     wget
     curl
     git
+    mkpasswd
   ];
 
   system.stateVersion = "25.05";

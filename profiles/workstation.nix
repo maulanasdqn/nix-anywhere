@@ -3,6 +3,7 @@
   pkgs,
   username,
   enableTilingWM,
+  hostname ? "nixos",
   ...
 }:
 {
@@ -21,6 +22,8 @@
   networking.networkmanager.enable = true;
 
   networking.firewall.enable = true;
+
+  networking.hostName = hostname;
 
   services.xserver = {
     enable = true;
@@ -125,7 +128,7 @@
       nerd-fonts.hack
       noto-fonts
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+      noto-fonts-color-emoji
     ];
     fontconfig = {
       defaultFonts = {

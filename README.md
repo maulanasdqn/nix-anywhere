@@ -8,8 +8,8 @@ My personal unified Nix configuration for both **NixOS** and **macOS** (nix-darw
 .
 ├── flake.nix                       # Main entry point
 ├── flake.lock
-├── config.nix                      # User configuration (gitignored, local only)
-├── config.example.nix              # Example configuration (copy to config.nix)
+├── config.nix                      # Example configuration template
+├── config.local.nix                # Your local config (gitignored, copy from config.nix)
 ├── .envrc                          # Direnv integration
 ├── hosts/
 │   ├── workstation/                # NixOS workstation config
@@ -50,7 +50,6 @@ My personal unified Nix configuration for both **NixOS** and **macOS** (nix-darw
     ├── nixos/                      # NixOS-specific modules
     │   ├── default.nix
     │   ├── boot.nix
-    │   ├── hardware.nix
     │   ├── networking.nix
     │   ├── locale.nix
     │   ├── desktop.nix
@@ -132,9 +131,9 @@ My personal unified Nix configuration for both **NixOS** and **macOS** (nix-darw
 git clone git@github.com:maulanasdqn/nix-anywhere.git ~/.config/nix
 cd ~/.config/nix
 
-# Create your configuration
-cp config.example.nix config.nix
-nvim config.nix
+# Create your local configuration
+cp config.nix config.local.nix
+nvim config.local.nix
 
 # Build and apply
 nix develop --command rebuild
@@ -147,15 +146,15 @@ nix develop --command rebuild
 git clone git@github.com:maulanasdqn/nix-anywhere.git ~/.config/nix
 cd ~/.config/nix
 
-# Create your configuration
-cp config.example.nix config.nix
-nvim config.nix
+# Create your local configuration
+cp config.nix config.local.nix
+nvim config.local.nix
 
 # Generate hardware config (first time only)
-sudo nixos-generate-config --show-hardware-config > modules/nixos/hardware.nix
+sudo nixos-generate-config --show-hardware-config > hosts/workstation/hardware.nix
 
-# Build and apply
-sudo nixos-rebuild switch --flake .#workstation
+# Build and apply (password will be auto-hashed)
+nix develop --command rebuild
 ```
 
 ### VPS Deployment (nixos-anywhere)

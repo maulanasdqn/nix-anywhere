@@ -142,6 +142,8 @@
 
       workstationSpecialArgs = {
         username = config.workstationUsername;
+        userPassword = config.workstationPassword;
+        hostname = config.workstationHostname;
         enableTilingWM = config.workstationEnableTilingWM;
         inherit
           nixvim
@@ -269,13 +271,13 @@
                   if isDarwin system then
                     ''
                       echo "Rebuilding nix-darwin configuration..."
-                      sudo darwin-rebuild switch --flake .
+                      sudo darwin-rebuild switch --flake ".#${config.darwinHostname}"
                       echo "Done!"
                     ''
                   else
                     ''
                       echo "Rebuilding NixOS configuration..."
-                      sudo nixos-rebuild switch --flake .
+                      sudo nixos-rebuild switch --flake ".#${config.workstationHostname}"
                       echo "Done!"
                     '';
               })
