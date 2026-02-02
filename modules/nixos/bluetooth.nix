@@ -10,7 +10,6 @@
         Experimental = true;
         FastConnectable = true;
         JustWorksRepairing = "always";
-        Class = "0x000100";  # Untuk keyboard support
         Privacy = "device";
       };
       Policy = {
@@ -27,12 +26,6 @@
     bluez
     bluez-tools
     blueman
+    usbutils  # untuk lsusb
   ];
-
-  # Enable input devices via Bluetooth
-  hardware.bluetooth.input = {
-    General = {
-      UserspaceHID = true;
-    };
-  };
 }
