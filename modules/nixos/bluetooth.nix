@@ -9,6 +9,9 @@
         Enable = "Source,Sink,Media,Socket";
         Experimental = true;
         FastConnectable = true;
+        JustWorksRepairing = "always";
+        Class = "0x000100";  # Untuk keyboard support
+        Privacy = "device";
       };
       Policy = {
         AutoEnable = true;
@@ -23,5 +26,13 @@
   environment.systemPackages = with pkgs; [
     bluez
     bluez-tools
+    blueman
   ];
+
+  # Enable input devices via Bluetooth
+  hardware.bluetooth.input = {
+    General = {
+      UserspaceHID = true;
+    };
+  };
 }
