@@ -45,6 +45,21 @@
         binding = "<Super><Shift>s";
       };
 
+      # Disable GNOME default Super+Number app shortcuts (favorites)
+      "org/gnome/shell/keybindings" = {
+        switch-to-application-1 = [];
+        switch-to-application-2 = [];
+        switch-to-application-3 = [];
+        switch-to-application-4 = [];
+        switch-to-application-5 = [];
+        switch-to-application-6 = [];
+        switch-to-application-7 = [];
+        switch-to-application-8 = [];
+        switch-to-application-9 = [];
+        toggle-overview = ["<Super>d"];
+        toggle-application-view = ["<Super>a"];
+      };
+
       # Window Management Shortcuts
       "org/gnome/desktop/wm/keybindings" = {
         close = ["<Super><Shift>q"];
@@ -65,16 +80,20 @@
         move-to-workspace-4 = ["<Super><Shift>4"];
       };
 
-      # Shell Shortcuts
-      "org/gnome/shell/keybindings" = {
-        toggle-overview = ["<Super>d"];
-        toggle-application-view = ["<Super>a"];
-      };
-
       # Mutter (window tiling)
       "org/gnome/mutter/keybindings" = {
         toggle-tiled-left = ["<Super>Left"];
         toggle-tiled-right = ["<Super>Right"];
+      };
+
+      # Enable static workspaces
+      "org/gnome/mutter" = {
+        dynamic-workspaces = false;
+      };
+
+      # Set number of workspaces
+      "org/gnome/desktop/wm/preferences" = {
+        num-workspaces = 4;
       };
     };
   };
