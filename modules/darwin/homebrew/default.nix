@@ -23,6 +23,7 @@
       "shottr"
       "figma"
       "inkscape"
+      "pritunl"
     ];
   };
 }

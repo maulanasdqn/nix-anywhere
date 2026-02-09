@@ -7,35 +7,18 @@ let
       ++ (with all; [
         bcmath
         calendar
-        ctype
-        curl
-        dom
         exif
-        fileinfo
-        filter
         gd
-        iconv
         intl
-        mbstring
         mysqli
         mysqlnd
         opcache
-        openssl
-        pdo
         pdo_mysql
         pdo_pgsql
         pgsql
-        posix
-        readline
         redis
-        session
-        simplexml
         sockets
         sodium
-        tokenizer
-        xml
-        xmlreader
-        xmlwriter
         zip
         zlib
       ]);

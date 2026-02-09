@@ -1,5 +1,17 @@
-{ ... }:
+{ lib, ... }:
 {
+  system.activationScripts.accessibility.text = ''
+    current_motion=$(defaults read com.apple.universalaccess reduceMotion 2>/dev/null || echo "0")
+    current_transparency=$(defaults read com.apple.universalaccess reduceTransparency 2>/dev/null || echo "0")
+
+    if [ "$current_motion" != "1" ]; then
+      defaults write com.apple.universalaccess reduceMotion -bool true
+    fi
+
+    if [ "$current_transparency" != "1" ]; then
+      defaults write com.apple.universalaccess reduceTransparency -bool true
+    fi
+  '';
   system.defaults.NSGlobalDomain = {
     AppleShowAllExtensions = true;
 
@@ -36,11 +48,6 @@
       expose-animation-duration = 0.1;
       springboard-show-duration = 0;
       springboard-hide-duration = 0;
-    };
-
-    "com.apple.universalaccess" = {
-      reduceMotion = true;
-      reduceTransparency = true;
     };
 
     "NSGlobalDomain" = {

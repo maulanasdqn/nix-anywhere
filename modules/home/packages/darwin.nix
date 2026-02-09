@@ -23,6 +23,8 @@
         deno
         slack
         speedtest-cli
+        k6
+        ffmpeg
       ]
       ++ lib.optionals enableRust [ rustup ]
       ++ lib.optionals enableVolta [ volta ]

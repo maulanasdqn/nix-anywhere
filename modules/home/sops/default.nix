@@ -1,4 +1,4 @@
-{ username, sops-nix, pkgs, secretsFile, ... }:
+{ username, sops-nix, pkgs, secretsFile, lib, ... }:
 {
   home-manager.users.${username} = { config, ... }: {
     imports = [
@@ -9,6 +9,8 @@
       sops
       age
     ];
+
+    launchd.agents.sops-nix.config.EnvironmentVariables.PATH = lib.mkForce "/usr/bin:/bin:/usr/sbin:/sbin";
 
     sops = {
       age.keyFile = "/Users/${username}/.config/sops/age/keys.txt";

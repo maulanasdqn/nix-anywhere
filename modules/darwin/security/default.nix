@@ -15,9 +15,13 @@
   system.activationScripts.postActivation.text = lib.mkIf enableTilingWM ''
     mkdir -p /usr/local/bin
 
-    ln -sf ${pkgs.yabai}/bin/yabai /usr/local/bin/yabai
-    ln -sf ${pkgs.skhd}/bin/skhd /usr/local/bin/skhd
+    rm -f /usr/local/bin/yabai
+    cp ${pkgs.yabai}/bin/yabai /usr/local/bin/yabai
+    chmod +x /usr/local/bin/yabai
+    rm -f /usr/local/bin/skhd
+    cp ${pkgs.skhd}/bin/skhd /usr/local/bin/skhd
+    chmod +x /usr/local/bin/skhd
 
-    echo "Created stable symlinks for yabai and skhd in /usr/local/bin"
+    echo "Copied yabai and skhd binaries to /usr/local/bin"
   '';
 }
