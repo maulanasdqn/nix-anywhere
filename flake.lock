@@ -776,11 +776,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1770649331,
-        "narHash": "sha256-sLmw/UQix3Uu+ZFUEWoiwybIshlVt2jHBsWCpmHR2WM=",
+        "lastModified": 1770778074,
+        "narHash": "sha256-Ec8m5FdrExBcRkk5/QsjlZvwsLdDO0SQ1zugBrKftv8=",
         "ref": "develop",
-        "rev": "805b529a92b7487135e8be0e9e476e58a9236b20",
-        "revCount": 34,
+        "rev": "aa91add452d0aaaf75ca45ac74bb4edcf2990570",
+        "revCount": 35,
         "type": "git",
         "url": "ssh://git@github.com/rajawalikaryamulya/rkm-backend.git"
       },
@@ -797,11 +797,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1770717528,
-        "narHash": "sha256-ZmJcEAxW5u/9nsrQf6Ws7GvB2F3oRfTs4cB8CZL5ZLw=",
+        "lastModified": 1770777863,
+        "narHash": "sha256-BL9yWS+XaRCm5dDU+w1HUYQLnlZlN9ZBVqEnk04UYgY=",
         "ref": "develop",
-        "rev": "fd75f078b97344ba9b6238656a40862aecdfba7f",
-        "revCount": 52,
+        "rev": "f2c5f25c390e0750eb9bd1786a2d2ecfd523d530",
+        "revCount": 53,
         "type": "git",
         "url": "ssh://git@github.com/rajawalikaryamulya/rkm-frontend.git"
       },
