@@ -47,16 +47,6 @@
         443  # HTTPS (nginx)
       ];
       allowedUDPPorts = [ ];
-      # Block common attack vectors
-      extraCommands = ''
-        # Rate limit SSH connections
-        iptables -I INPUT -p tcp --dport 22 -m state --state NEW -m recent --set
-        iptables -I INPUT -p tcp --dport 22 -m state --state NEW -m recent --update --seconds 60 --hitcount 4 -j DROP
-      '';
-      extraStopCommands = ''
-        iptables -D INPUT -p tcp --dport 22 -m state --state NEW -m recent --set 2>/dev/null || true
-        iptables -D INPUT -p tcp --dport 22 -m state --state NEW -m recent --update --seconds 60 --hitcount 4 -j DROP 2>/dev/null || true
-      '';
     };
   };
 
@@ -117,15 +107,6 @@
       multipliers = "1 2 4 8 16 32 64";
     };
     jails = {
-      sshd = {
-        settings = {
-          enabled = true;
-          port = "ssh";
-          filter = "sshd";
-          maxretry = 3;
-          bantime = "1h";
-        };
-      };
       nginx-http-auth = {
         settings = {
           enabled = true;
