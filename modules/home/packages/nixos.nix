@@ -39,6 +39,7 @@
 
       httpie
       xh
+      postman
 
       p7zip
       unrar
