@@ -11,8 +11,7 @@
 
       profiles.default = {
         extensions = with pkgs.vscode-extensions; [
-          catppuccin.catppuccin-vsc
-          catppuccin.catppuccin-vsc-icons
+          thorerik.hacker-theme
 
           jnoortheen.nix-ide
           rust-lang.rust-analyzer
@@ -37,39 +36,39 @@
         ];
 
         userSettings = {
-          "workbench.colorTheme" = "Catppuccin Latte";
-          "workbench.iconTheme" = "catppuccin-latte";
-          "catppuccin.accentColor" = "pink";
+          "workbench.colorTheme" = "Hacker";
+          "workbench.iconTheme" = "material-icon-theme";
 
           "workbench.colorCustomizations" = {
-            "[Catppuccin Latte]" = {
-              "titleBar.activeBackground" = "#ff69b4";
-              "titleBar.activeForeground" = "#ffffff";
-              "titleBar.inactiveBackground" = "#ffb6c1";
-              "activityBar.background" = "#fff0f5";
-              "activityBar.foreground" = "#ff69b4";
-              "activityBarBadge.background" = "#ff69b4";
-              "activityBarBadge.foreground" = "#ffffff";
-              "statusBar.background" = "#ff69b4";
-              "statusBar.foreground" = "#ffffff";
-              "statusBar.debuggingBackground" = "#ff85a2";
-              "statusBar.noFolderBackground" = "#ffb6c1";
-              "tab.activeBackground" = "#fff5f7";
-              "tab.activeBorderTop" = "#ff69b4";
-              "editor.selectionBackground" = "#ffc0cb80";
-              "editor.selectionHighlightBackground" = "#ffb6c140";
-              "editorCursor.foreground" = "#ff69b4";
-              "editorLineNumber.activeForeground" = "#ff69b4";
-              "progressBar.background" = "#ff69b4";
-              "focusBorder" = "#ff69b4";
-              "inputOption.activeBorder" = "#ff69b4";
-              "button.background" = "#ff69b4";
-              "button.hoverBackground" = "#ff85a2";
-              "list.activeSelectionBackground" = "#ffc0cb60";
-              "list.hoverBackground" = "#fff0f5";
-              "badge.background" = "#ff69b4";
-              "badge.foreground" = "#ffffff";
-            };
+            "titleBar.activeBackground" = "#000000";
+            "titleBar.activeForeground" = "#00ff00";
+            "titleBar.inactiveBackground" = "#0a0a0a";
+            "activityBar.background" = "#000000";
+            "activityBar.foreground" = "#00ff00";
+            "activityBarBadge.background" = "#00ff00";
+            "activityBarBadge.foreground" = "#000000";
+            "statusBar.background" = "#000000";
+            "statusBar.foreground" = "#00ff00";
+            "statusBar.debuggingBackground" = "#333333";
+            "statusBar.noFolderBackground" = "#000000";
+            "tab.activeBackground" = "#0a0a0a";
+            "tab.activeBorderTop" = "#00ff00";
+            "editor.background" = "#000000";
+            "editor.foreground" = "#00ff00";
+            "editor.selectionBackground" = "#00ff0033";
+            "editor.selectionHighlightBackground" = "#00ff0022";
+            "editorCursor.foreground" = "#00ff00";
+            "editorLineNumber.activeForeground" = "#00ff00";
+            "progressBar.background" = "#00ff00";
+            "focusBorder" = "#00ff00";
+            "inputOption.activeBorder" = "#00ff00";
+            "button.background" = "#00ff00";
+            "button.hoverBackground" = "#00cc00";
+            "button.foreground" = "#000000";
+            "list.activeSelectionBackground" = "#00ff0022";
+            "list.hoverBackground" = "#00ff0011";
+            "badge.background" = "#00ff00";
+            "badge.foreground" = "#000000";
           };
 
           "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'Fira Code', monospace";
