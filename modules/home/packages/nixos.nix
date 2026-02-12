@@ -20,6 +20,7 @@
       bun
       go
       python3
+      dotnet-sdk
 
       docker-compose
       lazydocker
