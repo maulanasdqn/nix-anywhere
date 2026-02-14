@@ -13,6 +13,7 @@
       "docker"
       "audio"
       "video"
+      "dialout"
     ];
     shell = pkgs.zsh;
   };

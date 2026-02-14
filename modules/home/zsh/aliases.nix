@@ -15,6 +15,7 @@
     init-nodejs = "cp ~/.config/nix/templates/nodejs/{flake.nix,.envrc} . && direnv allow";
     init-rust = "cp ~/.config/nix/templates/rust/{flake.nix,.envrc} . && direnv allow";
     init-prisma = "cp ~/.config/nix/templates/prisma/{flake.nix,.envrc} . && direnv allow";
+    init-arduino = "cp ~/.config/nix/templates/arduino/{flake.nix,.envrc} . && direnv allow";
 
     ls = "eza --icons";
     ll = "eza -la --icons";
