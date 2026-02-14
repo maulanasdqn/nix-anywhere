@@ -16,7 +16,7 @@
 
         # Wrap PlatformIO in an FHS environment to allow it to run binaries
         # that expect standard paths like /bin/bash (e.g. avrdude)
-        fhs = pkgs.buildFHSUserEnv {
+        fhs = pkgs.buildFHSEnv {
           name = "platformio-shell";
           targetPkgs = pkgs: (with pkgs; [
             platformio
