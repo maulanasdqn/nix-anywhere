@@ -14,6 +14,17 @@
           config.allowUnfree = true;
         };
       in
+      let
+        # PlatformIO convenience scripts
+        pio-build = pkgs.writeShellScriptBin "build" "platformio run \"$@\"";
+        pio-upload = pkgs.writeShellScriptBin "upload" "platformio run --target upload \"$@\"";
+        pio-monitor = pkgs.writeShellScriptBin "monitor" "platformio device monitor \"$@\"";
+        pio-upload-monitor = pkgs.writeShellScriptBin "upload-monitor" "platformio run --target upload && platformio device monitor \"$@\"";
+        pio-clean = pkgs.writeShellScriptBin "clean" "platformio run --target clean \"$@\"";
+        pio-fullclean = pkgs.writeShellScriptBin "fullclean" "platformio run --target fullclean \"$@\"";
+        pio-devices = pkgs.writeShellScriptBin "devices" "platformio device list \"$@\"";
+        pio-progsize = pkgs.writeShellScriptBin "progsize" "platformio run --target size \"$@\"";
+      in
       {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
@@ -26,11 +37,30 @@
             pkg-config
             libusb1
             zlib
+
+            # PlatformIO shortcut scripts
+            pio-build
+            pio-upload
+            pio-monitor
+            pio-upload-monitor
+            pio-clean
+            pio-fullclean
+            pio-devices
+            pio-progsize
           ];
 
           shellHook = ''
             echo "Arduino Development Environment"
-            echo "Commands: platformio, pio"
+            echo ""
+            echo "Commands:"
+            echo "  build          - Compile project"
+            echo "  upload         - Upload firmware"
+            echo "  monitor        - Serial monitor"
+            echo "  upload-monitor - Upload + monitor"
+            echo "  clean          - Clean build files"
+            echo "  fullclean      - Full clean"
+            echo "  devices        - List connected devices"
+            echo "  progsize       - Show program size"
             echo ""
 
             # Fix shebangs in PlatformIO's downloaded packages
@@ -47,7 +77,6 @@
                   fi
                 fi
               done
-              echo "Patched PlatformIO package shebangs for NixOS compatibility."
             fi
           '';
         };
