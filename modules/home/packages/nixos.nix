@@ -49,6 +49,7 @@
 
       google-chrome
       antigravity
+      arduino-ide
 
       imagemagick
       ffmpeg
