@@ -797,11 +797,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1771210434,
-        "narHash": "sha256-XPdqoqi3uHcTPM8xFGvE4CrakfzNTkWcDuya8GP3m7I=",
+        "lastModified": 1771244405,
+        "narHash": "sha256-fsP/kL0ImAYS+vMWnIGc4s1bUEA6N6/q+9+L1Z3heEE=",
         "ref": "develop",
-        "rev": "d2cf1afcc9ce1fefb05515b2d5d9e947e6cbf064",
-        "revCount": 97,
+        "rev": "19c179f8f1c10c26f46a2ae807df8c2ea6304887",
+        "revCount": 98,
         "type": "git",
         "url": "ssh://git@github.com/rajawalikaryamulya/rkm-frontend.git"
       },
