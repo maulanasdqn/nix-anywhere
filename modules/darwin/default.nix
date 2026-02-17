@@ -19,7 +19,6 @@
     ++ lib.optionals enableTilingWM [
       ./yabai
       ./skhd
-      ./sketchybar
     ];
 
   users.users.${username} = {

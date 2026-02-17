@@ -11,6 +11,37 @@
     if [ "$current_transparency" != "1" ]; then
       defaults write com.apple.universalaccess reduceTransparency -bool true
     fi
+
+    # Disable all animations system-wide
+    defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
+    defaults write -g NSScrollAnimationEnabled -bool false
+    defaults write -g NSWindowResizeTime -float 0.001
+    defaults write -g QLPanelAnimationDuration -float 0
+    defaults write -g NSScrollViewRubberbanding -bool false
+    defaults write -g NSDocumentRevisionsWindowTransformAnimation -bool false
+    defaults write -g NSToolbarFullScreenAnimationDuration -float 0
+    defaults write -g NSBrowserColumnAnimationSpeedMultiplier -float 0
+
+    # Disable Dock animations
+    defaults write com.apple.dock expose-animation-duration -float 0.1
+    defaults write com.apple.dock autohide-time-modifier -float 0
+    defaults write com.apple.dock autohide-delay -float 0
+    defaults write com.apple.dock launchanim -bool false
+    defaults write com.apple.dock springboard-show-duration -float 0
+    defaults write com.apple.dock springboard-hide-duration -float 0
+
+    # Disable Finder animations
+    defaults write com.apple.finder DisableAllAnimations -bool true
+
+    # Disable Mission Control animations
+    defaults write com.apple.universalaccess reduceMotion -bool true
+
+    # Speed up Mission Control
+    defaults write com.apple.dock expose-animation-duration -float 0.1
+
+    # Disable send/reply animations in Mail
+    defaults write com.apple.mail DisableReplyAnimations -bool true
+    defaults write com.apple.mail DisableSendAnimations -bool true
   '';
   system.defaults.NSGlobalDomain = {
     AppleShowAllExtensions = true;
@@ -52,6 +83,10 @@
 
     "NSGlobalDomain" = {
       NSAppSleepDisabled = true;
+      NSScrollAnimationEnabled = false;
+      NSWindowResizeTime = 0.001;
+      QLPanelAnimationDuration = 0;
+      NSBrowserColumnAnimationSpeedMultiplier = 0;
     };
 
     "com.apple.finder" = {
@@ -71,6 +106,8 @@
     "com.apple.mail" = {
       DisableInlineAttachmentViewing = true;
       AddressesIncludeNameOnPasteboard = false;
+      DisableReplyAnimations = true;
+      DisableSendAnimations = true;
     };
 
     "com.apple.Safari" = {
@@ -90,6 +127,46 @@
 
     "com.apple.ImageCapture" = {
       disableHotPlug = true;
+    };
+
+    "com.apple.TimeMachine" = {
+      DoNotOfferNewDisksForBackup = true;
+    };
+
+    "com.apple.screencapture" = {
+      disable-shadow = true;
+    };
+
+    "com.apple.helpviewer" = {
+      DevMode = true;
+    };
+
+    "com.apple.desktopservices" = {
+      DSDontWriteNetworkStores = true;
+      DSDontWriteUSBStores = true;
+    };
+
+    "com.apple.print.PrintingPrefs" = {
+      "Quit When Finished" = true;
+    };
+
+    "com.apple.LaunchServices" = {
+      LSQuarantine = false;
+    };
+
+    "com.apple.commerce" = {
+      AutoUpdate = false;
+    };
+
+    "com.apple.SoftwareUpdate" = {
+      AutomaticCheckEnabled = false;
+      AutomaticDownload = false;
+      CriticalUpdateInstall = false;
+    };
+
+    "com.apple.appstore" = {
+      ShowDebugMenu = true;
+      WebKitDeveloperExtras = true;
     };
   };
 
