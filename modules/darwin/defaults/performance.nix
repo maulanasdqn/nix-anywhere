@@ -8,16 +8,13 @@
           "/bin/bash"
           "-c"
           ''
-            # Disable all sleep modes
+            # Disable auto-sleep from idle (but lid close still sleeps)
             pmset -a hibernatemode 0
-            pmset -a sleep 0
             pmset -a disksleep 0
             pmset -a displaysleep 0
             pmset -a powernap 0
             pmset -a autopoweroff 0
             pmset -a standby 0
-            pmset -a standbydelayhigh 0
-            pmset -a standbydelaylow 0
             pmset -a proximitywake 0
             pmset -a ttyskeepawake 1
 
@@ -25,6 +22,7 @@
             pmset -a lowpowermode 0
             pmset -a gpuswitch 0
             pmset -a sms 0
+            pmset -a lidwake 1
 
             # Disable Siri
             defaults write com.apple.assistant.support "Assistant Enabled" -bool false
