@@ -42,6 +42,10 @@
     # Disable send/reply animations in Mail
     defaults write com.apple.mail DisableReplyAnimations -bool true
     defaults write com.apple.mail DisableSendAnimations -bool true
+
+    # Remove all login items and add only Shottr
+    osascript -e 'tell application "System Events" to delete every login item' 2>/dev/null || true
+    osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Shottr.app", hidden:false}' 2>/dev/null || true
   '';
   system.defaults.NSGlobalDomain = {
     AppleShowAllExtensions = true;
