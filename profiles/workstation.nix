@@ -35,7 +35,13 @@ in
     "audio"
     "video"
     "dialout"
+    "plugdev"
   ];
+
+  # udev rules for USB programmers (USBasp, etc.)
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTR{idVendor}=="16c0", ATTR{idProduct}=="05dc", GROUP="plugdev", MODE="0666"
+  '';
 
   networking.networkmanager.enable = true;
 
