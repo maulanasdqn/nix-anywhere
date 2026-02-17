@@ -34,6 +34,7 @@ in
     "docker"
     "audio"
     "video"
+    "dialout"
   ];
 
   networking.networkmanager.enable = true;
@@ -173,6 +174,7 @@ in
       curl
       unzip
       zip
+      usbutils
       htop
       btop
       neofetch

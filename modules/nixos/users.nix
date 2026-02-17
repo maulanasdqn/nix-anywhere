@@ -13,8 +13,6 @@
       "docker"
       "audio"
       "video"
-      "dialout"
-      "plugdev"
     ];
     shell = pkgs.zsh;
   };
