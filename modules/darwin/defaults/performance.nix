@@ -18,11 +18,16 @@
             pmset -a proximitywake 0
             pmset -a ttyskeepawake 1
 
-            # Force high performance
+            # Force max CPU performance
             pmset -a lowpowermode 0
-            pmset -a gpuswitch 0
+            pmset -a gpuswitch 2
             pmset -a sms 0
             pmset -a lidwake 1
+            pmset -a lessbright 0
+            pmset -a halfdim 0
+
+            # Disable CPU throttling (keep fans spinning)
+            pmset -a highstandbythreshold 100
 
             # Disable Siri
             defaults write com.apple.assistant.support "Assistant Enabled" -bool false
@@ -34,6 +39,16 @@
             mkdir -p /var/vm
             touch /var/vm/sleepimage
             chflags uchg /var/vm/sleepimage
+
+            # Pre-allocate swap space (8GB)
+            rm -f /var/vm/sleepimage 2>/dev/null || true
+
+            # Apply sysctl settings
+            sysctl -w kern.maxfiles=524288 2>/dev/null || true
+            sysctl -w kern.maxfilesperproc=262144 2>/dev/null || true
+            sysctl -w kern.maxproc=4096 2>/dev/null || true
+            sysctl -w kern.maxprocperuid=2048 2>/dev/null || true
+            sysctl -w kern.ipc.somaxconn=4096 2>/dev/null || true
 
             echo "Performance mode activated"
           ''
@@ -69,16 +84,25 @@
 
   environment.etc = {
     "sysctl.conf".text = ''
+      # File descriptors
       kern.maxfiles=524288
       kern.maxfilesperproc=262144
-      kern.maxproc=2048
-      kern.maxprocperuid=1024
-      kern.ipc.somaxconn=2048
-      kern.ipc.nmbclusters=65536
-      net.inet.tcp.sendspace=262144
-      net.inet.tcp.recvspace=262144
-      net.inet.udp.recvspace=262144
+      kern.maxproc=4096
+      kern.maxprocperuid=2048
+
+      # Network buffers
+      kern.ipc.somaxconn=4096
+      kern.ipc.nmbclusters=131072
+      net.inet.tcp.sendspace=524288
+      net.inet.tcp.recvspace=524288
+      net.inet.udp.recvspace=524288
       net.inet.udp.maxdgram=65535
+      net.inet.tcp.mssdflt=1460
+      net.inet.tcp.win_scale_factor=8
+
+      # Memory pressure - prefer swap over killing apps
+      kern.memorystatus_purge_on_warning=0
+      kern.memorystatus_purge_on_critical=0
     '';
   };
 
