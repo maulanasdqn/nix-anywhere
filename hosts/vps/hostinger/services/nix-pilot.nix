@@ -4,6 +4,11 @@
     enable = true;
     port = 3001;
     address = "127.0.0.1";
+    auth = {
+      enable = true;
+      username = "admin";
+      password = "NixPilot2025!"; # Change this to a secure password
+    };
   };
 
   services.nginx.virtualHosts."manage.msdqn.dev" = {
