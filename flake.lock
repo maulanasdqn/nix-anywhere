@@ -601,11 +601,11 @@
         "sops-nix": "sops-nix"
       },
       "locked": {
-        "lastModified": 1771489302,
-        "narHash": "sha256-G6F5g9HPaVr27CfDx3DfNL2yWZvgDB61hTC6Cfne5jM=",
+        "lastModified": 1771493071,
+        "narHash": "sha256-is1bqWbjkGDRuYdO+dNuAEwikTpiytgecOXhdx3ne3g=",
         "owner": "maulanasdqn",
         "repo": "nix-pilot",
-        "rev": "212766a9d867e88baae881ef7b6eca6274d1f3de",
+        "rev": "8e8dfa2beab7005bd4a66bb91e1a0b56edadb941",
         "type": "github"
       },
       "original": {
