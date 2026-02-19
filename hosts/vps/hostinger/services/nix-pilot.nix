@@ -7,7 +7,7 @@
     auth = {
       enable = true;
       username = "admin";
-      password = "NixPilot2025!"; # Change this to a secure password
+      password = "NixPilot2025Secure"; # Change this to a secure password
     };
   };
 
