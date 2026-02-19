@@ -76,6 +76,11 @@
       url = "git+ssh://git@github.com/rajawalikaryamulya/rkm-admin-frontend.git?ref=develop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-pilot = {
+      url = "github:maulanasdqn/nix-pilot/develop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -95,6 +100,7 @@
       rkm-backend,
       rkm-frontend,
       rkm-admin-frontend,
+      nix-pilot,
       ...
     }:
     let
@@ -231,6 +237,7 @@
           rkm-backend.nixosModules.default
           rkm-frontend.nixosModules.default
           rkm-admin-frontend.nixosModules.default
+          nix-pilot.nixosModules.default
           ./hosts/vps/hostinger
         ];
       };

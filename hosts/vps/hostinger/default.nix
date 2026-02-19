@@ -17,6 +17,7 @@
     ./services/backup.nix
     ./services/yes-date-me-backup.nix
     ./services/minio.nix
+    ./services/nix-pilot.nix
   ];
 
   swapDevices = [

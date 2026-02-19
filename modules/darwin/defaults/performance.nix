@@ -34,15 +34,6 @@
             launchctl disable "user/$UID/com.apple.Siri" 2>/dev/null || true
             launchctl disable "gui/$UID/com.apple.Siri" 2>/dev/null || true
 
-            # Remove sleep image
-            rm -f /var/vm/sleepimage 2>/dev/null || true
-            mkdir -p /var/vm
-            touch /var/vm/sleepimage
-            chflags uchg /var/vm/sleepimage
-
-            # Pre-allocate swap space (8GB)
-            rm -f /var/vm/sleepimage 2>/dev/null || true
-
             # Apply sysctl settings
             sysctl -w kern.maxfiles=524288 2>/dev/null || true
             sysctl -w kern.maxfilesperproc=262144 2>/dev/null || true
@@ -100,9 +91,6 @@
       net.inet.tcp.mssdflt=1460
       net.inet.tcp.win_scale_factor=8
 
-      # Memory pressure - prefer swap over killing apps
-      kern.memorystatus_purge_on_warning=0
-      kern.memorystatus_purge_on_critical=0
     '';
   };
 

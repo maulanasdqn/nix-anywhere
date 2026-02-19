@@ -18,8 +18,10 @@
     background = 191724
     foreground = e0def4
 
-    cursor-color = 524f67
-    cursor-text = e0def4
+    cursor-color = e0def4
+    cursor-text = 191724
+    cursor-style = block
+    cursor-style-blink = true
 
     selection-background = 403d52
     selection-foreground = e0def4
