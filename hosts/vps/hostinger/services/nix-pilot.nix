@@ -18,6 +18,15 @@
       proxyPass = "http://127.0.0.1:3001";
       proxyWebsockets = true;
     };
+    # Disable caching for WASM/JS files to prevent version mismatches
+    locations."/pkg/" = {
+      proxyPass = "http://127.0.0.1:3001";
+      extraConfig = ''
+        add_header Cache-Control "no-cache, no-store, must-revalidate";
+        add_header Pragma "no-cache";
+        add_header Expires "0";
+      '';
+    };
   };
 
   services.nginx.virtualHosts."api-manage.msdqn.dev" = {
