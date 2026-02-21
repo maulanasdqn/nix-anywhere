@@ -17,7 +17,7 @@
     ./services/backup.nix
     ./services/yes-date-me-backup.nix
     ./services/minio.nix
-    ./services/nix-pilot.nix
+    # ./services/nix-pilot.nix  # Temporarily disabled - upstream has build errors
   ];
 
   swapDevices = [

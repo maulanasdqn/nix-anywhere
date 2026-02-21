@@ -237,7 +237,7 @@
           rkm-backend.nixosModules.default
           rkm-frontend.nixosModules.default
           rkm-admin-frontend.nixosModules.default
-          nix-pilot.nixosModules.default
+          # nix-pilot.nixosModules.default  # Temporarily disabled - upstream has build errors
           ./hosts/vps/hostinger
         ];
       };
