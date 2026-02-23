@@ -14,7 +14,7 @@
     ./services/rkm-backend.nix
     ./services/rkm-frontend.nix
     ./services/rkm-admin-frontend.nix
-    ./services/rag-server.nix
+    # ./services/rag-server.nix  # Temporarily disabled
     # ./services/nix-pilot.nix  # Disabled - needs recursion_limit fix
     ./services/backup.nix
     ./services/yes-date-me-backup.nix
