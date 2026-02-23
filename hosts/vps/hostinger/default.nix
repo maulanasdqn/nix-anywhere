@@ -14,10 +14,11 @@
     ./services/rkm-backend.nix
     ./services/rkm-frontend.nix
     ./services/rkm-admin-frontend.nix
+    ./services/rag-server.nix
+    ./services/nix-pilot.nix
     ./services/backup.nix
     ./services/yes-date-me-backup.nix
     ./services/minio.nix
-    # ./services/nix-pilot.nix  # Temporarily disabled - upstream has build errors
   ];
 
   swapDevices = [

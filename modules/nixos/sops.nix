@@ -47,6 +47,12 @@
         owner = "root";
         path = "/root/.ssh/id_ed25519";
       };
+
+      # RAG server environment (OPENAI_API_KEY)
+      "rag_server_env" = {
+        mode = "0400";
+        owner = "rag-server";
+      };
     };
   };
 }

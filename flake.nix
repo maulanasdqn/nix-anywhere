@@ -78,7 +78,14 @@
     };
 
     nix-pilot = {
-      url = "github:maulanasdqn/nix-pilot/develop";
+      url = "path:/Users/ms/Development/personal/nix-pilot";
+      # For production, use: url = "github:maulanasdqn/nix-pilot/develop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    rag-app = {
+      url = "path:/Users/ms/Development/personal/research/rust-rag-example";
+      # For production, use: url = "github:maulanasdqn/rust-rag-example/develop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -101,6 +108,7 @@
       rkm-frontend,
       rkm-admin-frontend,
       nix-pilot,
+      rag-app,
       ...
     }:
     let
@@ -237,7 +245,8 @@
           rkm-backend.nixosModules.default
           rkm-frontend.nixosModules.default
           rkm-admin-frontend.nixosModules.default
-          # nix-pilot.nixosModules.default  # Temporarily disabled - upstream has build errors
+          rag-app.nixosModules.default
+          nix-pilot.nixosModules.default
           ./hosts/vps/hostinger
         ];
       };
