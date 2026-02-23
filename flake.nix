@@ -78,14 +78,12 @@
     };
 
     nix-pilot = {
-      url = "path:/Users/ms/Development/personal/nix-pilot";
-      # For production, use: url = "github:maulanasdqn/nix-pilot/develop";
+      url = "github:maulanasdqn/nix-pilot/develop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     rag-app = {
-      url = "path:/Users/ms/Development/personal/research/rust-rag-example";
-      # For production, use: url = "github:maulanasdqn/rust-rag-example/develop";
+      url = "github:maulanasdqn/rust-rag-example/develop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
