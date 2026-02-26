@@ -53,6 +53,12 @@
       #   mode = "0400";
       #   owner = "rag-server";
       # };
+
+      # Roasting Startup environment (OPENROUTER_API_KEY)
+      "roasting_startup_env" = {
+        mode = "0400";
+        owner = "roasting";
+      };
     };
   };
 }
