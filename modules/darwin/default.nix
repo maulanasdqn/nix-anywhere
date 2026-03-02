@@ -3,23 +3,20 @@
   pkgs,
   lib,
   username,
-  enableTilingWM,
+  enableTilingWM ? false,
   ...
 }:
 {
-  imports =
-    [
-      ./system
-      ./security
-      ./packages
-      ./defaults
-      ./fonts
-      ./homebrew
-    ]
-    ++ lib.optionals enableTilingWM [
-      ./yabai
-      ./skhd
-    ];
+  imports = [
+    ./system
+    ./security
+    ./packages
+    ./defaults
+    ./fonts
+    ./homebrew
+    ./yabai
+    ./skhd
+  ];
 
   users.users.${username} = {
     name = username;
