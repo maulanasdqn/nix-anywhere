@@ -1,10 +1,10 @@
 {
   username,
-  enableLaravel,
-  enableRust,
-  enableVolta,
-  enableGolang,
-  sshKeys,
+  enableLaravel ? false,
+  enableRust ? false,
+  enableVolta ? false,
+  enableGolang ? false,
+  sshKeys ? [ ],
   lib,
   ...
 }:
@@ -22,7 +22,6 @@
     ./ghostty
     ./services
     ./wallpaper
-  ] ++ lib.optionals enableLaravel [
     ./laravel
   ];
 
