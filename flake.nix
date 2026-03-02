@@ -174,6 +174,7 @@
           sshKeys
           sops-nix
           secretsFile
+          clan-core
           ;
       };
 
