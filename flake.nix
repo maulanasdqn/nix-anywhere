@@ -301,6 +301,7 @@
     {
       # Inherit NixOS configurations from clan
       inherit (clan.config) nixosConfigurations clanInternals;
+      clan = clan.config;
 
       # Darwin configuration (managed separately - clan darwin support requires additional setup)
       darwinConfigurations.${config.darwinHostname} = nix-darwin.lib.darwinSystem {
