@@ -59,6 +59,12 @@
         mode = "0400";
         owner = "roasting";
       };
+
+      # Kilat.App environment
+      "kilat_env" = {
+        mode = "0400";
+        owner = "root";
+      };
     };
   };
 }

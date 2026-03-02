@@ -96,6 +96,11 @@
       url = "git+ssh://git@github.com/mrscraper-com/verychic-frontend.git?ref=testing";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    kilat-app = {
+      url = "git+ssh://git@github.com/maulanasdqn/kilat-app.git?ref=develop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -119,6 +124,7 @@
       rag-app,
       roasting-startup,
       verychic-frontend,
+      kilat-app,
       ...
     }:
     let
@@ -257,6 +263,7 @@
           rkm-admin-frontend.nixosModules.default
           roasting-startup.nixosModules.default
           verychic-frontend.nixosModules.default
+          kilat-app.nixosModules.default
           # rag-app.nixosModules.default  # Temporarily disabled
           # nix-pilot.nixosModules.default  # Disabled - needs recursion_limit fix in np-ui
           ./hosts/vps/hostinger
