@@ -220,9 +220,42 @@
 
         inventory = {
           services = { };
+          machines.${config.darwinHostname}.machineClass = "darwin";
         };
 
         machines = {
+          # Darwin (macOS)
+          ${config.darwinHostname} = {
+            nixpkgs.hostPlatform = "aarch64-darwin";
+            imports = [
+              determinate.darwinModules.default
+              home-manager.darwinModules.home-manager
+              nix-homebrew.darwinModules.nix-homebrew
+              {
+                nix-homebrew = {
+                  enable = true;
+                  enableRosetta = true;
+                  user = config.darwinUsername;
+                  autoMigrate = true;
+                  mutableTaps = false;
+                  taps = {
+                    "homebrew/homebrew-core" = homebrew-core;
+                    "homebrew/homebrew-cask" = homebrew-cask;
+                  };
+                };
+              }
+              ./modules/nix.nix
+              ./modules/darwin
+              ./modules/home/darwin.nix
+              (
+                { ... }:
+                {
+                  _module.args = darwinSpecialArgs;
+                }
+              )
+            ];
+          };
+
           # NixOS Workstation
           ${config.workstationHostname} = {
             nixpkgs.hostPlatform = "x86_64-linux";
@@ -300,36 +333,9 @@
       };
     in
     {
-      # Inherit NixOS configurations from clan
-      inherit (clan.config) nixosConfigurations clanInternals;
+      # Inherit configurations from clan
+      inherit (clan.config) nixosConfigurations darwinConfigurations clanInternals;
       clan = clan.config;
-
-      # Darwin configuration (managed separately - clan darwin support requires additional setup)
-      darwinConfigurations.${config.darwinHostname} = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        specialArgs = darwinSpecialArgs;
-        modules = [
-          determinate.darwinModules.default
-          home-manager.darwinModules.home-manager
-          nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              enable = true;
-              enableRosetta = true;
-              user = config.darwinUsername;
-              autoMigrate = true;
-              mutableTaps = false;
-              taps = {
-                "homebrew/homebrew-core" = homebrew-core;
-                "homebrew/homebrew-cask" = homebrew-cask;
-              };
-            };
-          }
-          ./modules/nix.nix
-          ./modules/darwin
-          ./modules/home/darwin.nix
-        ];
-      };
 
       devShells = forAllSystems (
         system:
