@@ -20,6 +20,7 @@
     ./services/backup.nix
     ./services/yes-date-me-backup.nix
     ./services/minio.nix
+    ./services/verychic-frontend.nix
   ];
 
   swapDevices = [

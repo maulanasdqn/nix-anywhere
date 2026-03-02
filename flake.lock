@@ -448,6 +448,24 @@
         "type": "github"
       }
     },
+    "flake-utils_6": {
+      "inputs": {
+        "systems": "systems_7"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "git-hooks": {
       "inputs": {
         "flake-compat": [
@@ -1020,7 +1038,8 @@
         "rkm-backend": "rkm-backend",
         "rkm-frontend": "rkm-frontend",
         "roasting-startup": "roasting-startup",
-        "sops-nix": "sops-nix_2"
+        "sops-nix": "sops-nix_2",
+        "verychic-frontend": "verychic-frontend"
       }
     },
     "rust-overlay": {
@@ -1256,6 +1275,21 @@
         "type": "github"
       }
     },
+    "systems_7": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
     "treefmt-nix": {
       "inputs": {
         "nixpkgs": [
@@ -1276,6 +1310,28 @@
         "owner": "numtide",
         "repo": "treefmt-nix",
         "type": "github"
+      }
+    },
+    "verychic-frontend": {
+      "inputs": {
+        "flake-utils": "flake-utils_6",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1772423806,
+        "narHash": "sha256-vb8EYJSsL8x7QkCmF3l8tW9/DtnSo1BNWK+ofhFJ6pE=",
+        "ref": "testing",
+        "rev": "4531d08775554fb77d3f2daae11afffe8080bab6",
+        "revCount": 103,
+        "type": "git",
+        "url": "ssh://git@github.com/mrscraper-com/verychic-frontend.git"
+      },
+      "original": {
+        "ref": "testing",
+        "type": "git",
+        "url": "ssh://git@github.com/mrscraper-com/verychic-frontend.git"
       }
     }
   },
