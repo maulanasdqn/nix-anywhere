@@ -251,6 +251,8 @@
                 { ... }:
                 {
                   _module.args = darwinSpecialArgs;
+                  # Local machine - requires SSH enabled on Mac (System Settings > Sharing > Remote Login)
+                  clan.core.networking.targetHost = "ms@localhost";
                 }
               )
             ];
