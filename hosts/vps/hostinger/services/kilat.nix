@@ -1,4 +1,4 @@
-{ config, acmeEmail, ... }:
+{ config, pkgs, acmeEmail, ... }:
 {
   services.kilat = {
     enable = true;
@@ -47,7 +47,7 @@
     requires = [ "minio.service" ];
     before = [ "kilat-server.service" ];
 
-    path = [ config.services.minio.package ];
+    path = [ pkgs.minio-client ];
 
     serviceConfig = {
       Type = "oneshot";
