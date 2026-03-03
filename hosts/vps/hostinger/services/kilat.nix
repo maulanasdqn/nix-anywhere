@@ -61,6 +61,9 @@
     };
 
     script = ''
+      export PATH="${pkgs.glibc.bin}/bin:$PATH"
+      export HOME="$TMPDIR"
+
       for i in {1..30}; do
         if mc alias set local http://127.0.0.1:9000 minioadmin "MinioSecure2026!" 2>/dev/null; then
           break
