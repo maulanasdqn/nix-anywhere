@@ -52,28 +52,27 @@
     requires = [ "minio.service" ];
     before = [ "kilat-server.service" ];
 
-    path = [ pkgs.minio-client pkgs.glibc.bin ];
+    path = [ pkgs.minio-client pkgs.glibc pkgs.coreutils ];
 
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      DynamicUser = true;
     };
 
     script = ''
-      export PATH="${pkgs.glibc.bin}/bin:$PATH"
-      export HOME="$TMPDIR"
+      export HOME="/tmp/mc-home"
+      mkdir -p $HOME
 
       for i in {1..30}; do
-        if mc alias set local http://127.0.0.1:9000 minioadmin "MinioSecure2026!" 2>/dev/null; then
+        if ${pkgs.minio-client}/bin/mc alias set local http://127.0.0.1:9000 minioadmin "MinioSecure2026!" 2>/dev/null; then
           break
         fi
         echo "Waiting for MinIO... ($i/30)"
         sleep 2
       done
 
-      mc mb --ignore-existing local/kilat-media
-      mc anonymous set download local/kilat-media
+      ${pkgs.minio-client}/bin/mc mb --ignore-existing local/kilat-media
+      ${pkgs.minio-client}/bin/mc anonymous set download local/kilat-media
       echo "MinIO bucket 'kilat-media' ready"
     '';
   };
