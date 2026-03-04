@@ -2,6 +2,7 @@
   lib,
   pkgs,
   acmeEmail,
+  config,
   ...
 }:
 {
@@ -71,15 +72,19 @@
 
   services.nginx = {
     enable = true;
-    recommendedGzipSettings = true;
+    additionalModules = [ pkgs.nginxModules.brotli ]; # Load brotli module for app modules that use it
+    recommendedGzipSettings = lib.mkForce false; # Force disabled - app modules add their own gzip settings
     recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     recommendedBrotliSettings = lib.mkForce false; # Force disabled - app modules add their own brotli settings
     sslCiphers = "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384";
+    proxyTimeout = "300s";
     appendHttpConfig = ''
       ssl_ecdh_curve X25519:secp384r1:prime256v1;
       ssl_conf_command Groups X25519:secp384r1:prime256v1;
+      proxy_headers_hash_max_size 1024;
+      proxy_headers_hash_bucket_size 128;
     '';
 
     virtualHosts."_" = {
