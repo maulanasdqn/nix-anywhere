@@ -29,7 +29,7 @@
       MINIO_SECRET_KEY = "MinioSecure2026!";
       MINIO_BUCKET = "kilat-media";
       MINIO_REGION = "us-east-1";
-      MINIO_PUBLIC_URL = "https://s3.msdqn.dev/kilat-media";
+      MINIO_PUBLIC_URL = "https://storage.kilat.app/kilat-media";
     };
   };
 
