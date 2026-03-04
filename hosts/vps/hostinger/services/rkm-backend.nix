@@ -14,10 +14,11 @@
   systemd.services.rkm-backend = {
     after = [ "sops-nix.service" "minio.service" ];
     wants = [ "sops-nix.service" "minio.service" ];
+    serviceConfig.EnvironmentFile = [
+      config.sops.secrets.minio_env.path
+    ];
     environment = {
       MINIO_ENDPOINT = "http://127.0.0.1:9000";
-      MINIO_ACCESS_KEY = "minioadmin";
-      MINIO_SECRET_KEY = "MinioSecure2026!";
       MINIO_BUCKET = "rkm-media";
       MINIO_REGION = "us-east-1";
       MINIO_PUBLIC_URL = "https://s3.msdqn.dev/rkm-media";

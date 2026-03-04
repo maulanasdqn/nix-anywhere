@@ -66,6 +66,24 @@
         owner = "root";
       };
 
+      # MinIO credentials (root user/password)
+      "minio_credentials" = {
+        mode = "0400";
+        owner = "minio";
+      };
+
+      # MinIO environment (access key/secret key for apps)
+      "minio_env" = {
+        mode = "0400";
+        owner = "root";
+      };
+
+      # Nix-pilot password
+      "nix_pilot_password" = {
+        mode = "0400";
+        owner = "root";
+      };
+
       # K3s cluster token (for multi-node support)
       # Initially auto-generated, add to secrets.yaml when expanding cluster
       # "k3s_token" = {

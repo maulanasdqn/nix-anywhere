@@ -23,10 +23,11 @@
   systemd.services.kilat-server = {
     after = [ "sops-nix.service" "minio.service" ];
     wants = [ "sops-nix.service" "minio.service" ];
+    serviceConfig.EnvironmentFile = [
+      config.sops.secrets.minio_env.path
+    ];
     environment = {
       MINIO_ENDPOINT = "http://127.0.0.1:9000";
-      MINIO_ACCESS_KEY = "minioadmin";
-      MINIO_SECRET_KEY = "MinioSecure2026!";
       MINIO_BUCKET = "kilat-media";
       MINIO_REGION = "us-east-1";
       MINIO_PUBLIC_URL = "https://storage.kilat.app/kilat-media";
@@ -42,8 +43,9 @@
   systemd.services.kilat-minio-init = {
     description = "Initialize Kilat MinIO bucket";
     wantedBy = [ "multi-user.target" ];
-    after = [ "minio.service" ];
+    after = [ "minio.service" "sops-nix.service" ];
     requires = [ "minio.service" ];
+    wants = [ "sops-nix.service" ];
     before = [ "kilat-server.service" ];
 
     path = [ pkgs.minio-client pkgs.glibc pkgs.coreutils ];
@@ -57,8 +59,11 @@
       export HOME="/tmp/mc-home"
       mkdir -p $HOME
 
+      # Source MinIO credentials from sops
+      source ${config.sops.secrets.minio_env.path}
+
       for i in {1..30}; do
-        if ${pkgs.minio-client}/bin/mc alias set local http://127.0.0.1:9000 minioadmin "MinioSecure2026!" 2>/dev/null; then
+        if ${pkgs.minio-client}/bin/mc alias set local http://127.0.0.1:9000 "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" 2>/dev/null; then
           break
         fi
         echo "Waiting for MinIO... ($i/30)"

@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 {
   services.nix-pilot = {
     enable = true;
@@ -7,8 +7,28 @@
     auth = {
       enable = true;
       username = "admin";
-      password = "NixPilot2025Secure"; # Change this to a secure password
+      # Password read from sops secret via script
+      password = "temp";  # Will be overwritten by activation script
     };
+  };
+
+  # Activation script to set password from sops secret
+  system.activationScripts.nix-pilot-password = {
+    deps = [ "etc" ];
+    text = ''
+      if [ -f ${config.sops.secrets.nix_pilot_password.path} ]; then
+        PASSWORD=$(cat ${config.sops.secrets.nix_pilot_password.path})
+        # nix-pilot reads config from its state directory
+        mkdir -p /var/lib/nix-pilot
+        echo "$PASSWORD" > /var/lib/nix-pilot/.password
+        chmod 600 /var/lib/nix-pilot/.password
+      fi
+    '';
+  };
+
+  systemd.services.nix-pilot = {
+    after = [ "sops-nix.service" ];
+    wants = [ "sops-nix.service" ];
   };
 
   services.nginx.virtualHosts."manage.msdqn.dev" = {
