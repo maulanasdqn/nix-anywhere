@@ -2,8 +2,8 @@
 {
   services.minio = {
     enable = true;
-    listenAddress = "127.0.0.1:9000";
-    consoleAddress = "127.0.0.1:9001";
+    listenAddress = "0.0.0.0:9000";  # Bind to all interfaces for k8s access
+    consoleAddress = "0.0.0.0:9001";
     dataDir = [ "/var/lib/minio/data" ];
     rootCredentialsFile = "/var/lib/minio/credentials";
   };

@@ -24,8 +24,8 @@ in
         valuesContent: |-
           controller:
             kind: DaemonSet
-            hostPort:
-              enabled: true
+            hostNetwork: true
+            dnsPolicy: ClusterFirstWithHostNet
             service:
               type: ClusterIP
             ingressClassResource:
@@ -42,6 +42,8 @@ in
               proxy-buffer-size: "16k"
               ssl-redirect: "true"
               use-forwarded-headers: "true"
+              real-ip-header: "X-Forwarded-For"
+              forwarded-for-header: "X-Forwarded-For"
     '';
 
     # cert-manager for Let's Encrypt SSL

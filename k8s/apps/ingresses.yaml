@@ -1,0 +1,254 @@
+# Ingress resources for all domains
+---
+# Personal Website - msdqn.dev
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: personal-website
+  namespace: apps
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - msdqn.dev
+    - www.msdqn.dev
+    secretName: personal-website-tls
+  rules:
+  - host: msdqn.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: personal-website
+            port:
+              number: 4321
+  - host: www.msdqn.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: personal-website
+            port:
+              number: 4321
+---
+# RKM Backend - api.rajawalikaryamulya.co.id
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rkm-backend
+  namespace: apps
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - api.rajawalikaryamulya.co.id
+    secretName: rkm-backend-tls
+  rules:
+  - host: api.rajawalikaryamulya.co.id
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rkm-backend
+            port:
+              number: 3300
+---
+# RKM Frontend - rajawalikaryamulya.co.id (static served by nginx module)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rkm-frontend
+  namespace: apps
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - rajawalikaryamulya.co.id
+    - www.rajawalikaryamulya.co.id
+    secretName: rkm-frontend-tls
+  rules:
+  - host: rajawalikaryamulya.co.id
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rkm-frontend
+            port:
+              number: 80
+  - host: www.rajawalikaryamulya.co.id
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rkm-frontend
+            port:
+              number: 80
+---
+# RKM Admin Frontend - cms.rajawalikaryamulya.co.id
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rkm-admin-frontend
+  namespace: apps
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - cms.rajawalikaryamulya.co.id
+    secretName: rkm-admin-frontend-tls
+  rules:
+  - host: cms.rajawalikaryamulya.co.id
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rkm-admin-frontend
+            port:
+              number: 3100
+---
+# Roasting Startup - roast.kilat.app
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: roasting-startup
+  namespace: apps
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - roast.kilat.app
+    secretName: roasting-startup-tls
+  rules:
+  - host: roast.kilat.app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: roasting-startup
+            port:
+              number: 7676
+---
+# Kilat App - kilat.app and api.kilat.app
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kilat-app
+  namespace: apps
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - kilat.app
+    - api.kilat.app
+    secretName: kilat-app-tls
+  rules:
+  - host: kilat.app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kilat-server
+            port:
+              number: 8082
+  - host: api.kilat.app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kilat-server
+            port:
+              number: 8082
+---
+# Verychic Frontend - verychic.msdqn.dev
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: verychic-frontend
+  namespace: apps
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - verychic.msdqn.dev
+    secretName: verychic-frontend-tls
+  rules:
+  - host: verychic.msdqn.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: verychic-frontend
+            port:
+              number: 80
+---
+# MinIO S3 - s3.msdqn.dev
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio-s3
+  namespace: apps
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "1g"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - s3.msdqn.dev
+    secretName: minio-s3-tls
+  rules:
+  - host: s3.msdqn.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: minio
+            port:
+              number: 9000

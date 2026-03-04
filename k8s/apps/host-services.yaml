@@ -1,0 +1,184 @@
+# Kubernetes Services and Ingresses for NixOS host services
+# These route external traffic through nginx-ingress to localhost services
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: apps
+---
+# Service endpoints pointing to host (using hostNetwork, localhost is accessible)
+apiVersion: v1
+kind: Service
+metadata:
+  name: personal-website
+  namespace: apps
+spec:
+  ports:
+  - port: 4321
+    targetPort: 4321
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: personal-website
+  namespace: apps
+subsets:
+- addresses:
+  - ip: 72.62.125.38
+  ports:
+  - port: 4321
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rkm-backend
+  namespace: apps
+spec:
+  ports:
+  - port: 3300
+    targetPort: 3300
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: rkm-backend
+  namespace: apps
+subsets:
+- addresses:
+  - ip: 72.62.125.38
+  ports:
+  - port: 3300
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rkm-admin-frontend
+  namespace: apps
+spec:
+  ports:
+  - port: 3100
+    targetPort: 3100
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: rkm-admin-frontend
+  namespace: apps
+subsets:
+- addresses:
+  - ip: 72.62.125.38
+  ports:
+  - port: 3100
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: roasting-startup
+  namespace: apps
+spec:
+  ports:
+  - port: 7676
+    targetPort: 7676
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: roasting-startup
+  namespace: apps
+subsets:
+- addresses:
+  - ip: 72.62.125.38
+  ports:
+  - port: 7676
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kilat-server
+  namespace: apps
+spec:
+  ports:
+  - port: 8082
+    targetPort: 8082
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: kilat-server
+  namespace: apps
+subsets:
+- addresses:
+  - ip: 72.62.125.38
+  ports:
+  - port: 8082
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+  namespace: apps
+spec:
+  ports:
+  - name: api
+    port: 9000
+    targetPort: 9000
+  - name: console
+    port: 9001
+    targetPort: 9001
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: minio
+  namespace: apps
+subsets:
+- addresses:
+  - ip: 72.62.125.38
+  ports:
+  - name: api
+    port: 9000
+  - name: console
+    port: 9001
+---
+# Static frontends served by NixOS nginx on port 8080
+apiVersion: v1
+kind: Service
+metadata:
+  name: rkm-frontend
+  namespace: apps
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: rkm-frontend
+  namespace: apps
+subsets:
+- addresses:
+  - ip: 72.62.125.38
+  ports:
+  - port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: verychic-frontend
+  namespace: apps
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: verychic-frontend
+  namespace: apps
+subsets:
+- addresses:
+  - ip: 72.62.125.38
+  ports:
+  - port: 8080

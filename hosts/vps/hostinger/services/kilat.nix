@@ -8,21 +8,15 @@
   services.kilat = {
     enable = true;
     port = 8082;
-    host = "127.0.0.1";
+    host = "0.0.0.0";  # Bind to all interfaces for k8s access
     databaseUrl = "postgresql://kilat:kilat@localhost:5432/kilat_app";
     environmentFile = config.sops.secrets.kilat_env.path;
 
     # MinIO disabled - using existing MinIO service
     minio.enable = false;
 
-    nginx = {
-      enable = true;
-      domain = "kilat.app";
-      apiDomain = "api.kilat.app";
-      storageDomain = "storage.kilat.app";
-      enableSSL = true;
-      acmeEmail = acmeEmail;
-    };
+    # nginx handled by k8s nginx-ingress
+    nginx.enable = false;
   };
 
   # Ensure kilat services start after sops secrets and MinIO

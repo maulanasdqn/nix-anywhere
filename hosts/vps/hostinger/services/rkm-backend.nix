@@ -3,15 +3,11 @@
   services.rkm-backend = {
     enable = true;
     port = 3300;
-    host = "127.0.0.1";
+    host = "0.0.0.0";  # Bind to all interfaces for k8s access
     databaseUrl = "postgresql://rkm:rkm@localhost:5432/rkm";
     environmentFile = config.sops.secrets.rkm_backend_env.path;
-    nginx = {
-      enable = true;
-      domain = "api.rajawalikaryamulya.co.id";
-      enableSSL = true;
-      acmeEmail = acmeEmail;
-    };
+    # nginx handled by k8s nginx-ingress
+    nginx.enable = false;
   };
 
   # Ensure rkm-backend service starts after sops secrets are available and MinIO

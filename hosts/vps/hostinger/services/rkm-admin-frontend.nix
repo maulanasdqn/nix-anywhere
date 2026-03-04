@@ -3,10 +3,8 @@
   services.rkm-admin-frontend = {
     enable = true;
     port = 3100;
-    nginx = {
-      enable = true;
-      domain = "cms.rajawalikaryamulya.co.id";
-      enableSSL = true;
-    };
+    host = "0.0.0.0";  # Bind to all interfaces for k8s access
+    # nginx handled by k8s nginx-ingress
+    nginx.enable = false;
   };
 }

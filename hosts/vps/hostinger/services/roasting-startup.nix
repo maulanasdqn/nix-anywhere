@@ -3,9 +3,9 @@
   services.roasting-startup = {
     enable = true;
     port = 7676;
-    host = "127.0.0.1";
-    domain = "roast.kilat.app";
-    acmeEmail = acmeEmail;
+    host = "0.0.0.0";  # Bind to all interfaces for k8s access
+    # nginx handled by k8s nginx-ingress - disable module's nginx
+    domain = "roast.kilat.app";  # Keep for reference but nginx disabled by module
 
     # Secrets file containing:
     # - DATABASE_URL
