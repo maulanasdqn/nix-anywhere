@@ -106,6 +106,22 @@
       url = "https://git.clan.lol/clan/clan-core/archive/main.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Nix-native Kubernetes tools
+    nix-csi = {
+      url = "github:lillecarl/nix-csi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    easykubenix = {
+      url = "github:lillecarl/easykubenix";
+    };
+
+    # dinix - disabled until flake.nix is added to repo
+    # dinix = {
+    #   url = "github:lillecarl/dinix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs =
@@ -132,6 +148,8 @@
       verychic-frontend,
       kilat-app,
       clan-core,
+      nix-csi,
+      easykubenix,
       ...
     }:
     let
@@ -198,6 +216,7 @@
         gateway = config.vpsHostingerGateway;
         enableLaravel = false;
         inherit nixvim sshKeys acmeEmail sops-nix secretsFile kilat-app;
+        inherit nix-csi easykubenix;
       };
 
       digitaloceanSpecialArgs = {

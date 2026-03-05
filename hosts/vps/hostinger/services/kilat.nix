@@ -80,8 +80,35 @@
   services.nginx.virtualHosts."kilat.app" = {
     listen = [{ addr = "0.0.0.0"; port = 8080; }];
     root = kilat-app.packages.${pkgs.stdenv.hostPlatform.system}.kilat-ui;
+
+    # Rate limiting and security
+    extraConfig = ''
+      # Connection limit
+      limit_conn conn_per_ip 20;
+
+      # Security headers
+      add_header X-Frame-Options "SAMEORIGIN" always;
+      add_header X-Content-Type-Options "nosniff" always;
+      add_header X-XSS-Protection "1; mode=block" always;
+      add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    '';
+
     locations."/" = {
       tryFiles = "$uri $uri/ /index.html";
+      extraConfig = ''
+        # Rate limit for HTML pages
+        limit_req zone=api_limit burst=20 nodelay;
+      '';
+    };
+
+    locations."~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$" = {
+      tryFiles = "$uri =404";
+      extraConfig = ''
+        # More permissive rate limit for static assets
+        limit_req zone=static_limit burst=100 nodelay;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+      '';
     };
   };
 }

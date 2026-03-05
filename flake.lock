@@ -278,6 +278,22 @@
         "type": "github"
       }
     },
+    "dinix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769166639,
+        "narHash": "sha256-Xpqn3FuNYMKvCyJwOmdIY4WjFZd9TVGrjPtHsEZXkxU=",
+        "owner": "lillecarl",
+        "repo": "dinix",
+        "rev": "383d944448f629813a691707b8b45ba78f4d2f6b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lillecarl",
+        "repo": "dinix",
+        "type": "github"
+      }
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -319,6 +335,37 @@
         "type": "github"
       }
     },
+    "easykubenix": {
+      "locked": {
+        "lastModified": 1771374020,
+        "narHash": "sha256-JTweNo2EimlhVUQcXUJD/2g+ZTumPcAbIp4EKuSERq0=",
+        "owner": "lillecarl",
+        "repo": "easykubenix",
+        "rev": "88a025fc04889f25b702f79030c6220c3ec48f9b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lillecarl",
+        "repo": "easykubenix",
+        "type": "github"
+      }
+    },
+    "easykubenix_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1771374020,
+        "narHash": "sha256-JTweNo2EimlhVUQcXUJD/2g+ZTumPcAbIp4EKuSERq0=",
+        "owner": "lillecarl",
+        "repo": "easykubenix",
+        "rev": "88a025fc04889f25b702f79030c6220c3ec48f9b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lillecarl",
+        "repo": "easykubenix",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -348,6 +395,22 @@
       "original": {
         "owner": "edolstra",
         "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-compatish": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1768889023,
+        "narHash": "sha256-g1gcagOt283Mv51FSAy8YCPWosMjsW+icP4Vrt5/3jY=",
+        "owner": "lillecarl",
+        "repo": "flake-compatish",
+        "rev": "c3accc4dfe4ae0b1311ae61d8d5431c87b5dcd84",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lillecarl",
+        "repo": "flake-compatish",
         "type": "github"
       }
     },
@@ -767,6 +830,30 @@
       "original": {
         "type": "tarball",
         "url": "https://flakehub.com/f/DeterminateSystems/nix-src/%2A"
+      }
+    },
+    "nix-csi": {
+      "inputs": {
+        "dinix": "dinix",
+        "easykubenix": "easykubenix_2",
+        "flake-compatish": "flake-compatish",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": "treefmt-nix_3"
+      },
+      "locked": {
+        "lastModified": 1772057487,
+        "narHash": "sha256-8E558MZicDnxuCYtVlT5fkOOvnTsjfZ2hLoU3L86ZtQ=",
+        "owner": "lillecarl",
+        "repo": "nix-csi",
+        "rev": "7ddae07bf04c9540084d649a9404900d94adc2fd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lillecarl",
+        "repo": "nix-csi",
+        "type": "github"
       }
     },
     "nix-darwin": {
@@ -1190,12 +1277,14 @@
         "determinate": "determinate",
         "devenv": "devenv",
         "disko": "disko_2",
+        "easykubenix": "easykubenix",
         "flake-parts": "flake-parts_4",
         "home-manager": "home-manager",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
         "hpyd": "hpyd",
         "kilat-app": "kilat-app",
+        "nix-csi": "nix-csi",
         "nix-darwin": "nix-darwin_2",
         "nix-homebrew": "nix-homebrew",
         "nix-pilot": "nix-pilot",
@@ -1551,6 +1640,27 @@
         "owner": "numtide",
         "repo": "treefmt-nix",
         "rev": "65712f5af67234dad91a5a4baee986a8b62dbf8f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "treefmt-nix_3": {
+      "inputs": {
+        "nixpkgs": [
+          "nix-csi",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1770228511,
+        "narHash": "sha256-wQ6NJSuFqAEmIg2VMnLdCnUc0b7vslUohqqGGD+Fyxk=",
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "rev": "337a4fe074be1042a35086f15481d763b8ddc0e7",
         "type": "github"
       },
       "original": {

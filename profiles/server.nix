@@ -85,6 +85,43 @@
       ssl_conf_command Groups X25519:secp384r1:prime256v1;
       proxy_headers_hash_max_size 1024;
       proxy_headers_hash_bucket_size 128;
+
+      # ===== RATE LIMITING ZONES =====
+      # General API rate limit: 10 requests/second per IP
+      limit_req_zone $binary_remote_addr zone=api_limit:10m rate=10r/s;
+
+      # Strict limit for auth endpoints: 5 requests/second
+      limit_req_zone $binary_remote_addr zone=auth_limit:10m rate=5r/s;
+
+      # Static assets: 50 requests/second (more permissive)
+      limit_req_zone $binary_remote_addr zone=static_limit:10m rate=50r/s;
+
+      # AI/LLM endpoints: 2 requests/second (expensive operations)
+      limit_req_zone $binary_remote_addr zone=ai_limit:10m rate=2r/s;
+
+      # Upload endpoints: 5 requests/minute
+      limit_req_zone $binary_remote_addr zone=upload_limit:10m rate=5r/m;
+
+      # Connection limits per IP
+      limit_conn_zone $binary_remote_addr zone=conn_per_ip:10m;
+
+      # ===== SECURITY SETTINGS =====
+      # Hide nginx version
+      server_tokens off;
+
+      # Request size limits
+      client_max_body_size 100m;
+      client_body_buffer_size 128k;
+
+      # Timeouts for DDoS protection
+      client_body_timeout 10s;
+      client_header_timeout 10s;
+      keepalive_timeout 30s;
+      send_timeout 10s;
+
+      # Rate limit response
+      limit_req_status 429;
+      limit_conn_status 429;
     '';
 
     virtualHosts."_" = {
@@ -113,6 +150,7 @@
       multipliers = "1 2 4 8 16 32 64";
     };
     jails = {
+      # Authentication failures
       nginx-http-auth = {
         settings = {
           enabled = true;
@@ -122,6 +160,7 @@
           bantime = "1h";
         };
       };
+      # Bot detection
       nginx-botsearch = {
         settings = {
           enabled = true;
@@ -131,7 +170,54 @@
           bantime = "1h";
         };
       };
+      # Rate limit violations (429 responses)
+      nginx-limit-req = {
+        settings = {
+          enabled = true;
+          port = "http,https";
+          filter = "nginx-limit-req";
+          maxretry = 10;
+          findtime = "1m";
+          bantime = "10m";
+        };
+      };
+      # Bad requests (400 errors - potential scanner)
+      nginx-bad-request = {
+        settings = {
+          enabled = true;
+          port = "http,https";
+          filter = "nginx-bad-request";
+          maxretry = 20;
+          findtime = "1m";
+          bantime = "30m";
+        };
+      };
+      # Repeated 403/404 - potential scanner
+      nginx-req-limit = {
+        settings = {
+          enabled = true;
+          port = "http,https";
+          logpath = "/var/log/nginx/access.log";
+          maxretry = 100;
+          findtime = "1m";
+          bantime = "30m";
+        };
+      };
     };
+  };
+
+  # Custom fail2ban filters
+  environment.etc = {
+    "fail2ban/filter.d/nginx-bad-request.local".text = ''
+      [Definition]
+      failregex = ^<HOST> .* "(GET|POST|HEAD|PUT|DELETE|PATCH).*" 400
+      ignoreregex =
+    '';
+    "fail2ban/filter.d/nginx-req-limit.local".text = ''
+      [Definition]
+      failregex = ^<HOST> .* "(GET|POST|HEAD|PUT|DELETE|PATCH).*" (403|404)
+      ignoreregex = \.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|svg)
+    '';
   };
 
   boot.kernel.sysctl = {

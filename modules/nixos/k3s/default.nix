@@ -7,6 +7,7 @@ in
     ./storage.nix
     ./ingress.nix
     ./secrets.nix
+    ./nix-csi.nix
   ];
 
   config = lib.mkIf cfg.enable {
