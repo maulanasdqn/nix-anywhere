@@ -1,7 +1,7 @@
-# Kilat App - Nix-native Kubernetes deployment using nix-csi
+# Kilat App - Kubernetes ingress and frontend deployment
 #
-# This deploys kilat-server and kilat-ui using nix-csi CSI driver
-# which mounts the Nix store directly into pods - no container images needed.
+# kilat-server runs as a systemd service (port 8082), k8s ingress proxies to it.
+# kilat-ui is served via nginx pod using nix-csi to mount static files.
 { lib, pkgs, kilat-app, targetSystem, ... }:
 let
   labels = {
@@ -12,119 +12,29 @@ let
   # Get store paths from flake packages - these update automatically on rebuild
   # Use unsafeDiscardStringContext to allow evaluation without local build
   # (the actual packages will be built on the target system)
-  kilatServerPkg = kilat-app.packages.${targetSystem}.kilat-server;
   kilatUiPkg = kilat-app.packages.${targetSystem}.kilat-ui or kilat-app.packages.${targetSystem}.default;
 
   # Convert to strings without build dependency
-  kilatServer = builtins.unsafeDiscardStringContext (toString kilatServerPkg);
   kilatUi = builtins.unsafeDiscardStringContext (toString kilatUiPkg);
 in
 {
   kubernetes.resources.apps = {
-    # Kilat Server (API) Deployment
-    Deployment.kilat-server = {
-      metadata.labels = labels // { "app.kubernetes.io/component" = "api"; };
-      spec = {
-        replicas = 1;
-        selector.matchLabels.app = "kilat-server";
-        template = {
-          metadata.labels = {
-            app = "kilat-server";
-          } // labels;
-          spec = {
-            # Use host network to access localhost PostgreSQL and MinIO
-            hostNetwork = true;
-            dnsPolicy = "ClusterFirstWithHostNet";
-            containers = [
-              {
-                name = "kilat-server";
-                image = "scratch";
-                imagePullPolicy = "Never";
-                # Dynamic store path from flake - evaluates to /nix/store/xxx/bin/kilat-server
-                command = [ "${kilatServer}/bin/kilat-server" ];
-                ports = [{ containerPort = 8082; name = "http"; protocol = "TCP"; }];
-                env = [
-                  # SSL certificates (required for OAuth, external API calls)
-                  { name = "SSL_CERT_FILE"; value = "/etc/ssl/certs/ca-certificates.crt"; }
-                  # Database
-                  { name = "DATABASE_URL"; valueFrom.secretKeyRef = { name = "kilat-secrets"; key = "database-url"; }; }
-                  # Server
-                  { name = "HOST"; value = "0.0.0.0"; }
-                  { name = "PORT"; value = "8082"; }
-                  { name = "RUST_LOG"; value = "info"; }
-                  # MinIO
-                  { name = "MINIO_ENDPOINT"; value = "http://127.0.0.1:9000"; }
-                  { name = "MINIO_BUCKET"; value = "kilat-media"; }
-                  { name = "MINIO_REGION"; value = "us-east-1"; }
-                  { name = "MINIO_PUBLIC_URL"; value = "https://storage.kilat.app/kilat-media"; }
-                  { name = "MINIO_ACCESS_KEY"; valueFrom.secretKeyRef = { name = "kilat-secrets"; key = "minio-access-key"; }; }
-                  { name = "MINIO_SECRET_KEY"; valueFrom.secretKeyRef = { name = "kilat-secrets"; key = "minio-secret-key"; }; }
-                  # Auth
-                  { name = "JWT_SECRET"; valueFrom.secretKeyRef = { name = "kilat-secrets"; key = "jwt-secret"; }; }
-                  { name = "GOOGLE_CLIENT_ID"; valueFrom.secretKeyRef = { name = "kilat-secrets"; key = "google-client-id"; }; }
-                  { name = "GOOGLE_CLIENT_SECRET"; valueFrom.secretKeyRef = { name = "kilat-secrets"; key = "google-client-secret"; }; }
-                  { name = "GOOGLE_REDIRECT_URI"; valueFrom.secretKeyRef = { name = "kilat-secrets"; key = "google-redirect-uri"; }; }
-                  # AI/API Keys
-                  { name = "FAL_API_KEY"; valueFrom.secretKeyRef = { name = "kilat-secrets"; key = "fal-api-key"; }; }
-                  { name = "OPENROUTER_API_KEY"; valueFrom.secretKeyRef = { name = "kilat-secrets"; key = "openrouter-api-key"; }; }
-                  { name = "BYTEPLUS_API_KEY"; valueFrom.secretKeyRef = { name = "kilat-secrets"; key = "byteplus-api-key"; }; }
-                  { name = "ELEVENLABS_API_KEY"; valueFrom.secretKeyRef = { name = "kilat-secrets"; key = "elevenlabs-api-key"; }; }
-                  # Email
-                  { name = "RESEND_API_KEY"; valueFrom.secretKeyRef = { name = "kilat-secrets"; key = "resend-api-key"; }; }
-                  { name = "EMAIL_FROM"; valueFrom.secretKeyRef = { name = "kilat-secrets"; key = "email-from"; }; }
-                ];
-                volumeMounts = [
-                  { name = "nix"; mountPath = "/nix"; readOnly = true; }
-                  { name = "ssl-certs"; mountPath = "/etc/ssl/certs"; readOnly = true; }
-                ];
-                resources = {
-                  requests = { memory = "128Mi"; cpu = "100m"; };
-                  limits = { memory = "512Mi"; cpu = "500m"; };
-                };
-                livenessProbe = {
-                  httpGet = { path = "/health"; port = 8082; };
-                  initialDelaySeconds = 10;
-                  periodSeconds = 30;
-                };
-                readinessProbe = {
-                  httpGet = { path = "/health"; port = 8082; };
-                  initialDelaySeconds = 5;
-                  periodSeconds = 10;
-                };
-              }
-            ];
-            volumes = [
-              {
-                # Mount /nix via our custom CSI driver
-                name = "nix";
-                csi = {
-                  driver = "nix.mount.csi";
-                  readOnly = true;
-                  # Optional: pass storePath for logging/debugging
-                  volumeAttributes.storePath = "${kilatServer}";
-                };
-              }
-              {
-                # Mount host SSL certificates for OAuth and external API calls
-                name = "ssl-certs";
-                hostPath = {
-                  path = "/etc/ssl/certs";
-                  type = "Directory";
-                };
-              }
-            ];
-          };
-        };
-      };
-    };
-
-    # Kilat Server Service
+    # Kilat Server Service (selector-less, points to systemd service on host)
     Service.kilat-server = {
       metadata.labels = labels // { "app.kubernetes.io/component" = "api"; };
       spec = {
-        selector.app = "kilat-server";
+        # No selector — routes to manually defined Endpoints below
         ports = [{ port = 8082; targetPort = 8082; protocol = "TCP"; name = "http"; }];
       };
+    };
+
+    # Endpoints pointing to the host where systemd kilat-server runs
+    Endpoints.kilat-server = {
+      metadata.labels = labels // { "app.kubernetes.io/component" = "api"; };
+      subsets = [{
+        addresses = [{ ip = "72.62.125.38"; }];
+        ports = [{ port = 8082; protocol = "TCP"; name = "http"; }];
+      }];
     };
 
     # Kilat API Ingress
