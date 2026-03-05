@@ -1,10 +1,10 @@
 { ... }:
 {
-  services.rkm-frontend = {
-    enable = true;
-    domain = "rajawalikaryamulya.co.id";
-    extraDomains = [ "www.rajawalikaryamulya.co.id" ];
-    # SSL handled by k8s cert-manager
-    enableSSL = false;
-  };
+  # Disabled - now served via k8s nginx with stable symlinks
+  # services.rkm-frontend = {
+  #   enable = true;
+  #   domain = "rajawalikaryamulya.co.id";
+  #   extraDomains = [ "www.rajawalikaryamulya.co.id" ];
+  #   enableSSL = false;
+  # };
 }
