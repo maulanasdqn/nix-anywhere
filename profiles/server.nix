@@ -77,6 +77,7 @@
     recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
+    clientMaxBodySize = "100m"; # Max upload size
     recommendedBrotliSettings = lib.mkForce false; # Force disabled - app modules add their own brotli settings
     sslCiphers = "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384";
     proxyTimeout = "300s";
@@ -107,18 +108,10 @@
 
       # ===== SECURITY SETTINGS =====
       # Note: server_tokens is already set by recommendedOptimisation
+      # Note: client_max_body_size is set via services.nginx.clientMaxBodySize
+      # Note: keepalive_timeout is set by recommendedOptimisation
 
-      # Request size limits
-      client_max_body_size 100m;
-      client_body_buffer_size 128k;
-
-      # Timeouts for DDoS protection
-      client_body_timeout 10s;
-      client_header_timeout 10s;
-      keepalive_timeout 30s;
-      send_timeout 10s;
-
-      # Rate limit response
+      # Rate limit response codes
       limit_req_status 429;
       limit_conn_status 429;
     '';
