@@ -1,21 +1,14 @@
 # Kilat App - Kubernetes ingress and frontend deployment
 #
 # kilat-server runs as a systemd service (port 8082), k8s ingress proxies to it.
-# kilat-ui is served via nginx pod using nix-csi to mount static files.
-{ lib, pkgs, kilat-app, targetSystem, ... }:
+# kilat-ui is served via nginx pod using hostPath from /var/www/kilat-ui symlink
+# which NixOS manages — rebuild updates the symlink, pod serves latest version.
+{ lib, pkgs, ... }:
 let
   labels = {
     "app.kubernetes.io/name" = "kilat";
     "app.kubernetes.io/managed-by" = "easykubenix";
   };
-
-  # Get store paths from flake packages - these update automatically on rebuild
-  # Use unsafeDiscardStringContext to allow evaluation without local build
-  # (the actual packages will be built on the target system)
-  kilatUiPkg = kilat-app.packages.${targetSystem}.kilat-ui or kilat-app.packages.${targetSystem}.default;
-
-  # Convert to strings without build dependency
-  kilatUi = builtins.unsafeDiscardStringContext (toString kilatUiPkg);
 in
 {
   kubernetes.resources.apps = {
@@ -73,7 +66,7 @@ in
       };
     };
 
-    # Kilat Frontend Deployment (static files via nginx)
+    # Kilat Frontend Deployment (static files via nginx + hostPath symlink)
     Deployment.kilat-frontend = {
       metadata.labels = labels // { "app.kubernetes.io/component" = "ui"; };
       spec = {
@@ -88,7 +81,7 @@ in
                 image = "nginx:alpine";
                 ports = [{ containerPort = 80; name = "http"; }];
                 volumeMounts = [
-                  { name = "nix"; mountPath = "/nix"; readOnly = true; }
+                  { name = "kilat-ui"; mountPath = "/usr/share/nginx/html"; readOnly = true; }
                   { name = "nginx-config"; mountPath = "/etc/nginx/conf.d"; }
                 ];
                 resources = {
@@ -99,11 +92,11 @@ in
             ];
             volumes = [
               {
-                name = "nix";
-                csi = {
-                  driver = "nix.mount.csi";
-                  readOnly = true;
-                  volumeAttributes.storePath = "${kilatUi}";
+                # NixOS manages this symlink — points to latest kilat-ui store path
+                name = "kilat-ui";
+                hostPath = {
+                  path = "/var/www/kilat-ui";
+                  type = "Directory";
                 };
               }
               { name = "nginx-config"; configMap.name = "kilat-frontend-nginx"; }
@@ -113,15 +106,14 @@ in
       };
     };
 
-    # Nginx config for serving static frontend
-    # Uses dynamic store path from flake evaluation
+    # Nginx config for serving static frontend from hostPath mount
     ConfigMap.kilat-frontend-nginx = {
       metadata.labels = labels // { "app.kubernetes.io/component" = "ui"; };
       data."default.conf" = ''
         server {
           listen 80;
           server_name _;
-          root ${kilatUi};
+          root /usr/share/nginx/html;
           index index.html;
           location / { try_files $uri $uri/ /index.html; }
           location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {

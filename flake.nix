@@ -107,16 +107,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Nix-native Kubernetes tools
-    nix-csi = {
-      url = "github:lillecarl/nix-csi";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    easykubenix = {
-      url = "github:lillecarl/easykubenix";
-    };
-
     claude-code = {
       url = "github:sadjow/claude-code-nix";
     };
@@ -152,8 +142,6 @@
       verychic-frontend,
       kilat-app,
       clan-core,
-      nix-csi,
-      easykubenix,
       claude-code,
       ...
     }:
@@ -222,8 +210,6 @@
         gateway = config.vpsHostingerGateway;
         enableLaravel = false;
         inherit nixvim sshKeys acmeEmail sops-nix secretsFile kilat-app;
-        inherit nix-csi easykubenix;
-        # Frontend flakes for stable symlinks
         inherit rkm-frontend rkm-admin-frontend verychic-frontend;
       };
 

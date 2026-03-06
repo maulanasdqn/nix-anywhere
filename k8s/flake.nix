@@ -8,21 +8,8 @@
       url = "github:lillecarl/easykubenix";
     };
 
-    # Application flakes for nix-csi volumes
-    kilat-app = {
-      url = "git+ssh://git@github.com/maulanasdqn/kilat-app.git?ref=develop";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    personal-website = {
-      url = "github:maulanasdqn/personal-website/develop";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    roasting-startup = {
-      url = "github:maulanasdqn/roasting-startup/main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # Application flakes no longer needed here — frontends use hostPath
+    # symlinks managed by NixOS, backends run as systemd services.
   };
 
   outputs =
@@ -30,9 +17,6 @@
       self,
       nixpkgs,
       easykubenix,
-      kilat-app,
-      personal-website,
-      roasting-startup,
       ...
     }:
     let
@@ -45,9 +29,6 @@
       ];
 
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-
-      # The k8s cluster target is always x86_64-linux
-      targetSystem = "x86_64-linux";
 
       # Create k8s manifests generator for any build system
       mkK8s =
@@ -63,11 +44,7 @@
             ./modules/apps/kilat-app.nix
             # Add more modules as we migrate services
           ];
-          specialArgs = {
-            inherit kilat-app personal-website roasting-startup;
-            # Expose target system for package references (used for flakeRef)
-            inherit targetSystem;
-          };
+          specialArgs = { };
         };
     in
     {

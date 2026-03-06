@@ -8,14 +8,10 @@
   services.kilat = {
     enable = true;
     port = 8082;
-    host = "0.0.0.0";  # Bind to all interfaces for k8s access
+    host = "127.0.0.1";
     databaseUrl = "postgresql://kilat:kilat@localhost:5432/kilat_app";
     environmentFile = config.sops.secrets.kilat_env.path;
-
-    # MinIO disabled - using existing MinIO service
     minio.enable = false;
-
-    # nginx handled by k8s nginx-ingress
     nginx.enable = false;
   };
 
@@ -74,46 +70,5 @@
       ${pkgs.minio-client}/bin/mc anonymous set download local/kilat-media
       echo "MinIO bucket 'kilat-media' ready"
     '';
-  };
-
-  # Serve kilat-ui frontend via NixOS nginx (k8s ingress proxies to port 8080)
-  services.nginx.virtualHosts."kilat.app" = {
-    listen = [{ addr = "0.0.0.0"; port = 8080; }];
-    root = kilat-app.packages.${pkgs.stdenv.hostPlatform.system}.kilat-ui;
-
-    # Rate limiting and security
-    extraConfig = ''
-      # Connection limit
-      limit_conn conn_per_ip 20;
-
-      # Security headers
-      add_header X-Frame-Options "SAMEORIGIN" always;
-      add_header X-Content-Type-Options "nosniff" always;
-      add_header X-XSS-Protection "1; mode=block" always;
-      add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-    '';
-
-    locations."/" = {
-      tryFiles = "$uri $uri/ /index.html";
-      extraConfig = ''
-        # Rate limit for HTML pages
-        limit_req zone=api_limit burst=20 nodelay;
-      '';
-    };
-
-    locations."~* \\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$" = {
-      tryFiles = "$uri =404";
-      extraConfig = ''
-        # More permissive rate limit for static assets
-        limit_req zone=static_limit burst=100 nodelay;
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-        # Re-add security headers (add_header in nested location drops parent headers)
-        add_header X-Frame-Options "SAMEORIGIN" always;
-        add_header X-Content-Type-Options "nosniff" always;
-        add_header X-XSS-Protection "1; mode=block" always;
-        add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-      '';
-    };
   };
 }
