@@ -16,6 +16,7 @@
     casks = [
       "google-chrome"
       "microsoft-edge"
+      "firefox"
       "ghostty"
       "postman"
       "discord"
