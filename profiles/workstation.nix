@@ -235,6 +235,7 @@ in
       libnotify
       polkit_gnome
       obs-studio
+      winbox
     ]
     ++ lib.optionals enableTilingWM [
       hyprpaper
