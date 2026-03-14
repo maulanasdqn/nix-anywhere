@@ -35,6 +35,7 @@ in
     ./services/roasting-startup.nix
     ./services/verychic-frontend.nix
     ./services/kilat.nix
+    ./services/warehouse-management.nix
     ./services/backup.nix
     ./services/yes-date-me-backup.nix
     ./services/minio.nix
@@ -106,6 +107,16 @@ in
       extraConfig = "client_max_body_size 1g;";
       locations."/" = {
         proxyPass = "http://127.0.0.1:9000";
+      };
+    };
+
+    # api-warehouse.msdqn.dev — Warehouse Management API
+    virtualHosts."api-warehouse.msdqn.dev" = {
+      enableACME = true;
+      forceSSL = true;
+      extraConfig = securityHeaders;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8090";
       };
     };
 

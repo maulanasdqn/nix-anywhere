@@ -78,6 +78,12 @@
         owner = "root";
       };
 
+      # Warehouse Management environment (JWT_SECRET)
+      "warehouse_env" = {
+        mode = "0400";
+        owner = "root";
+      };
+
       # Nix-pilot password
       "nix_pilot_password" = {
         mode = "0400";

@@ -102,6 +102,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    warehouse-management = {
+      url = "git+ssh://git@github.com/maulanasdqn/warehouse-management.git?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     clan-core = {
       url = "https://git.clan.lol/clan/clan-core/archive/main.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -141,6 +146,7 @@
       roasting-startup,
       verychic-frontend,
       kilat-app,
+      warehouse-management,
       clan-core,
       claude-code,
       ...
@@ -307,6 +313,7 @@
               roasting-startup.nixosModules.default
               verychic-frontend.nixosModules.default
               kilat-app.nixosModules.default
+              warehouse-management.nixosModules.default
               # rag-app.nixosModules.default  # Temporarily disabled
               # nix-pilot.nixosModules.default  # Disabled - needs recursion_limit fix in np-ui
               ./hosts/vps/hostinger
