@@ -40,6 +40,8 @@ in
     ./services/backup.nix
     ./services/yes-date-me-backup.nix
     ./services/minio.nix
+    ./services/fluentbit.nix
+    ./services/wazuh-agent.nix
   ];
 
   # NixOS nginx as the sole reverse proxy + static file server

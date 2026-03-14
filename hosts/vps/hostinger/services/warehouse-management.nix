@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   services.warehouse-management = {
     enable = true;
@@ -9,8 +9,13 @@
     nginx.enable = false;
   };
 
+  systemd.services.postgresql.postStart = pkgs.lib.mkAfter ''
+    $PSQL -c "ALTER USER warehouse_management WITH PASSWORD 'warehouse_management';" || true
+  '';
+
   systemd.services.wm-server = {
-    after = [ "sops-nix.service" ];
+    after = [ "sops-nix.service" "postgresql.service" ];
     wants = [ "sops-nix.service" ];
+    requires = [ "postgresql.service" ];
   };
 }
