@@ -9,6 +9,7 @@
   rkm-admin-frontend,
   verychic-frontend,
   kilat-app,
+  warehouse-management,
   ...
 }:
 let
@@ -117,6 +118,25 @@ in
       extraConfig = securityHeaders;
       locations."/" = {
         proxyPass = "http://127.0.0.1:8090";
+      };
+    };
+
+    # warehouse.msdqn.dev — Warehouse Management Frontend
+    virtualHosts."warehouse.msdqn.dev" = {
+      enableACME = true;
+      forceSSL = true;
+      root = "${warehouse-management.packages.${system}.wm-web}";
+      extraConfig = securityHeaders;
+      locations."/" = {
+        tryFiles = "$uri $uri/ /index.html";
+      };
+      locations."~* \\.(js|css|woff|woff2)$" = {
+        tryFiles = "$uri =404";
+        extraConfig = ''
+          expires 1y;
+          add_header Cache-Control "public, immutable";
+          ${securityHeaders}
+        '';
       };
     };
 
