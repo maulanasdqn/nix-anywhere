@@ -8,7 +8,7 @@ let
 
     vars:
       address-groups:
-        HOME_NET: "[192.168.0.0/16,10.0.0.0/8,172.16.0.0/12]"
+        HOME_NET: "[72.62.125.38,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12]"
         EXTERNAL_NET: "!$HOME_NET"
         HTTP_SERVERS: "$HOME_NET"
         SMTP_SERVERS: "$HOME_NET"
@@ -153,12 +153,12 @@ in
       # Download/update rules if older than 24h or missing
       if [ ! -f /var/lib/suricata/rules/suricata.rules ] || \
          [ $(find /var/lib/suricata/rules/suricata.rules -mmin +1440 2>/dev/null | wc -l) -gt 0 ]; then
-        ${pkgs.suricata}/bin/suricata-update \
+        ${python}/bin/python3 ${pkgs.suricata}/bin/suricata-update \
           --suricata ${pkgs.suricata}/bin/suricata \
           --suricata-conf /etc/suricata/suricata.yaml \
           --data-dir /var/lib/suricata \
           --output /var/lib/suricata/rules \
-          2>/dev/null || true
+          || true
       fi
     '';
 
@@ -177,7 +177,7 @@ in
     path = [ python ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.suricata}/bin/suricata-update --suricata ${pkgs.suricata}/bin/suricata --suricata-conf /etc/suricata/suricata.yaml --data-dir /var/lib/suricata --output /var/lib/suricata/rules";
+      ExecStart = "${python}/bin/python3 ${pkgs.suricata}/bin/suricata-update --suricata ${pkgs.suricata}/bin/suricata --suricata-conf /etc/suricata/suricata.yaml --data-dir /var/lib/suricata --output /var/lib/suricata/rules";
       ExecStartPost = "${pkgs.systemd}/bin/systemctl kill -s USR2 suricata.service";
     };
   };
