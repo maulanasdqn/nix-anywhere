@@ -131,6 +131,18 @@ let
         <location>/var/log/nginx/access.log</location>
       </localfile>
 
+      <!-- Suricata IDS EVE JSON -->
+      <localfile>
+        <log_format>json</log_format>
+        <location>/var/log/suricata/eve.json</location>
+      </localfile>
+
+      <!-- Fail2ban -->
+      <localfile>
+        <log_format>syslog</log_format>
+        <location>/var/log/fail2ban.log</location>
+      </localfile>
+
       <!-- Active response -->
       <active-response>
         <disabled>no</disabled>

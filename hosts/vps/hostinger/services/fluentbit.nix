@@ -33,6 +33,42 @@ let
         tag              systemd.*
         read_from_tail   on
 
+    [INPUT]
+        name             tail
+        path             /var/log/suricata/eve.json
+        tag              suricata
+        read_from_head   false
+        skip_empty_lines on
+        parser           json
+
+    [INPUT]
+        name             tail
+        path             /var/log/nginx/access.log
+        tag              nginx.access
+        read_from_head   false
+        skip_empty_lines on
+
+    [INPUT]
+        name             tail
+        path             /var/log/nginx/error.log
+        tag              nginx.error
+        read_from_head   false
+        skip_empty_lines on
+
+    [INPUT]
+        name             tail
+        path             /var/log/fail2ban.log
+        tag              fail2ban
+        read_from_head   false
+        skip_empty_lines on
+
+    [INPUT]
+        name             tail
+        path             /var/log/audit/audit.log
+        tag              audit
+        read_from_head   false
+        skip_empty_lines on
+
     [OUTPUT]
         name             http
         match            *

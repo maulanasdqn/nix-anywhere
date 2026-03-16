@@ -42,6 +42,7 @@ in
     ./services/minio.nix
     ./services/fluentbit.nix
     ./services/wazuh-agent.nix
+    ./services/suricata.nix
     ./services/aysiem-heartbeat.nix
   ];
 
