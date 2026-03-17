@@ -57,26 +57,12 @@ let
                   decode: yes
                   stream: yes
                   applayer: yes
+            - ssh
+            - dns:
+                answers: no
+                queries: no
             - http:
                 extended: yes
-            - dns
-            - tls:
-                extended: yes
-            - files:
-                force-magic: no
-            - smtp
-            - ssh
-            - stats:
-                totals: yes
-                threads: no
-                deltas: no
-            - flow
-      - stats:
-          enabled: yes
-          filename: stats.log
-          append: yes
-          totals: yes
-          threads: no
 
     af-packet:
       - interface: ens18
@@ -107,8 +93,11 @@ let
         ftp:
           enabled: yes
 
+    stream:
+      memcap: 32mb
+
     detect:
-      profile: medium
+      profile: low
       sgh-mpm-context: auto
 
     host-os-policy:
@@ -150,6 +139,11 @@ in
       mkdir -p /run/suricata
       cp -f ${suricataConfig} /etc/suricata/suricata.yaml
 
+      # Rotate eve.json if over 100MB
+      if [ -f /var/log/suricata/eve.json ] && [ $(${pkgs.coreutils}/bin/stat -c%s /var/log/suricata/eve.json 2>/dev/null || echo 0) -gt 104857600 ]; then
+        mv /var/log/suricata/eve.json /var/log/suricata/eve.json.old
+      fi
+
       # Download/update rules if older than 24h or missing
       if [ ! -f /var/lib/suricata/rules/suricata.rules ] || \
          [ $(find /var/lib/suricata/rules/suricata.rules -mmin +1440 2>/dev/null | wc -l) -gt 0 ]; then
@@ -168,6 +162,7 @@ in
       PIDFile = "/run/suricata/suricata.pid";
       Restart = "on-failure";
       RestartSec = "10s";
+      MemoryMax = "512M";
     };
   };
 
