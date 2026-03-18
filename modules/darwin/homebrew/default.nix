@@ -17,7 +17,7 @@
       "google-chrome"
       "microsoft-edge"
       "firefox"
-      "ghostty"
+      "cmux"
       "postman"
       "discord"
       "raycast"

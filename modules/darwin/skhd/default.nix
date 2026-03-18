@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   skhdConfig = pkgs.writeText "skhdrc" ''
-    cmd + shift - return : open -a Ghostty
+    cmd + shift - return : open -a cmux
 
     cmd - 1 : /usr/local/bin/yabai -m space --focus 1
     cmd - 2 : /usr/local/bin/yabai -m space --focus 2
