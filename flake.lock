@@ -1412,11 +1412,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773457417,
-        "narHash": "sha256-waABTSxPdbxml4BhcabHhyQF02Qnj27qRU4ard0mTQo=",
+        "lastModified": 1773803479,
+        "narHash": "sha256-GD6i1F2vrSxbsmbS92+8+x3DbHOJ+yrS78Pm4xigW4M=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "055977c30249484010750e03074c744dcdaa0d23",
+        "rev": "f17186f52e82ec5cf40920b58eac63b78692ac7c",
         "type": "github"
       },
       "original": {
@@ -1696,11 +1696,11 @@
         "rust-overlay": "rust-overlay_7"
       },
       "locked": {
-        "lastModified": 1773821907,
-        "narHash": "sha256-Gz/3G7JX+QxsPKhOYjyLIYVYAhuWjeMlOseHzwg5mKw=",
+        "lastModified": 1773823897,
+        "narHash": "sha256-G52iYKslIX16QuauLQQrD/OuNF540J1z6mKLMGw4Kkk=",
         "ref": "main",
-        "rev": "fcb3818aabd3055ba289fcee6adbfb91d5988337",
-        "revCount": 81,
+        "rev": "4feb5cf066fa7a97517582cf804b7251a8026238",
+        "revCount": 84,
         "type": "git",
         "url": "ssh://git@github.com/maulanasdqn/warehouse-management.git"
       },
