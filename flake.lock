@@ -1696,11 +1696,11 @@
         "rust-overlay": "rust-overlay_7"
       },
       "locked": {
-        "lastModified": 1773833098,
-        "narHash": "sha256-NJc/4gkeH0Fz9mtfwtoz/QFhZqQkn6VBTWxFkNRnm3g=",
+        "lastModified": 1773848661,
+        "narHash": "sha256-LNERlx0ZvL060/cIEaZxs/lweKL7MkBT1P6c3jQNKDo=",
         "ref": "main",
-        "rev": "ef664deeadf3a2483fd76965d6f9c8cdc9804c51",
-        "revCount": 89,
+        "rev": "5ffec35b6ffd7b454155c0f2f1affa44134e5ef2",
+        "revCount": 91,
         "type": "git",
         "url": "ssh://git@github.com/maulanasdqn/warehouse-management.git"
       },
