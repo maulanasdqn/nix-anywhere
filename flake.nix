@@ -107,6 +107,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    shopee-tw = {
+      url = "github:maulanasdqn/shopee-tw-steve/develop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     clan-core = {
       url = "https://git.clan.lol/clan/clan-core/archive/main.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -147,6 +152,7 @@
       verychic-frontend,
       kilat-app,
       warehouse-management,
+      shopee-tw,
       clan-core,
       claude-code,
       ...
@@ -215,7 +221,7 @@
         ipAddress = config.vpsHostingerIP;
         gateway = config.vpsHostingerGateway;
         enableLaravel = false;
-        inherit nixvim sshKeys acmeEmail sops-nix secretsFile kilat-app warehouse-management;
+        inherit nixvim sshKeys acmeEmail sops-nix secretsFile kilat-app warehouse-management shopee-tw;
         inherit rkm-frontend rkm-admin-frontend verychic-frontend;
       };
 

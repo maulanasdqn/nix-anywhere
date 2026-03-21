@@ -10,6 +10,7 @@
   verychic-frontend,
   kilat-app,
   warehouse-management,
+  shopee-tw,
   ...
 }:
 let
@@ -44,6 +45,7 @@ in
     ./services/wazuh-agent.nix
     ./services/suricata.nix
     ./services/aysiem-heartbeat.nix
+    ./services/shopee-tw.nix
   ];
 
   # NixOS nginx as the sole reverse proxy + static file server
@@ -202,6 +204,16 @@ in
       extraConfig = securityHeaders;
       locations."/" = {
         proxyPass = "http://127.0.0.1:7676";
+      };
+    };
+
+    # shopee.msdqn.dev — Shopee TW scraper API
+    virtualHosts."shopee.msdqn.dev" = {
+      enableACME = true;
+      forceSSL = true;
+      extraConfig = securityHeaders;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3010";
       };
     };
 
