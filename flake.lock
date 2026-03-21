@@ -1468,11 +1468,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1774092127,
-        "narHash": "sha256-fUjT5TqUl5jgEvbvGMzdZKCjRM8gVbb/ZvBjwsU0rqw=",
+        "lastModified": 1774092326,
+        "narHash": "sha256-FylvYfnhYk94ppJP52K5MNsez3C5n4sWzMWwd9ZU1Cs=",
         "ref": "develop",
-        "rev": "929f2a9ee0e66b865f1b8127ed1032212d2c836d",
-        "revCount": 5,
+        "rev": "d3e06536e98e033440709916e728b749d4977c4f",
+        "revCount": 6,
         "type": "git",
         "url": "ssh://git@github.com/maulanasdqn/shopee-tw-steve.git"
       },
