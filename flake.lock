@@ -1485,11 +1485,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1774094428,
-        "narHash": "sha256-vZvMRjxh+4KmW+ES8yNsX5p/K+M2PttW2AY957tEZiY=",
+        "lastModified": 1774095110,
+        "narHash": "sha256-8/XIJg3EgwHNI7vecIVZlN+9+bYGTQo+RSjPL7+8jaQ=",
         "ref": "develop",
-        "rev": "5bcaa25fa5ce2f45fd00333c1451e12431886934",
-        "revCount": 10,
+        "rev": "ace9d04072cf19f6f2e61781f1b822dd817c11fa",
+        "revCount": 11,
         "type": "git",
         "url": "ssh://git@github.com/maulanasdqn/shopee-tw-steve.git"
       },
@@ -1785,11 +1785,11 @@
         "rust-overlay": "rust-overlay_7"
       },
       "locked": {
-        "lastModified": 1773852534,
-        "narHash": "sha256-HwAVMGBWbINSA0wg+e+dVGVLsvsTKlY3yteaWWCEkY0=",
+        "lastModified": 1774094484,
+        "narHash": "sha256-xAlLt8a9kYfa5lIQBLbLkY8Ib9SwW0jfQiJrwI2WMaI=",
         "ref": "main",
-        "rev": "afa27b74c9441e4fbef9732b4c085377cbcfe540",
-        "revCount": 94,
+        "rev": "2153ab332e8bbea33731b611bf0f4cee3958416c",
+        "revCount": 98,
         "type": "git",
         "url": "ssh://git@github.com/maulanasdqn/warehouse-management.git"
       },
