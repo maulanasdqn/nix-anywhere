@@ -19,6 +19,8 @@
     tmux
     openssh
     nixfmt
+    zsh
+    starship
   ];
 
   environment.etcBackupExtension = ".bak";
@@ -28,12 +30,6 @@
   '';
 
   time.timeZone = "Asia/Jakarta";
-
-  home-manager = {
-    config = ./home.nix;
-    backupFileExtension = "hm-bak";
-    useGlobalPkgs = true;
-  };
 
   system.stateVersion = "24.05";
 }

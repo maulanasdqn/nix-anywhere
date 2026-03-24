@@ -379,7 +379,6 @@
           overlays = [ nix-on-droid.overlays.default ];
         };
         modules = [ ./hosts/android ];
-        home-manager-path = home-manager.outPath;
       };
 
       nixOnDroidConfigurations.android = nix-on-droid.lib.nixOnDroidConfiguration {
@@ -388,7 +387,6 @@
           overlays = [ nix-on-droid.overlays.default ];
         };
         modules = [ ./hosts/android ];
-        home-manager-path = home-manager.outPath;
       };
 
       devShells = forAllSystems (
