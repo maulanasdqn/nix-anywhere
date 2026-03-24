@@ -10,5 +10,8 @@
     retryAttempts = 3;
     useRemoteChrome = true;
     chromeDebugPort = 9222;
+    proxyHost = "us.novproxy.io:1000";
+    proxyUser = "v3m554323-region-TW";
+    proxyPass = "zqh6qliz";
   };
 }
