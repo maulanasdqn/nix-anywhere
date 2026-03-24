@@ -15,7 +15,6 @@
     tree
     unzip
     gzip
-    neovim
     tmux
     openssh
     nixfmt
