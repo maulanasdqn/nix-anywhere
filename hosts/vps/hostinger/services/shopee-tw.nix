@@ -6,7 +6,7 @@
     port = 3010;
     logLevel = "info";
     maxConcurrentPages = 3;
-    requestTimeoutSecs = 45;
+    requestTimeoutSecs = 90;
     retryAttempts = 3;
     useRemoteChrome = true;
     chromeDebugPort = 9222;
