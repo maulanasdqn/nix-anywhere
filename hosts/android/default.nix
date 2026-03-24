@@ -9,16 +9,10 @@
     ripgrep
     fd
     fzf
-    eza
     bat
     htop
-    tree
-    unzip
-    gzip
-    neovim
     tmux
     openssh
-    nixfmt
     zsh
     starship
   ];
