@@ -121,6 +121,12 @@
       url = "github:sadjow/claude-code-nix";
     };
 
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     # dinix - disabled until flake.nix is added to repo
     # dinix = {
     #   url = "github:lillecarl/dinix";
@@ -155,6 +161,7 @@
       shopee-tw,
       clan-core,
       claude-code,
+      nix-on-droid,
       ...
     }:
     let
@@ -365,6 +372,15 @@
       # Inherit configurations from clan
       inherit (clan.config) nixosConfigurations darwinConfigurations clanInternals;
       clan = clan.config;
+
+      nixOnDroidConfigurations.android = nix-on-droid.lib.nixOnDroidConfiguration {
+        pkgs = import nixpkgs {
+          system = "aarch64-linux";
+          overlays = [ nix-on-droid.overlays.default ];
+        };
+        modules = [ ./hosts/android ];
+        home-manager-path = home-manager.outPath;
+      };
 
       devShells = forAllSystems (
         system:
