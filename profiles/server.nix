@@ -60,7 +60,7 @@
       PermitRootLogin = "prohibit-password";
       KbdInteractiveAuthentication = false;
       X11Forwarding = false;
-      AllowTcpForwarding = false;
+      AllowTcpForwarding = true;
       AllowAgentForwarding = false;
       PermitEmptyPasswords = false;
       MaxAuthTries = 3;
