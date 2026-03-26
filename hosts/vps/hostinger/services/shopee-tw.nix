@@ -13,5 +13,7 @@
     proxyHost = "us.novproxy.io:1000";
     proxyUser = "v3m554323-region-TW";
     proxyPass = "zqh6qliz";
+    shopeeEmail = "msdqn@outlook.com";
+    shopeePassword = "EtTGCGN4qZM!";
   };
 }
