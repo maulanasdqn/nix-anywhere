@@ -34,7 +34,7 @@ in
     ./services/rkm-backend.nix
     ./services/rkm-frontend.nix
     ./services/rkm-admin-frontend.nix
-    ./services/roasting-startup.nix
+    # ./services/roasting-startup.nix
     ./services/verychic-frontend.nix
     ./services/kilat.nix
     ./services/warehouse-management.nix
