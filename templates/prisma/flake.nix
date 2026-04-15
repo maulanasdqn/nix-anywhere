@@ -28,11 +28,10 @@
           languages.typescript.enable = true;
 
           packages = with pkgs; [
-            nodePackages.npm
-            nodePackages.pnpm
-            nodePackages.prisma
-            nodePackages.typescript
-            nodePackages.typescript-language-server
+            pnpm
+            prisma
+            typescript
+            typescript-language-server
             prisma-engines
             openssl
           ];

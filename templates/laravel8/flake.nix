@@ -34,7 +34,6 @@
           packages = with pkgs; [
             php81Packages.composer
             php81Packages.php-cs-fixer
-            nodePackages.npm
             mariadb
             redis
           ];

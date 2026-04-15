@@ -28,13 +28,12 @@
           languages.typescript.enable = true;
 
           packages = with pkgs; [
-            nodePackages.npm
-            nodePackages.pnpm
-            nodePackages.yarn
-            nodePackages.typescript
-            nodePackages.typescript-language-server
-            nodePackages.eslint
-            nodePackages.prettier
+            pnpm
+            yarn
+            typescript
+            typescript-language-server
+            eslint
+            prettier
             bun
             deno
           ];
