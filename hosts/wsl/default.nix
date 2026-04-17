@@ -18,7 +18,7 @@
     startMenuLaunchers = true;
     wslConf = {
       automount.root = "/mnt";
-      interop.appendWindowsPath = false;
+      interop.appendWindowsPath = true;
       network.generateHosts = true;
     };
   };
