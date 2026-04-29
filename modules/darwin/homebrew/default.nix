@@ -21,7 +21,6 @@
       "postman"
       "discord"
       "raycast"
-      "shottr"
       "figma"
       "inkscape"
       "pritunl"

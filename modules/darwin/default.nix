@@ -14,8 +14,6 @@
     ./defaults
     ./fonts
     ./homebrew
-    ./yabai
-    ./skhd
   ];
 
   users.users.${username} = {

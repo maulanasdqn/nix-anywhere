@@ -23,6 +23,7 @@
   enableLaravel = true;
   enableRust = true;
   enableVolta = true;
+  enableGolang = false;
 
   sshKeys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... user@example.com"
