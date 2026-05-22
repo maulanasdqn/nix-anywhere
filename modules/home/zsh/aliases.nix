@@ -26,6 +26,8 @@
     l = "eza -l --icons";
     cat = "bat";
 
+    scrcpy = "scrcpy --render-driver=opengl";
+
     gs = "git status";
     ga = "git add";
     gc = "git commit";

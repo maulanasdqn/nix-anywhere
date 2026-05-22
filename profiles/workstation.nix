@@ -247,6 +247,7 @@ in
       polkit_gnome
       obs-studio
       winbox
+      scrcpy
     ]
     ++ lib.optionals enableTilingWM [
       hyprpaper
