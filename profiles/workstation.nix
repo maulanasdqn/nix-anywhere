@@ -54,10 +54,6 @@
     xwayland.enable = true;
   };
 
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-  };
-
   xdg.portal = {
     enable = true;
     extraPortals =
@@ -158,18 +154,68 @@
   };
 
   services.udev.extraRules = ''
-    # ASUP1303 touchpad firmware locks up if power-gated during suspend.
-    # Keep i2c device fully powered to prevent the firmware bug.
+    # ASUP1303 touchpad firmware locks up if power-gated. Keep it fully powered.
     SUBSYSTEM=="i2c", KERNEL=="i2c-ASUP1303:00", ATTR{device/power/control}="on"
     ACTION=="add", SUBSYSTEM=="platform", KERNEL=="AMDI0010:03", ATTR{power/control}="on"
   '';
 
+  security.sudo.extraRules = [{
+    users = [ username ];
+    commands = [{
+      command = "/run/current-system/sw/bin/tee /sys/bus/platform/drivers/i2c_designware/unbind";
+      options = [ "NOPASSWD" ];
+    } {
+      command = "/run/current-system/sw/bin/tee /sys/bus/platform/drivers/i2c_designware/bind";
+      options = [ "NOPASSWD" ];
+    }];
+  }];
+
+  systemd.services.touchpad-watchdog = {
+    description = "Auto-recover ASUP1303 touchpad after firmware lockup";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "simple";
+      Restart = "always";
+      RestartSec = "10s";
+      ExecStart = pkgs.writeShellScript "touchpad-watchdog" ''
+        IRQ_FILE=/proc/interrupts
+        DRV=/sys/bus/platform/drivers/i2c_designware
+        DEV=AMDI0010:03
+        STUCK=0
+        LAST=$(grep ASUP1303 "$IRQ_FILE" | awk '{s=0; for(i=2;i<=NF-2;i++)s+=$i; print s}')
+        while true; do
+          sleep 30
+          CUR=$(grep ASUP1303 "$IRQ_FILE" | awk '{s=0; for(i=2;i<=NF-2;i++)s+=$i; print s}')
+          if [ -z "$CUR" ] || [ -z "$LAST" ]; then
+            LAST=$CUR
+            continue
+          fi
+          if [ "$CUR" = "$LAST" ]; then
+            STUCK=$((STUCK + 1))
+          else
+            STUCK=0
+          fi
+          # 4 consecutive 30s windows with zero IRQ delta = 2 minutes idle
+          # while logged in. Heuristic; tune as needed.
+          if [ "$STUCK" -ge 4 ]; then
+            who | grep -q . && {
+              logger -t touchpad-watchdog "no IRQ activity for 2min, rebinding"
+              echo "$DEV" > "$DRV/unbind" 2>/dev/null || true
+              sleep 1
+              echo "$DEV" > "$DRV/bind" 2>/dev/null || true
+              STUCK=0
+            }
+          fi
+          LAST=$CUR
+        done
+      '';
+    };
+  };
+
   systemd.services.touchpad-resume-fix = {
-    description = "Reset I2C touchpad after resume (workaround for ASUP1303 firmware)";
-    wantedBy = [
-      "post-resume.target"
-      "suspend.target"
-    ];
+    description = "Reset I2C touchpad after resume";
+    wantedBy = [ "post-resume.target" ];
     after = [ "post-resume.target" ];
     serviceConfig = {
       Type = "oneshot";
@@ -203,6 +249,21 @@
       nautilus
       libnotify
       polkit_gnome
+      (writeShellScriptBin "fix-touchpad" ''
+        DRV=/sys/bus/platform/drivers/i2c_designware
+        DEV=AMDI0010:03
+        ${libnotify}/bin/notify-send -t 2000 "Touchpad" "Resetting controller..."
+        echo "$DEV" | sudo tee "$DRV/unbind" > /dev/null 2>&1 || true
+        sleep 1
+        echo "$DEV" | sudo tee "$DRV/bind" > /dev/null 2>&1 || true
+        sleep 2
+        EV=$(grep -A6 "ASUP.*Touchpad" /proc/bus/input/devices | grep "Handlers" | grep -oE "event[0-9]+" | head -1)
+        if timeout 1 dd if=/dev/input/$EV bs=24 count=1 of=/dev/null 2>/dev/null; then
+          ${libnotify}/bin/notify-send -t 2000 "Touchpad" "Recovered"
+        else
+          ${libnotify}/bin/notify-send -u critical "Touchpad" "Reset failed - try Fn+F6 or reboot"
+        fi
+      '')
     ]
     ++ lib.optionals enableTilingWM [
       swaybg

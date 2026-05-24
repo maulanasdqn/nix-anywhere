@@ -27,6 +27,13 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  boot.kernelPatches = [
+    {
+      name = "i2c-hid-asup1303-quirks";
+      patch = ../../patches/i2c-hid-asup1303-quirks.patch;
+    }
+  ];
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/839aa9c0-07fc-4019-abdf-2966b5794881";
     fsType = "ext4";

@@ -178,6 +178,7 @@
           "$mod, F, fullscreen"
           "$mod, J, layoutmsg, togglesplit"
           "$mod SHIFT, B, exec, eww open --toggle bar"
+          "$mod SHIFT, T, exec, fix-touchpad"
 
           "$mod, left, movefocus, l"
           "$mod, right, movefocus, r"
