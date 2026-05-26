@@ -34,7 +34,7 @@
         monitor = ",preferred,auto,1.25";
 
         exec-once = [
-          "hyprctl setcursor Bibata-Modern-Classic 24"
+          "hyprctl setcursor Bibata-Modern-Classic 32"
           "swaybg -i /home/${username}/Downloads/2109.jpg -m fill"
           "eww open bar"
           "swayosd-server"
@@ -121,8 +121,7 @@
           }
           {
             name = "asup1303:00-093a:3003-mouse";
-            sensitivity = 0.0;
-            scroll_factor = 0.2;
+            enabled = false;
           }
         ];
 
@@ -132,7 +131,7 @@
 
         env = [
           "XCURSOR_THEME,Bibata-Modern-Classic"
-          "XCURSOR_SIZE,24"
+          "XCURSOR_SIZE,32"
           "NIXOS_OZONE_WL,1"
           "ELECTRON_OZONE_PLATFORM_HINT,auto"
           "MOZ_ENABLE_WAYLAND,1"
