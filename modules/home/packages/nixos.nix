@@ -10,6 +10,7 @@
     packages = with pkgs; [
       claude-code.packages.${pkgs.system}.default
       claude-desktop.packages.${pkgs.system}.claude-desktop-with-fhs
+      (callPackage ../../../pkgs/helium-browser { })
 
       eza
       bat
@@ -52,6 +53,7 @@
       discord
 
       brave
+      google-chrome
 
       imagemagick
       ffmpeg
