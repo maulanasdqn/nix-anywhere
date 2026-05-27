@@ -23,7 +23,10 @@
 
   boot.kernelParams = [
     "acpi.ec_no_wakeup=1"
+    "resume_offset=112570368"
   ];
+
+  boot.resumeDevice = "/dev/disk/by-uuid/839aa9c0-07fc-4019-abdf-2966b5794881";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -50,6 +53,10 @@
 
   swapDevices = [
     { device = "/dev/disk/by-uuid/a1b612d4-776f-4f8c-be3b-7f4566760a22"; }
+    {
+      device = "/var/swapfile";
+      size = 42 * 1024;
+    }
   ];
 
   networking.useDHCP = lib.mkDefault true;

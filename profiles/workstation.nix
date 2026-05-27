@@ -209,10 +209,10 @@
   };
 
   services.logind.settings.Login = {
-    HandleLidSwitch = "suspend";
-    HandleLidSwitchExternalPower = "suspend";
+    HandleLidSwitch = "hibernate";
+    HandleLidSwitchExternalPower = "hibernate";
     HandleLidSwitchDocked = "ignore";
-    HandlePowerKey = "suspend";
+    HandlePowerKey = "hibernate";
     HandlePowerKeyLongPress = "poweroff";
   };
 
