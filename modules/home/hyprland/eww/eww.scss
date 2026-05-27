@@ -19,7 +19,7 @@ $iris:      #c4a7e7;
 
 .panel {
   background-color: rgba(25, 23, 36, 0.55);
-  border: 1px solid rgba(196, 167, 231, 0.22);
+  border: 2px solid rgba(196, 167, 231, 0.55);
   border-radius: 26px;
   margin: 16px 0 16px 8px;
   padding: 18px 0;
@@ -123,15 +123,21 @@ $iris:      #c4a7e7;
 
 // power
 .power {
-  font-family: "JetBrainsMono Nerd Font Mono";
-  font-size: 18px;
-  color: $base;
   background-color: $love;
   border-radius: 22px;
   min-width: 44px;
   min-height: 44px;
-  margin-top: 2px;
+  padding: 0;
+  margin: 2px 0 0 0;
   transition: all 200ms ease;
+}
+
+.power-icon {
+  font-family: "JetBrainsMono Nerd Font Mono";
+  font-size: 20px;
+  color: $base;
+  padding: 0;
+  margin: 0;
 }
 
 .power:hover {

@@ -70,7 +70,8 @@
             :value {SSID != "" ? SSID : "off"}
             :cls {SSID != "" ? "m-net" : "m-net net-off"})
     (button :class "power" :onclick "$HOME/.local/bin/wofi-power &"
-            :halign "center" "")))
+            :halign "center"
+      (label :class "power-icon" :halign "center" :valign "center" :text ""))))
 
 (defwidget bar []
   (box :class "panel" :orientation "v" :space-evenly false

@@ -21,7 +21,7 @@
       cursorTheme = {
         name = "Bibata-Modern-Classic";
         package = pkgs.bibata-cursors;
-        size = 24;
+        size = 32;
       };
 
       font = {
@@ -63,13 +63,13 @@
     home.pointerCursor = {
       name = "Bibata-Modern-Classic";
       package = pkgs.bibata-cursors;
-      size = 24;
+      size = 32;
       gtk.enable = true;
       x11.enable = true;
     };
 
     home.sessionVariables = {
-      XCURSOR_SIZE = "24";
+      XCURSOR_SIZE = "32";
       XCURSOR_THEME = "Bibata-Modern-Classic";
       GTK_THEME = "rose-pine:dark";
     };
