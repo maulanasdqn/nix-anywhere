@@ -237,6 +237,7 @@
     description = "Auto-recover ASUP1303 touchpad after firmware lockup";
     wantedBy = [ "multi-user.target" ];
     after = [ "multi-user.target" ];
+    path = with pkgs; [ gawk gnugrep coreutils util-linux ];
     serviceConfig = {
       Type = "simple";
       Restart = "always";
@@ -296,6 +297,9 @@
 
   security.polkit.enable = true;
 
+  systemd.packages = [ pkgs.pritunl-client ];
+  systemd.services.pritunl-client.wantedBy = [ "multi-user.target" ];
+
   environment.systemPackages =
     with pkgs;
     [
@@ -312,6 +316,8 @@
       nautilus
       libnotify
       polkit_gnome
+      pritunl-client
+      wireguard-tools
       (writeShellScriptBin "fix-touchpad" ''
         DRV=/sys/bus/platform/drivers/i2c_designware
         DEV=AMDI0010:03

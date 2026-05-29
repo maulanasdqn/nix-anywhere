@@ -10,6 +10,11 @@
             AddKeysToAgent = "yes";
           };
         };
+        "jl" = {
+          hostname = "192.168.201.28";
+          user = "mrscrapersupport";
+          port = 22;
+        };
       };
     };
 
