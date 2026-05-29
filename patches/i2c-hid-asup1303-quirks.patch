@@ -16,16 +16,21 @@ bug:
     chip never asserts the IRQ line after the reset command.
   - DELAY_WAKEUP_AFTER_RESUME: give the firmware additional time to
     settle before the wake sequence is issued.
+  - NO_WAKEUP_AFTER_RESET: skip the HID_REQ_SET_POWER call after
+    reset; this call hangs the chip and pairs naturally with
+    NO_IRQ_AFTER_RESET to fully bypass the broken post-reset path.
+  - BAD_INPUT_SIZE: tolerate garbage input-length values in HID
+    reports; the chip emits these under load alongside bogus IRQs.
 
 Signed-off-by: ms <maulanasodiqin@protonmail.com>
 ---
- drivers/hid/i2c-hid/i2c-hid-core.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/hid/i2c-hid/i2c-hid-core.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
 --- a/drivers/hid/i2c-hid/i2c-hid-core.c
 +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -149,6 +149,11 @@ static const struct i2c_hid_quirks {
+@@ -149,6 +149,13 @@ static const struct i2c_hid_quirks {
  		 I2C_HID_QUIRK_BOGUS_IRQ },
  	{ I2C_VENDOR_ID_GOODIX, I2C_DEVICE_ID_GOODIX_0D42,
  		 I2C_HID_QUIRK_DELAY_WAKEUP_AFTER_RESUME },
@@ -33,6 +38,8 @@ diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-co
 +		 I2C_HID_QUIRK_NO_SLEEP_ON_SUSPEND |
 +		 I2C_HID_QUIRK_BOGUS_IRQ |
 +		 I2C_HID_QUIRK_NO_IRQ_AFTER_RESET |
++		 I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET |
++		 I2C_HID_QUIRK_BAD_INPUT_SIZE |
 +		 I2C_HID_QUIRK_DELAY_WAKEUP_AFTER_RESUME },
  	{ 0, 0 }
  };
